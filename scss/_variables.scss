@@ -1,4 +1,9 @@
-$pacmanSize: 500px;
+$pacmanSize: 100px;
 $pacmanColor: #ffea00;
 
 $ghostSize: 100px;
+$ghostHeight: calc( #{$ghostSize} + #{$ghostSize} * 0.3 );
+$ghostTailSize: calc( #{$ghostSize} / 5 );
+$ghostMouthSize: calc( #{$ghostSize} / 2 );
+$ghostMouthHeight: calc( #{$ghostMouthSize} / 3 );
+$ghostCatchedColor: blue;

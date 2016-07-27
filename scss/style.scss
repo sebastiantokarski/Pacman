@@ -1,4 +1,6 @@
 @import '_variables.scss';
+@import '_animations.scss';
+@import '_board.scss';
 
 * {
     margin: 0;
@@ -11,6 +13,7 @@ body {
 
 /*================================== PAC-MAN ==================================*/
 .pac-man {
+    position: absolute;
     border-radius: 50%;
     border-radius: 100em 100em 0 0;
     -webkit-transform-origin: bottom;
@@ -38,28 +41,18 @@ body {
 }
 
 
-@keyframes eating-top {
-  0% { transform: rotate(-40deg); }
-  50% { transform: rotate(0deg); }
-  100% { transform: rotate(-40deg); }
-}
 
-@keyframes eating-bottom {
-  0% { transform: rotate(80deg); }
-  50% { transform: rotate(0deg); }
-  100% { transform: rotate(80deg); }
-}
-  
 
 /*================================== GHOST ==================================*/
 .ghost {
     position: relative;
     top: 300px; /* Temporiarily */
     width: $ghostSize;
-    height: calc( #{$ghostSize} + #{$ghostSize} * 0.3 );
+    height: $ghostHeight;
     border-radius: 100em 100em 0 0;
-    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 91% 90%, 84% 100%, 76% 90%, 68% 100%, 59% 90%, 51% 100%, 42% 90%, 34% 100%, 25% 90%, 17% 100%, 8% 90%, 0 100%);
     background-color: green;
+    
+    // Ghost Eyes
     [class|=eye] {
         position: absolute;
         top: 25%;
@@ -81,12 +74,59 @@ body {
         border-radius: 50%;
         background-color: blue;
     }
-    -webkit-animation: ghost-go 0.5s linear infinite;
+    .mouth {
+        display: none;
+    }
+    
+    // Ghost Bottom 
+    &::after {
+        display: block;
+        content: ' ';
+        position: absolute;
+        top: $ghostHeight;
+        height: calc( #{$ghostSize} * 0.26 );
+        width: #{$ghostSize};
+        background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
+                    linear-gradient( 55deg, transparent 75%, green 75%) 0 50%;
+        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );
+        background-position: 0 50%;
+        animation: ghost-tail-moving 1s linear infinite; 
+    }
 }
 
-@keyframes ghost-go {
-    0% { -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 91% 90%, 84% 100%, 76% 90%, 68% 100%, 59% 90%, 51% 100%, 42% 90%, 34% 100%, 25% 90%, 17% 100%, 8% 90%, 0 100%);}
-    50% { -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 95% 90%, 88% 100%, 80% 90%, 72% 100%, 63% 90%, 55% 100%, 46% 90%, 38% 100%, 30% 90%, 21% 100%, 12% 90%, 0 100%);}
-    100% { -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 97% 90%, 81% 100%, 73% 90%, 64% 100%, 54% 90%, 47% 100%, 38% 90%, 30% 100%, 21% 90%, 13% 100%, 4% 90%, 0 100%);}
+.ghost-catched {
+    background-color: $ghostCatchedColor;
+    .mouth {
+        display: block;
+        position: absolute;
+        top: $ghostSize;
+        left: calc( #{$ghostMouthSize} / 2 );
+        width: $ghostMouthSize;
+        height: $ghostMouthHeight;
+        background: linear-gradient(-45deg, transparent 75%, white 90%, transparent 85%) 0 50%,
+                    linear-gradient( 45deg, transparent 75%, white 90%, transparent 85%) 0 50%;
+        background-size: $ghostMouthHeight $ghostMouthHeight, $ghostMouthHeight $ghostMouthHeight;
+        animation: ghost-mouth-moving 1s linear infinite; 
+    }
+    &::after {
+        background: linear-gradient(-55deg, transparent 75%, $ghostCatchedColor 75%) 0 50%,
+                    linear-gradient( 55deg, transparent 75%, $ghostCatchedColor 75%) 0 50%;
+        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );
+        background-position: 0 50%;
+        animation: ghost-tail-moving 1s linear infinite; 
+    }
 }
+
+/*================================== FOOD ==================================*/
+.food {
+    &::after {
+        content: ' ';
+        display: block;
+        margin: 0 auto;
+        width: 4px;
+        height: 4px;
+        background-color: grey;
+    }
+}
+
 
