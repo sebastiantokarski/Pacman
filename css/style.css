@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  height: 200vh; }
+
+/*================================== PAC-MAN ==================================*/
+.pac-man {
+  border-radius: 50%;
+  border-radius: 100em 100em 0 0;
+  -webkit-transform-origin: bottom;
+  transform-origin: bottom;
+  -webkit-animation: eating-top 0.5s infinite;
+  animation: eating-top 0.5s infinite; }
+  .pac-man, .pac-man::before {
+    width: 500px;
+    height: calc( 500px / 2);
+    background-color: #ffea00; }
+  .pac-man::before {
+    position: absolute;
+    display: block;
+    content: ' ';
+    margin-top: calc( 500px / 2);
+    border-radius: 0 0 100em 100em;
+    -webkit-transform-origin: top;
+    transform-origin: top;
+    -webkit-transform: rotate(80deg);
+    transform: rotate(80deg);
+    -webkit-animation: eating-bottom 0.5s infinite;
+    animation: eating-bottom 0.5s infinite; }
+
+@keyframes eating-top {
+  0% {
+    transform: rotate(-40deg); }
+  50% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(-40deg); } }
+
+@keyframes eating-bottom {
+  0% {
+    transform: rotate(80deg); }
+  50% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(80deg); } }
+
+/*================================== GHOST ==================================*/
+.ghost {
+  position: relative;
+  top: 300px;
+  /* Temporiarily */
+  width: 100px;
+  height: calc( 100px + 100px * 0.3);
+  border-radius: 100em 100em 0 0;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 91% 90%, 84% 100%, 76% 90%, 68% 100%, 59% 90%, 51% 100%, 42% 90%, 34% 100%, 25% 90%, 17% 100%, 8% 90%, 0 100%);
+  background-color: green;
+  -webkit-animation: ghost-go 0.5s linear infinite; }
+  .ghost [class|=eye] {
+    position: absolute;
+    top: 25%;
+    left: 15%;
+    width: calc( 100px / 4);
+    height: calc( 100px / 4);
+    background-color: white;
+    border-radius: 50%; }
+  .ghost .eye-right {
+    left: 60%; }
+  .ghost .iris {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: calc( 100px / 8);
+    height: calc( 100px / 8);
+    border-radius: 50%;
+    background-color: blue; }
+
+@keyframes ghost-go {
+  0% {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 91% 90%, 84% 100%, 76% 90%, 68% 100%, 59% 90%, 51% 100%, 42% 90%, 34% 100%, 25% 90%, 17% 100%, 8% 90%, 0 100%); }
+  50% {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 95% 90%, 88% 100%, 80% 90%, 72% 100%, 63% 90%, 55% 100%, 46% 90%, 38% 100%, 30% 90%, 21% 100%, 12% 90%, 0 100%); }
+  100% {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 97% 90%, 81% 100%, 73% 90%, 64% 100%, 54% 90%, 47% 100%, 38% 90%, 30% 100%, 21% 90%, 13% 100%, 4% 90%, 0 100%); } }
