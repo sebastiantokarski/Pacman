@@ -7,9 +7,7 @@
     padding: 0;
 }
 
-body {
-    height: 200vh;
-}
+
 
 /*================================== PAC-MAN ==================================*/
 .pac-man {
@@ -18,6 +16,7 @@ body {
     left: calc( 50% - #{$pacmanSize} / 2);
     border-radius: 50%;
     border-radius: 100em 100em 0 0;
+    transition: top 50ms, left 1000ms;
     -webkit-transform-origin: bottom;
             transform-origin: bottom;
     -webkit-animation: eating-top 0.5s infinite;
@@ -51,15 +50,24 @@ body {
                 linear-gradient( 45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%;
     background-size: $size1 $size1, $size1 $size1;
 }
-
+.wrapper {
+    position: absolute;
+}
 
 .ghost {
     position: relative;
-    top: 300px; /* Temporiarily */
+    top: 20px;
     width: $ghostSize;
     height: $ghostHeight;
     border-radius: 100em 100em 0 0;
     background-color: green;
+    &::before {
+        position: absolute;
+        content: ' ';
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
     
     // Ghost Eyes
     [class|=eye] {
@@ -96,6 +104,11 @@ body {
         height: calc( #{$ghostSize} * 0.26 );
         width: #{$ghostSize};
         @include gradient(green, calc( #{$ghostSize} * 0.26 ), 75%);
+        @mixin gradient($color1, $size1, $transparent1) {
+            background: linear-gradient(-45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%,
+                        linear-gradient( 45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%;
+            background-size: $size1 $size1, $size1 $size1;
+        }
         /*background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
                       linear-gradient( 55deg, transparent 75%, green 75%) 0 50%;
         background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );*/

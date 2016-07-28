@@ -70,9 +70,6 @@ td {
   margin: 0;
   padding: 0; }
 
-body {
-  height: 200vh; }
-
 /*================================== PAC-MAN ==================================*/
 .pac-man {
   position: absolute;
@@ -80,6 +77,7 @@ body {
   left: calc( 50% - 30px / 2);
   border-radius: 50%;
   border-radius: 100em 100em 0 0;
+  transition: top 50ms, left 1000ms;
   -webkit-transform-origin: bottom;
   transform-origin: bottom;
   -webkit-animation: eating-top 0.5s infinite;
@@ -102,14 +100,22 @@ body {
     animation: eating-bottom 0.5s infinite; }
 
 /*================================== GHOST ==================================*/
+.wrapper {
+  position: absolute; }
+
 .ghost {
   position: relative;
-  top: 300px;
-  /* Temporiarily */
+  top: 20px;
   width: 30px;
   height: calc( 30px + 30px * 0.3);
   border-radius: 100em 100em 0 0;
   background-color: green; }
+  .ghost::before {
+    position: absolute;
+    content: ' ';
+    display: block;
+    height: 100%;
+    width: 100%; }
   .ghost [class|=eye] {
     position: absolute;
     top: 25%;
