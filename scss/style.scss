@@ -14,6 +14,8 @@ body {
 /*================================== PAC-MAN ==================================*/
 .pac-man {
     position: absolute;
+    top: calc( 50% - #{$pacmanSize} / 2);
+    left: calc( 50% - #{$pacmanSize} / 2);
     border-radius: 50%;
     border-radius: 100em 100em 0 0;
     -webkit-transform-origin: bottom;
@@ -44,6 +46,13 @@ body {
 
 
 /*================================== GHOST ==================================*/
+@mixin gradient($color1, $size1, $transparent1) {
+    background: linear-gradient(-45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%,
+                linear-gradient( 45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%;
+    background-size: $size1 $size1, $size1 $size1;
+}
+
+
 .ghost {
     position: relative;
     top: 300px; /* Temporiarily */
@@ -86,9 +95,10 @@ body {
         top: $ghostHeight;
         height: calc( #{$ghostSize} * 0.26 );
         width: #{$ghostSize};
-        background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
-                    linear-gradient( 55deg, transparent 75%, green 75%) 0 50%;
-        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );
+        @include gradient(green, calc( #{$ghostSize} * 0.26 ), 75%);
+        /*background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
+                      linear-gradient( 55deg, transparent 75%, green 75%) 0 50%;
+        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );*/
         background-position: 0 50%;
         animation: ghost-tail-moving 1s linear infinite; 
     }
@@ -117,16 +127,20 @@ body {
     }
 }
 
-/*================================== FOOD ==================================*/
-.food {
-    &::after {
-        content: ' ';
-        display: block;
-        margin: 0 auto;
-        width: 4px;
-        height: 4px;
-        background-color: grey;
+.ghost-eaten {
+    visibility:hidden;
+    [class|=eye] {
+        visibility: visible;
+        border: 1px solid black;
     }
 }
+
+/*.ghost-warning {
+    animation: ghost-warning 0.5 infinite;
+}*/
+
+
+
+
 
 

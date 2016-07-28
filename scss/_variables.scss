@@ -1,9 +1,26 @@
-$pacmanSize: 100px;
+// PACMAN SETTINGS
+$pacmanSize: 30px;
 $pacmanColor: #ffea00;
 
-$ghostSize: 100px;
+// GHOST SETTINGS
+$ghostSize: 30px;
 $ghostHeight: calc( #{$ghostSize} + #{$ghostSize} * 0.3 );
 $ghostTailSize: calc( #{$ghostSize} / 5 );
 $ghostMouthSize: calc( #{$ghostSize} / 2 );
 $ghostMouthHeight: calc( #{$ghostMouthSize} / 3 );
 $ghostCatchedColor: blue;
+
+// FOOD SETTINGS
+$foodColor: grey;
+$foodSize: 4px;
+
+// WALL SETTINGS
+$wallColor: grey;
+
+// BONUS SETTINGS
+$bonusSize: 10px;
+$bonusColor: red;
+
+// BOARD SETTINGS
+$tableColor: white;
+$tableBorderColor: black;

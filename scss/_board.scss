@@ -1,6 +1,8 @@
 table {
+    position: relative;
     margin: 5px auto;
-    border: 6px double black;
+    background-color: $tableColor;
+    border: 6px double $tableBorderColor;
     border-collapse: collapse;
 }
 
@@ -10,6 +12,29 @@ td {
     border: 1px dotted red
 }
 
+.food {
+    &::after {
+        content: ' ';
+        display: block;
+        margin: 0 auto;
+        width: $foodSize;
+        height: $foodSize;
+        background-color: $foodColor;
+    }
+}
+
 .wall {
-    background-color: grey;
+    background-color: $wallColor;
+}
+
+.bonus {
+    &::after {
+        content: ' ';
+        display: block;
+        margin: 0 auto;
+        width: $bonusSize;
+        height: $bonusSize;
+        border-radius: 50%;
+        background-color: $bonusColor;
+    }
 }

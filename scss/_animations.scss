@@ -1,21 +1,30 @@
 @keyframes eating-top {
-  0% { transform: rotate(-40deg); }
-  50% { transform: rotate(0deg); }
-  100% { transform: rotate(-40deg); }
+   0% { transform: rotate(-40deg); }
+   50% { transform: rotate(0deg); }
+   100% { transform: rotate(-40deg); }
 }
 
 @keyframes eating-bottom {
-  0% { transform: rotate(80deg); }
-  50% { transform: rotate(0deg); }
-  100% { transform: rotate(80deg); }
+   0% { transform: rotate(80deg); }
+   50% { transform: rotate(0deg); }
+   100% { transform: rotate(80deg); }
 }
   
 @keyframes ghost-tail-moving {
-  0% { background-position: 0 50%; }
-  100% { background-position: 100% 50%; }
+   0% { background-position: 0 50%; }
+   100% { background-position: 100% 50%; }
 }
 
 @keyframes ghost-mouth-moving {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0 50%; }
+   0% { background-position: 100% 50%; }
+   100% { background-position: 0 50%; }
 }
+
+/*@keyframes ghost-warning {
+    0% { 
+        background-color: black;
+    }
+    100% {
+        background-color: green;
+    }
+}*/
