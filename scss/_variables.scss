@@ -4,9 +4,9 @@ $pacmanColor: #ffea00;
 
 // GHOST SETTINGS
 $ghostSize: 30px;
-$ghostHeight: calc( #{$ghostSize} + #{$ghostSize} * 0.3 );
+$ghostWidth: calc( #{$ghostSize} - #{$ghostSize} * 0.3 );
 $ghostTailSize: calc( #{$ghostSize} / 5 );
-$ghostMouthSize: calc( #{$ghostSize} / 2 );
+$ghostMouthSize: calc( #{$ghostWidth} / 2 );
 $ghostMouthHeight: calc( #{$ghostMouthSize} / 3 );
 $ghostCatchedColor: blue;
 

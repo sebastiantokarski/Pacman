@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @keyframes eating-top {
   0% {
     transform: rotate(-40deg); }
@@ -34,12 +35,25 @@
         background-color: green;
     }
 }*/
+.pom {
+  list-style: none;
+  margin-left: 8px; }
+  .pom li {
+    display: inline;
+    padding: 0 1.3%;
+    color: red;
+    font-weight: 700; }
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  border: 13px double black; }
+
 table {
   position: relative;
-  margin: 5px auto;
   background-color: white;
-  border: 6px double black;
-  border-collapse: collapse; }
+  border-collapse: collapse;
+  margin: 0; }
 
 td {
   width: 35px;
@@ -68,46 +82,42 @@ td {
 
 * {
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  box-sizing: border-box; }
 
 /*================================== PAC-MAN ==================================*/
-.pac-man {
+.pacman {
   position: absolute;
-  top: calc( 50% - 30px / 2);
-  left: calc( 50% - 30px / 2);
+  margin: 0.5% 0 0 0.5%;
   border-radius: 50%;
   border-radius: 100em 100em 0 0;
-  transition: top 50ms, left 1000ms;
-  -webkit-transform-origin: bottom;
+  /*transition: top 100ms, left 100ms; OPÓŹNIENIE */
   transform-origin: bottom;
-  -webkit-animation: eating-top 0.5s infinite;
   animation: eating-top 0.5s infinite; }
-  .pac-man, .pac-man::before {
+  .pacman, .pacman::before {
     width: 30px;
     height: calc( 30px / 2);
     background-color: #ffea00; }
-  .pac-man::before {
+  .pacman::before {
     position: absolute;
     display: block;
     content: ' ';
     margin-top: calc( 30px / 2);
     border-radius: 0 0 100em 100em;
-    -webkit-transform-origin: top;
     transform-origin: top;
-    -webkit-transform: rotate(80deg);
     transform: rotate(80deg);
-    -webkit-animation: eating-bottom 0.5s infinite;
     animation: eating-bottom 0.5s infinite; }
 
 /*================================== GHOST ==================================*/
-.wrapper {
-  position: absolute; }
-
+/*.ghost-wrapper {
+    position: absolute;
+}*/
 .ghost {
   position: relative;
-  top: 20px;
-  width: 30px;
-  height: calc( 30px + 30px * 0.3);
+  bottom: 524px;
+  left: 6px;
+  width: calc( 30px - 30px * 0.3);
+  height: 30px;
   border-radius: 100em 100em 0 0;
   background-color: green; }
   .ghost::before {
@@ -119,13 +129,13 @@ td {
   .ghost [class|=eye] {
     position: absolute;
     top: 25%;
-    left: 15%;
+    left: 10%;
     width: calc( 30px / 4);
     height: calc( 30px / 4);
     background-color: white;
     border-radius: 50%; }
   .ghost .eye-right {
-    left: 60%; }
+    left: 55%; }
   .ghost .iris {
     position: absolute;
     top: 25%;
@@ -140,28 +150,25 @@ td {
     display: block;
     content: ' ';
     position: absolute;
-    top: calc( 30px + 30px * 0.3);
-    height: calc( 30px * 0.26);
-    width: 30px;
-    background: linear-gradient(-45deg, transparent 75%, green 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, green 90%, transparent 75%) 0 50%;
+    top: 30px;
+    height: calc( calc( 30px - 30px * 0.3) * 0.26);
+    width: calc( 30px - 30px * 0.3);
+    background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%, linear-gradient(55deg, transparent 75%, green 75%) 0 50%;
     background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26);
-    /*background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
-                      linear-gradient( 55deg, transparent 75%, green 75%) 0 50%;
-        background-size: calc( 30px * 0.26 ) calc( 30px * 0.26 ), calc( 30px * 0.26 ) calc( 30px * 0.26 );*/
-    background-position: 0 50%;
-    animation: ghost-tail-moving 1s linear infinite; }
+    background-origin: 0 50%;
+    animation: ghost-tail-moving 0.5s linear infinite; }
 
 .ghost-catched {
   background-color: blue; }
   .ghost-catched .mouth {
     display: block;
     position: absolute;
-    top: 30px;
-    left: calc( calc( 30px / 2) / 2);
-    width: calc( 30px / 2);
-    height: calc( calc( 30px / 2) / 3);
+    top: calc( 30px - 30px * 0.3);
+    left: calc( calc( calc( 30px - 30px * 0.3) / 2) / 2);
+    width: calc( calc( 30px - 30px * 0.3) / 2);
+    height: calc( calc( calc( 30px - 30px * 0.3) / 2) / 3);
     background: linear-gradient(-45deg, transparent 75%, white 90%, transparent 85%) 0 50%, linear-gradient(45deg, transparent 75%, white 90%, transparent 85%) 0 50%;
-    background-size: calc( calc( 30px / 2) / 3) calc( calc( 30px / 2) / 3), calc( calc( 30px / 2) / 3) calc( calc( 30px / 2) / 3);
+    background-size: calc( calc( calc( 30px - 30px * 0.3) / 2) / 3) calc( calc( calc( 30px - 30px * 0.3) / 2) / 3), calc( calc( calc( 30px - 30px * 0.3) / 2) / 3) calc( calc( calc( 30px - 30px * 0.3) / 2) / 3);
     animation: ghost-mouth-moving 1s linear infinite; }
   .ghost-catched::after {
     background: linear-gradient(-55deg, transparent 75%, blue 75%) 0 50%, linear-gradient(55deg, transparent 75%, blue 75%) 0 50%;

@@ -5,22 +5,22 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 
 
 /*================================== PAC-MAN ==================================*/
-.pac-man {
+
+
+.pacman {
     position: absolute;
-    top: calc( 50% - #{$pacmanSize} / 2);
-    left: calc( 50% - #{$pacmanSize} / 2);
+    margin: 0.5% 0 0 0.5%; 
     border-radius: 50%;
     border-radius: 100em 100em 0 0;
-    transition: top 50ms, left 1000ms;
-    -webkit-transform-origin: bottom;
-            transform-origin: bottom;
-    -webkit-animation: eating-top 0.5s infinite;
-            animation: eating-top 0.5s infinite;
+    /*transition: top 100ms, left 100ms; OPÓŹNIENIE */
+    transform-origin: bottom;
+    animation: eating-top 0.5s infinite;
     , &::before {
         width: $pacmanSize;
         height: calc( #{$pacmanSize} / 2 );
@@ -32,12 +32,9 @@
         content: ' ';
         margin-top: calc( #{$pacmanSize} / 2 );
         border-radius: 0 0 100em 100em;
-        -webkit-transform-origin: top;
-                transform-origin: top;
-        -webkit-transform: rotate(80deg);
-                transform: rotate(80deg);
-        -webkit-animation: eating-bottom 0.5s infinite;
-                animation: eating-bottom 0.5s infinite;
+        transform-origin: top;
+        transform: rotate(80deg);
+        animation: eating-bottom 0.5s infinite;
     }
 }
 
@@ -50,15 +47,17 @@
                 linear-gradient( 45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%;
     background-size: $size1 $size1, $size1 $size1;
 }
-.wrapper {
+
+/*.ghost-wrapper {
     position: absolute;
-}
+}*/
 
 .ghost {
     position: relative;
-    top: 20px;
-    width: $ghostSize;
-    height: $ghostHeight;
+    bottom: 524px;
+    left: 6px;
+    width: $ghostWidth;
+    height: $ghostSize;
     border-radius: 100em 100em 0 0;
     background-color: green;
     &::before {
@@ -73,14 +72,14 @@
     [class|=eye] {
         position: absolute;
         top: 25%;
-        left: 15%;
+        left: 10%;
         width: calc( #{$ghostSize} / 4);
         height: calc( #{$ghostSize} / 4);
         background-color: white;
         border-radius: 50%;
     }
     .eye-right {
-        left: 60%;
+        left: 55%;
     }
     .iris {
         position: absolute;
@@ -100,20 +99,14 @@
         display: block;
         content: ' ';
         position: absolute;
-        top: $ghostHeight;
-        height: calc( #{$ghostSize} * 0.26 );
-        width: #{$ghostSize};
-        @include gradient(green, calc( #{$ghostSize} * 0.26 ), 75%);
-        @mixin gradient($color1, $size1, $transparent1) {
-            background: linear-gradient(-45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%,
-                        linear-gradient( 45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%;
-            background-size: $size1 $size1, $size1 $size1;
-        }
-        /*background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
-                      linear-gradient( 55deg, transparent 75%, green 75%) 0 50%;
-        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );*/
-        background-position: 0 50%;
-        animation: ghost-tail-moving 1s linear infinite; 
+        top: $ghostSize;
+        height: calc( #{$ghostWidth} * 0.26 );
+        width: #{$ghostWidth};
+        background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
+                      linear-gradient(55deg, transparent 75%, green 75%) 0 50%;
+        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );
+        background-origin: 0 50%;
+        animation: ghost-tail-moving 0.5s linear infinite; 
     }
 }
 
@@ -122,7 +115,7 @@
     .mouth {
         display: block;
         position: absolute;
-        top: $ghostSize;
+        top: $ghostWidth;
         left: calc( #{$ghostMouthSize} / 2 );
         width: $ghostMouthSize;
         height: $ghostMouthHeight;
