@@ -1,15 +1,41 @@
-@keyframes eating-top {
+@keyframes right-eating-top {
    0% { transform: rotate(-40deg); }
    50% { transform: rotate(0deg); }
    100% { transform: rotate(-40deg); }
 }
+
+@keyframes top-eating-top {
+   0% { transform: rotate(-130deg); }
+   50% { transform: rotate(-90deg); }
+   100% { transform: rotate(-130deg); }
+}
+
+@keyframes left-eating-top {
+   0% { transform: rotate(-220deg); }
+   50% { transform: rotate(-180deg); }
+   100% { transform: rotate(-220deg); }
+}
+
+@keyframes down-eating-top {
+   0% { transform: rotate(-310deg); }
+   50% { transform: rotate(-270deg); }
+   100% { transform: rotate(-310deg); }
+}
+
 
 @keyframes eating-bottom {
    0% { transform: rotate(80deg); }
    50% { transform: rotate(0deg); }
    100% { transform: rotate(80deg); }
 }
-  
+
+
+
+
+
+
+
+
 @keyframes ghost-tail-moving {
    0% { background-position: 0 50%; }
    100% { background-position: 100% 50%; }

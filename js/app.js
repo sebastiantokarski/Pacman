@@ -36,7 +36,7 @@ class PacmanGame {
         this.container = container;
         
         // Check one step length
-        this.step = this.rows[0].children[0].clientWidth + 1; // !!!!! STEP = CELL.WIDTH + 1
+        this.step = this.rows[0].children[0].clientWidth + 1; // !!!!!!!! STEP = CELL.WIDTH + 1 Obramowanie
         
         // Return map
         return this.table;
@@ -107,8 +107,11 @@ class PacmanElem {
             
             switch (event.keyCode) {
                 case 37: 
-                    
+                    // TURN LEFT
+                    newPacman.style.animation = 'left-eating-top 0.5s infinite';
+                    document.styleSheets[0].addRule('.pacman::before','animation: eating-bottom 0.5s infinite;');
                     // GO LEFT
+                    
                     console.log('Actually row position ' + parentThis.position[0]); 
                     console.log('Actually column position ' + parentThis.position[1]); 
                     console.log('Walls row position ' + parentThis.game.wallArray[(parentThis.position[0])]);
@@ -127,15 +130,20 @@ class PacmanElem {
                     // EAT FOOD AND BONUS
                     parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('food');
                     parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('bonus');
-                    parentThis.game.points++;
+                    parentThis.game.points++; // !!! Za każdym razem liczy punkty
                     
                     break;
-                case 38: // GO TOP
+                case 38: 
+                    // TURN TOP
+                    
+                    newPacman.style.animation = 'top-eating-top 0.5s infinite';
+                    document.styleSheets[0].addRule('.pacman::before','animation: eating-bottom 0.5s infinite;');
+                    
                     console.log('Actually row position ' + parentThis.position[0]); 
                     console.log('Actually column position ' + parentThis.position[1]); 
                     console.log('Walls row position ' + parentThis.game.wallArray[(parentThis.position[0]) - 1]);
 
-                                
+                    // GO TOP       
                     if (parentThis.game.wallArray[(parentThis.position[0]) - 1].indexOf(parentThis.position[1]) < 0 && 
                                                                                     parentThis.position[0] > 0) {
                         parentThis.position[0]--;
@@ -194,11 +202,18 @@ class PacmanElem {
                     parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('bonus');
                     parentThis.game.points++;
                     
+                    
+                    parentThis.goDown();
+                    
+                    
                     break;
             }  
-            console.log(parentThis.game.points);
         });
        
+    }
+    
+    goDown() {
+        console.log('blabla');
     }
     
    
@@ -207,6 +222,7 @@ class PacmanElem {
         this.rows.parentElement.turnRight(20,40);
     }
 }
+
 
 class GhostElem {
     

@@ -14,6 +14,8 @@
     position: relative;
     margin: 0 auto;
     border: 13px double $tableBorderColor;
+    width: 100%;
+    max-width: 623px;
 }
 
 table {
