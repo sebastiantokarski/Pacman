@@ -150,7 +150,7 @@ td {
   width: 30px;
   height: 30px;
   margin: 0.5% 0 0 0.5%;
-  /*transition: top 200ms, left 200ms;*/ }
+  transition: top 100ms, left 100ms; }
   .pacman .pacman-top, .pacman .pacman-bottom {
     position: absolute;
     width: 100%;

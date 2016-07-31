@@ -117,12 +117,11 @@ class PacmanElem {
         
         
         this.top = this.pacman.style.top;
-        
+        var isKeyAvailable = true;
+        var direction = [38, 0]; // [OLD DIRECTION, CURRENT DIRECTION]
         // If the key is pressed, check which arrow
         document.addEventListener('keydown', function (event) {
-            /*var figure = arguments;
-            console.log(figure);*/
-            
+            if(isKeyAvailable) {
                 switch (event.keyCode) {
                     case 37: 
                         // TURN LEFT
@@ -157,9 +156,23 @@ class PacmanElem {
                         parentThis.eat();
                         break;
                 }  
-            
-            
+            }
+            isKeyAvailable = false;
+            direction[1] = event.keyCode;
+            parentThis.checkKey(direction, isKeyAvailable);
         });
+        
+    }
+    
+    checkKey(direction, key) {
+        if(direction[0] === direction[1]) {
+            var keyAvaible = setInterval(function() {
+                key = true;
+            }, 100)
+        } else {
+            key = true;
+        }
+        console.log(key); // Key set interval
     }
     
     eat() {
@@ -330,22 +343,15 @@ class GhostElem {
             ghost.style.left = pos[1] * parentThis.game.step + 'px';
         }
         
+        this.moving();
+        
+    }
+    moving() {
+        var move = setInterval(function() {
+            console.log('blabla');
+        }, 1000)
     }
     
-    
-     
-    go() {
-        var direction = 0; ///////////////////////////////////////////////////////// WORKING HERE
-        setInterval(function() {
-            direction = Math.random() + 4;
-            switch(direction) {
-                case 0: newGhost.style.left = '-=35px'; break;
-                case 1: newGhost.style.right = '+=35px'; break;
-                case 2: newGhost.style.top = '-=35px'; break;
-                case 3: newGhost.style.bottom = '+=35px'; break;
-            }
-        }, 500)
-    }
     
 }
 
@@ -363,7 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     var ghost = new GhostElem(newGame);
     ghost.addToMap();
-    ghost.go();
     
     
 });
