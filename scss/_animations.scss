@@ -1,49 +1,56 @@
 @keyframes right-eating-top {
-   0% { transform: rotate(-40deg); }
-   50% { transform: rotate(0deg); }
-   100% { transform: rotate(-40deg); }
+    0% { transform: rotate(-40deg); }
+    50% { transform: rotate(0deg); }
+    100% { transform: rotate(-40deg); }
 }
 
 @keyframes top-eating-top {
-   0% { transform: rotate(-130deg); }
-   50% { transform: rotate(-90deg); }
-   100% { transform: rotate(-130deg); }
+    0% { transform: rotate(-130deg); }
+    50% { transform: rotate(-90deg); }
+    100% { transform: rotate(-130deg); }
 }
 
 @keyframes left-eating-top {
-   0% { transform: rotate(-220deg); }
-   50% { transform: rotate(-180deg); }
-   100% { transform: rotate(-220deg); }
+    0% { transform: rotate(-220deg); }
+    50% { transform: rotate(-180deg); }
+    100% { transform: rotate(-220deg); }
 }
 
 @keyframes down-eating-top {
-   0% { transform: rotate(-310deg); }
-   50% { transform: rotate(-270deg); }
-   100% { transform: rotate(-310deg); }
+    0% { transform: rotate(-310deg); }
+    50% { transform: rotate(-270deg); }
+    100% { transform: rotate(-310deg); }
 }
 
 @keyframes right-eating-bottom {
-   0% { transform: rotate(40deg); }
-   50% { transform: rotate(0deg); }
-   100% { transform: rotate(40deg); }
+    0% { transform: rotate(40deg); }
+    50% { transform: rotate(0deg); }
+    100% { transform: rotate(40deg); }
 }
 
 @keyframes top-eating-bottom {
-   0% { transform: rotate(-50deg); }
-   50% { transform: rotate(-90deg); }
-   100% { transform: rotate(-50deg); }
+    0% { transform: rotate(-50deg); }
+    50% { transform: rotate(-90deg); }
+    100% { transform: rotate(-50deg); }
 }
 
 @keyframes left-eating-bottom {
-   0% { transform: rotate(-140deg); }
-   50% { transform: rotate(-180deg); }
-   100% { transform: rotate(-140deg); }
+    0% { transform: rotate(-140deg); }
+    50% { transform: rotate(-180deg); }
+    100% { transform: rotate(-140deg); }
 }
 
 @keyframes down-eating-bottom {
-   0% { transform: rotate(-230deg); }
-   50% { transform: rotate(-270deg); }
-   100% { transform: rotate(-230deg); }
+    0% { transform: rotate(-230deg); }
+    50% { transform: rotate(-270deg); }
+    100% { transform: rotate(-230deg); }
+}
+
+@keyframes ghost-up-down-moving {
+    0% { top: 263px; }
+    25% { top: 273px; }
+    75% { top: 253px; }
+    100% { top: 263px; }
 }
 
 

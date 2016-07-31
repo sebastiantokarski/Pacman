@@ -247,9 +247,13 @@ class GhostElem {
         this.game = game;
         this.name = name;
         this.pinky = []; // Pink ghost
+        this.pinkyPos = [6, 8];
         this.inky = []; // Blue ghost
+        this.inkyPos = [6, 8];
         this.blinky = []; // Red ghost
+        this.blinkyPos = [6, 8];
         this.clyde = []; // Orange ghost
+        this.clydePos = [6, 8];
     }
     
     addToMap() {
@@ -278,40 +282,58 @@ class GhostElem {
         
         this.pinky = newGhost.cloneNode(true);
         this.pinky.style.top = '263px';
-        this.pinky.style.left = '235px';
+        this.pinky.style.left = '228px';
         this.pinky.classList.add('pinky');
         this.game.container.appendChild(this.pinky);
         
         this.inky = newGhost.cloneNode(true);
         this.inky.style.top = '263px';
-        this.inky.style.left = '270px';
+        this.inky.style.left = '263px';
         this.inky.classList.add('inky');
         this.game.container.appendChild(this.inky);
         
         this.blinky = newGhost.cloneNode(true);
         this.blinky.style.top = '263px';
-        this.blinky.style.left = '305px';
+        this.blinky.style.left = '298px';
         this.blinky.classList.add('blinky');
         this.game.container.appendChild(this.blinky);
         
         newGhost.classList.add('clyde');
         this.clyde = newGhost;
         this.clyde.style.top = '263px';
-        this.clyde.style.left = '340px';
+        this.clyde.style.left = '333px';
         
-        setInterval(this.movingUpDown());
+        // MOVING UP AND DOWN AT THE BEGINNING OF THE GAME
+        this.clyde.classList.add('ghost-moving');
+        this.pinky.classList.add('ghost-moving');
+        this.blinky.classList.add('ghost-moving');
+        this.inky.classList.add('ghost-moving');
+        
+        var parentThis = this;
+        
+        var startPinky = setTimeout(function () {
+            ghostsStart(parentThis.pinky, parentThis.pinkyPos);
+        }, 1000);
+        var startInky = setTimeout(function () {
+            ghostsStart(parentThis.inky, parentThis.inkyPos);
+        }, 2000);
+        var startBlinky = setTimeout(function () {
+            ghostsStart(parentThis.blinky, parentThis.blinkyPos);
+        }, 4000);
+        var startClyde = setTimeout(function () {
+            ghostsStart(parentThis.clyde, parentThis.clydePos);
+        }, 6000);
+        
+        function ghostsStart(ghost, pos) {
+            ghost.classList.remove('ghost-moving');
+            ghost.style.top = pos[0] * parentThis.game.step + 'px';
+            ghost.style.left = pos[1] * parentThis.game.step + 'px';
+        }
         
     }
     
     
-    
-    movingUpDown() {
-        animate(function() {
-            this.pinky.style.top = '273px';
-            this.pinky.style.top = '253px';
-        }, 200)
-    }
-    
+     
     go() {
         var direction = 0; ///////////////////////////////////////////////////////// WORKING HERE
         setInterval(function() {

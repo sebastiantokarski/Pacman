@@ -56,6 +56,7 @@
     width: $ghostWidth;
     height: $ghostSize;
     border-radius: 100em 100em 0 0;
+    margin: 0.2% 0 0 1.2%;
     &::before {
         position: absolute;
         content: ' ';
@@ -151,6 +152,10 @@
 
 .clyde {
     background-color: $ghostColorClyde;
+}
+
+.ghost-moving {
+    animation: ghost-up-down-moving 0.5s infinite;
 }
 
 /*.ghost-warning {

@@ -62,6 +62,16 @@
   100% {
     transform: rotate(-230deg); } }
 
+@keyframes ghost-up-down-moving {
+  0% {
+    top: 263px; }
+  25% {
+    top: 273px; }
+  75% {
+    top: 253px; }
+  100% {
+    top: 263px; } }
+
 @keyframes ghost-tail-moving {
   0% {
     background-position: 0 50%; }
@@ -162,7 +172,8 @@ td {
   position: absolute;
   width: calc( 30px - 30px * 0.3);
   height: 30px;
-  border-radius: 100em 100em 0 0; }
+  border-radius: 100em 100em 0 0;
+  margin: 0.2% 0 0 1.2%; }
   .ghost::before {
     position: absolute;
     content: ' ';
@@ -236,6 +247,9 @@ td {
 
 .clyde {
   background-color: orange; }
+
+.ghost-moving {
+  animation: ghost-up-down-moving 0.5s infinite; }
 
 /*.ghost-warning {
     animation: ghost-warning 0.5 infinite;
