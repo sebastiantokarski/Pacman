@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @keyframes right-eating-top {
   0% {
     transform: rotate(-40deg); }
@@ -31,13 +30,37 @@
   100% {
     transform: rotate(-310deg); } }
 
-@keyframes eating-bottom {
+@keyframes right-eating-bottom {
   0% {
-    transform: rotate(80deg); }
+    transform: rotate(40deg); }
   50% {
     transform: rotate(0deg); }
   100% {
-    transform: rotate(80deg); } }
+    transform: rotate(40deg); } }
+
+@keyframes top-eating-bottom {
+  0% {
+    transform: rotate(-50deg); }
+  50% {
+    transform: rotate(-90deg); }
+  100% {
+    transform: rotate(-50deg); } }
+
+@keyframes left-eating-bottom {
+  0% {
+    transform: rotate(-140deg); }
+  50% {
+    transform: rotate(-180deg); }
+  100% {
+    transform: rotate(-140deg); } }
+
+@keyframes down-eating-bottom {
+  0% {
+    transform: rotate(-230deg); }
+  50% {
+    transform: rotate(-270deg); }
+  100% {
+    transform: rotate(-230deg); } }
 
 @keyframes ghost-tail-moving {
   0% {
@@ -114,23 +137,22 @@ td {
 /*================================== PAC-MAN ==================================*/
 .pacman {
   position: absolute;
+  width: 30px;
+  height: 30px;
   margin: 0.5% 0 0 0.5%;
-  border-radius: 50%;
-  border-radius: 100em 100em 0 0;
-  /*transition: top 100ms, left 100ms; OPÓŹNIENIE */
-  transform-origin: bottom;
-  animation: right-eating-top 0.5s infinite; }
-  .pacman, .pacman::before {
-    width: 30px;
-    height: calc( 30px / 2);
-    background-color: #ffea00; }
-  .pacman::before {
+  /*transition: top 200ms, left 200ms;*/ }
+  .pacman .pacman-top, .pacman .pacman-bottom {
     position: absolute;
-    display: block;
-    content: ' ';
-    margin-top: calc( 30px / 2);
+    width: 100%;
+    height: 50%;
+    background-color: #ffea00; }
+  .pacman .pacman-top {
+    border-radius: 100em 100em 0 0;
+    transform-origin: bottom; }
+  .pacman .pacman-bottom {
     border-radius: 0 0 100em 100em;
-    transform-origin: top; }
+    transform-origin: top;
+    margin-top: 50%; }
 
 /*================================== GHOST ==================================*/
 /*.ghost-wrapper {
@@ -138,12 +160,9 @@ td {
 }*/
 .ghost {
   position: absolute;
-  bottom: 524px;
-  left: 6px;
   width: calc( 30px - 30px * 0.3);
   height: 30px;
-  border-radius: 100em 100em 0 0;
-  background-color: green; }
+  border-radius: 100em 100em 0 0; }
   .ghost::before {
     position: absolute;
     content: ' ';
@@ -205,6 +224,18 @@ td {
   .ghost-eaten [class|=eye] {
     visibility: visible;
     border: 1px solid black; }
+
+.pinky {
+  background-color: pink; }
+
+.inky {
+  background-color: blue; }
+
+.blinky {
+  background-color: red; }
+
+.clyde {
+  background-color: orange; }
 
 /*.ghost-warning {
     animation: ghost-warning 0.5 infinite;

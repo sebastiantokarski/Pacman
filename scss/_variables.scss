@@ -10,6 +10,11 @@ $ghostMouthSize: calc( #{$ghostWidth} / 2 );
 $ghostMouthHeight: calc( #{$ghostMouthSize} / 3 );
 $ghostCatchedColor: blue;
 
+$ghostColorPinky: pink;
+$ghostColorInky: blue;
+$ghostColorBlinky: red;
+$ghostColorClyde: orange;
+
 // FOOD SETTINGS
 $foodColor: grey;
 $foodSize: 4px;

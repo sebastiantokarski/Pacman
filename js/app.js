@@ -82,16 +82,27 @@ class PacmanElem {
     constructor(game) {
         this.game = game;
         this.position = [13, 8]; // [Row, Column]
+        this.pacman = [];
+        this.pTop = [];
+        this.pBottom = [];
     }
     
     addToMap() {
             
         // Create div with pacman and add it to main container
         var newPacman = document.createElement('div');
+        var pTop = document.createElement('div');
+        var pBottom = document.createElement('div');
         newPacman.classList.add('pacman');
+        pTop.classList.add('pacman-top');
+        pBottom.classList.add('pacman-bottom');
+        newPacman.appendChild(pTop);
+        newPacman.appendChild(pBottom);
         this.game.container.appendChild(newPacman);
+        this.pTop = pTop;
+        this.pBottom = pBottom;
+        this.pacman = newPacman;
         
-        console.log('Step ' + this.game.step);
         
         
         var parentThis = this;
@@ -100,120 +111,126 @@ class PacmanElem {
         newPacman.style.top = (parentThis.position[0] * parentThis.game.step) + 'px';
         newPacman.style.left = (parentThis.position[1] * parentThis.game.step) + 'px';
         
+        // Default pacman turn
+        this.pTop.style.animation = 'right-eating-top 0.5s infinite';
+        this.pBottom.style.animation = 'right-eating-bottom 0.5s infinite';
+        
+        
+        this.top = this.pacman.style.top;
+        
         // If the key is pressed, check which arrow
         document.addEventListener('keydown', function (event) {
             /*var figure = arguments;
             console.log(figure);*/
             
-            switch (event.keyCode) {
-                case 37: 
-                    // TURN LEFT
-                    newPacman.style.animation = 'left-eating-top 0.5s infinite';
-                    document.styleSheets[0].addRule('.pacman::before','animation: eating-bottom 0.5s infinite;');
-                    // GO LEFT
-                    
-                    console.log('Actually row position ' + parentThis.position[0]); 
-                    console.log('Actually column position ' + parentThis.position[1]); 
-                    console.log('Walls row position ' + parentThis.game.wallArray[(parentThis.position[0])]);
-
-                                
-                    if (parentThis.game.wallArray[(parentThis.position[0])].indexOf(parentThis.position[1] - 1) < 0 && 
-                                                                                    parentThis.position[1] > 0) {
-                        parentThis.position[1]--;
-                        console.log('Wartosc ' + parentThis.position[1]);
-                        console.log((parentThis.position[1] * parentThis.game.step) + 'px');
-                        newPacman.style.left = (parentThis.position[1] * parentThis.game.step) + 'px';
-                    }
-                    console.log('Changed row position ' + parentThis.position[0]);
-                    console.log('Changed column position ' + parentThis.position[1]);
-                    
-                    // EAT FOOD AND BONUS
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('food');
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('bonus');
-                    parentThis.game.points++; // !!! Za każdym razem liczy punkty
-                    
-                    break;
-                case 38: 
-                    // TURN TOP
-                    
-                    newPacman.style.animation = 'top-eating-top 0.5s infinite';
-                    document.styleSheets[0].addRule('.pacman::before','animation: eating-bottom 0.5s infinite;');
-                    
-                    console.log('Actually row position ' + parentThis.position[0]); 
-                    console.log('Actually column position ' + parentThis.position[1]); 
-                    console.log('Walls row position ' + parentThis.game.wallArray[(parentThis.position[0]) - 1]);
-
-                    // GO TOP       
-                    if (parentThis.game.wallArray[(parentThis.position[0]) - 1].indexOf(parentThis.position[1]) < 0 && 
-                                                                                    parentThis.position[0] > 0) {
-                        parentThis.position[0]--;
-                        console.log('Changed top ' + (parentThis.position[0] * parentThis.game.step) + 'px');
-                        newPacman.style.top = (parentThis.position[0] * parentThis.game.step) + 'px';
-                    }
-                    console.log('Changed row position ' + parentThis.position[0]);
-                    console.log('Changed column position ' + parentThis.position[1]);
-                    
-                    // EAT FOOD AND BONUS
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('food');
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('bonus');
-                    parentThis.game.points++;
-                    
-                    break;
-                    
-                case 39: // GO RIGHT
-                    console.log('Actually row position ' + parentThis.position[0]); 
-                    console.log('Actually column position ' + parentThis.position[1]); 
-                    console.log('Walls row position ' + parentThis.game.wallArray[(parentThis.position[0])]);
-
-                                
-                    if (parentThis.game.wallArray[(parentThis.position[0])].indexOf(parentThis.position[1] + 1) < 0 && 
-                                                                                    parentThis.position[1] < 16) {
-                        parentThis.position[1]++;
-                        console.log('Wartosc ' + parentThis.position[1]);
-                        console.log((parentThis.position[1] * parentThis.game.step) + 'px');
-                        newPacman.style.left = (parentThis.position[1] * parentThis.game.step) + 'px';
-                    }
-                    console.log('Changed row position ' + parentThis.position[0]);
-                    console.log('Changed column position ' + parentThis.position[1]);
-                    
-                    // EAT FOOD AND BONUS
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('food');
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('bonus');
-                    parentThis.game.points++;
-                    
-                    break;
-                case 40: // GO DOWN
-                    console.log('Actually row position ' + parentThis.position[0]); 
-                    console.log('Actually column position ' + parentThis.position[1]); 
-                    console.log('Walls row position ' + parentThis.game.wallArray[(parentThis.position[0]) + 1]);
-
-                                
-                    if (parentThis.game.wallArray[(parentThis.position[0]) + 1].indexOf(parentThis.position[1]) < 0 && 
-                                                                                    parentThis.position[0] < 16) {
-                        parentThis.position[0]++;
-                        console.log('Changed top ' + (parentThis.position[0] * parentThis.game.step) + 'px');
-                        newPacman.style.top = (parentThis.position[0] * parentThis.game.step) + 'px';
-                    }
-                    console.log('Changed row position ' + parentThis.position[0]);
-                    console.log('Changed column position ' + parentThis.position[1]);
-                    
-                    // EAT FOOD AND BONUS
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('food');
-                    parentThis.game.rows[parentThis.position[0]].children[parentThis.position[1]].classList.remove('bonus');
-                    parentThis.game.points++;
-                    
-                    
-                    parentThis.goDown();
-                    
-                    
-                    break;
-            }  
+                switch (event.keyCode) {
+                    case 37: 
+                        // TURN LEFT
+                        parentThis.turn(event.keyCode);
+                        // GO LEFT
+                        newPacman.style.left = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
+                        // EAT FOOD AND BONUSES
+                        parentThis.eat();
+                        break;
+                    case 38: 
+                        // TURN TOP
+                        parentThis.turn(event.keyCode);
+                        // GO TOP
+                        newPacman.style.top = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
+                        // EAT FOOD AND BONUSES
+                        parentThis.eat();
+                        break;
+                    case 39: 
+                        // TURN RIGHT
+                        parentThis.turn(event.keyCode);
+                        // GO RIGHT
+                        newPacman.style.left = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
+                        // EAT FOOD AND BONUSES
+                        parentThis.eat();
+                        break;
+                    case 40: 
+                        // TURN DOWN 
+                        parentThis.turn(event.keyCode);
+                        // GO DOWN
+                        newPacman.style.top = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
+                        // EAT FOOD AND BONUSES
+                        parentThis.eat();
+                        break;
+                }  
+            
+            
         });
-       
     }
     
-    goDown() {
-        console.log('blabla');
+    eat() {
+        if(this.game.foodArray[this.position[0]].indexOf(this.position[1]) >= 0) {
+            this.game.rows[this.position[0]].children[this.position[1]].classList.remove('food');
+            this.game.points++;
+        }
+        if(this.game.bonusArray[this.position[0]].indexOf(this.position[1]) >= 0) {
+            this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
+            /// METODA ZJEDZENIE BONUSU 
+        }
+    }
+    
+    turn(direction) {
+        switch (direction) {
+            case 37:
+                this.pTop.style.animation = 'left-eating-top 0.5s infinite';
+                this.pBottom.style.animation = 'left-eating-bottom 0.5s infinite';
+                break;
+            case 38:
+                this.pTop.style.animation = 'top-eating-top 0.5s infinite';
+                this.pBottom.style.animation = 'top-eating-bottom 0.5s infinite';
+                break;
+            case 39:
+                this.pTop.style.animation = 'right-eating-top 0.5s infinite';
+                this.pBottom.style.animation = 'right-eating-bottom 0.5s infinite';
+                break;
+            case 40:
+                this.pTop.style.animation = 'down-eating-top 0.5s infinite';
+                this.pBottom.style.animation = 'down-eating-bottom 0.5s infinite';
+                break;
+        }
+    }
+    
+    go(direction, rowPos, columnPos) {
+        switch (direction) {
+        case 37:
+            // Sprawdź czy pacman jest w tunelu i chce przejść na drugą stonę
+            if (rowPos === 7 && columnPos === 0) {
+                this.position[1] = 16;
+                return this.position[1] * this.game.step + 'px';
+            }
+            if (this.game.wallArray[rowPos].indexOf(columnPos - 1) < 0 && columnPos > 0) {
+                this.position[1]--;
+            }
+            return this.position[1] * this.game.step + 'px';
+            break;
+        case 38:
+            if (this.game.wallArray[rowPos - 1].indexOf(this.position[1]) < 0 && rowPos > 0) {
+                this.position[0]--;
+            }
+            return this.position[0] * this.game.step + 'px';
+            break;
+        case 39:
+            // Sprawdź czy pacman jest w tunelu i chce przejść na drugą stonę
+            if (rowPos === 7 && columnPos === 16) {
+                this.position[1] = 0;
+                return this.position[1] * this.game.step + 'px';
+            }
+            if (this.game.wallArray[rowPos].indexOf(columnPos + 1) < 0 && columnPos < 16) {
+                this.position[1]++;
+            }
+            return this.position[1] * this.game.step + 'px';
+            break;
+        case 40:
+            if (this.game.wallArray[rowPos + 1].indexOf(this.position[1]) < 0 && rowPos < 16) {
+                this.position[0]++;
+            }
+            return this.position[0] * this.game.step + 'px';
+            break;
+        }
     }
     
    
@@ -258,6 +275,41 @@ class GhostElem {
         iris1.classList.add('iris')
         eye1.appendChild(iris1);
         this.game.container.appendChild(newGhost); // wrapper
+        
+        this.pinky = newGhost.cloneNode(true);
+        this.pinky.style.top = '263px';
+        this.pinky.style.left = '235px';
+        this.pinky.classList.add('pinky');
+        this.game.container.appendChild(this.pinky);
+        
+        this.inky = newGhost.cloneNode(true);
+        this.inky.style.top = '263px';
+        this.inky.style.left = '270px';
+        this.inky.classList.add('inky');
+        this.game.container.appendChild(this.inky);
+        
+        this.blinky = newGhost.cloneNode(true);
+        this.blinky.style.top = '263px';
+        this.blinky.style.left = '305px';
+        this.blinky.classList.add('blinky');
+        this.game.container.appendChild(this.blinky);
+        
+        newGhost.classList.add('clyde');
+        this.clyde = newGhost;
+        this.clyde.style.top = '263px';
+        this.clyde.style.left = '340px';
+        
+        setInterval(this.movingUpDown());
+        
+    }
+    
+    
+    
+    movingUpDown() {
+        animate(function() {
+            this.pinky.style.top = '273px';
+            this.pinky.style.top = '253px';
+        }, 200)
     }
     
     go() {

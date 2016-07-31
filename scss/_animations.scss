@@ -22,11 +22,28 @@
    100% { transform: rotate(-310deg); }
 }
 
-
-@keyframes eating-bottom {
-   0% { transform: rotate(80deg); }
+@keyframes right-eating-bottom {
+   0% { transform: rotate(40deg); }
    50% { transform: rotate(0deg); }
-   100% { transform: rotate(80deg); }
+   100% { transform: rotate(40deg); }
+}
+
+@keyframes top-eating-bottom {
+   0% { transform: rotate(-50deg); }
+   50% { transform: rotate(-90deg); }
+   100% { transform: rotate(-50deg); }
+}
+
+@keyframes left-eating-bottom {
+   0% { transform: rotate(-140deg); }
+   50% { transform: rotate(-180deg); }
+   100% { transform: rotate(-140deg); }
+}
+
+@keyframes down-eating-bottom {
+   0% { transform: rotate(-230deg); }
+   50% { transform: rotate(-270deg); }
+   100% { transform: rotate(-230deg); }
 }
 
 
