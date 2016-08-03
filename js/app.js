@@ -6,6 +6,7 @@ class PacmanGame {
         this.wallArray = wallArray;
         this.foodArray = foodArray;
         this.bonusArray = bonusArray;
+        this.intersection = intersection;
         this.container = [];
         this.table = [];
         this.rows = [];
@@ -79,12 +80,14 @@ class PacmanGame {
 
 class PacmanElem {
     
-    constructor(game) {
+    constructor(game, ghost) {
         this.game = game;
+        this.ghost = ghost;
         this.position = [13, 8]; // [Row, Column]
         this.pacman = [];
         this.pTop = [];
         this.pBottom = [];
+        this.isKeyAvailable = true;
     }
     
     addToMap() {
@@ -103,7 +106,7 @@ class PacmanElem {
         this.pBottom = pBottom;
         this.pacman = newPacman;
         
-        
+        console.log(this.ghost);
         
         var parentThis = this;
         
@@ -117,11 +120,11 @@ class PacmanElem {
         
         
         this.top = this.pacman.style.top;
-        var isKeyAvailable = true;
         var direction = [38, 0]; // [OLD DIRECTION, CURRENT DIRECTION]
         // If the key is pressed, check which arrow
         document.addEventListener('keydown', function (event) {
-            if(isKeyAvailable) {
+            direction[1] = event.keyCode;
+            if(parentThis.isKeyAvailable) {
                 switch (event.keyCode) {
                     case 37: 
                         // TURN LEFT
@@ -157,33 +160,50 @@ class PacmanElem {
                         break;
                 }  
             }
-            isKeyAvailable = false;
-            direction[1] = event.keyCode;
-            parentThis.checkKey(direction, isKeyAvailable);
+            
+            parentThis.isKeyAvailable = false;
+            parentThis.checkKey(direction);
+            direction[0] = event.keyCode;
         });
         
     }
     
-    checkKey(direction, key) {
+    checkKey(direction) {
         if(direction[0] === direction[1]) {
-            var keyAvaible = setInterval(function() {
-                key = true;
-            }, 100)
-        } else {
-            key = true;
-        }
-        console.log(key); // Key set interval
+        } 
+        this.isKeyAvailable = true;
     }
     
+    
+    
     eat() {
-        if(this.game.foodArray[this.position[0]].indexOf(this.position[1]) >= 0) {
+        if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'food' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('food');
             this.game.points++;
         }
-        if(this.game.bonusArray[this.position[0]].indexOf(this.position[1]) >= 0) {
+        if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'bonus' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
-            /// METODA ZJEDZENIE BONUSU 
+            
+            this.eatBonus(this.ghost.pinky, this.ghost.inky, this.ghost.blinky, this.ghost.clyde);
         }
+    }
+    
+    eatBonus() {
+        var array = Array.from(arguments);
+        array.forEach(function (element) {
+            element.classList.add('ghost-catched');
+            element.classList.remove('pinky', 'inky', 'blinky', 'clyde');
+        });
+        var parentThis = this;
+        setTimeout(function () {
+                array.forEach(function (element) {
+                    element.classList.remove('ghost-catched');
+                });
+                array[0].classList.add('pinky');
+                array[1].classList.add('inky');
+                array[2].classList.add('blinky');
+                array[3].classList.add('clyde');
+        }, 5000)
     }
     
     turn(direction) {
@@ -215,13 +235,13 @@ class PacmanElem {
                 this.position[1] = 16;
                 return this.position[1] * this.game.step + 'px';
             }
-            if (this.game.wallArray[rowPos].indexOf(columnPos - 1) < 0 && columnPos > 0) {
+            if (columnPos > 0 && this.game.wallArray[rowPos].indexOf(columnPos - 1) < 0) {
                 this.position[1]--;
             }
             return this.position[1] * this.game.step + 'px';
             break;
         case 38:
-            if (this.game.wallArray[rowPos - 1].indexOf(this.position[1]) < 0 && rowPos > 0) {
+            if (rowPos > 0 && this.game.wallArray[rowPos - 1].indexOf(this.position[1]) < 0) {
                 this.position[0]--;
             }
             return this.position[0] * this.game.step + 'px';
@@ -232,13 +252,13 @@ class PacmanElem {
                 this.position[1] = 0;
                 return this.position[1] * this.game.step + 'px';
             }
-            if (this.game.wallArray[rowPos].indexOf(columnPos + 1) < 0 && columnPos < 16) {
+            if (columnPos < 16 && this.game.wallArray[rowPos].indexOf(columnPos + 1) < 0) {
                 this.position[1]++;
             }
             return this.position[1] * this.game.step + 'px';
             break;
         case 40:
-            if (this.game.wallArray[rowPos + 1].indexOf(this.position[1]) < 0 && rowPos < 16) {
+            if (rowPos < 16 && this.game.wallArray[rowPos + 1].indexOf(this.position[1]) < 0) {
                 this.position[0]++;
             }
             return this.position[0] * this.game.step + 'px';
@@ -247,18 +267,17 @@ class PacmanElem {
     }
     
    
-    
-    eatGhost(){
-        this.rows.parentElement.turnRight(20,40);
-    }
 }
+
+
+
+
 
 
 class GhostElem {
     
-    constructor(game, name) {
+    constructor(game) {
         this.game = game;
-        this.name = name;
         this.pinky = []; // Pink ghost
         this.pinkyPos = [6, 8];
         this.inky = []; // Blue ghost
@@ -267,6 +286,7 @@ class GhostElem {
         this.blinkyPos = [6, 8];
         this.clyde = []; // Orange ghost
         this.clydePos = [6, 8];
+        this.pacman = [];
     }
     
     addToMap() {
@@ -326,15 +346,19 @@ class GhostElem {
         
         var startPinky = setTimeout(function () {
             ghostsStart(parentThis.pinky, parentThis.pinkyPos);
+            parentThis.moving(parentThis.pinky, parentThis.pinkyPos, parentThis.game.wallArray, parentThis.game.intersection);
         }, 1000);
         var startInky = setTimeout(function () {
             ghostsStart(parentThis.inky, parentThis.inkyPos);
+            parentThis.moving(parentThis.inky, parentThis.inkyPos, parentThis.game.wallArray, parentThis.game.intersection);
         }, 2000);
         var startBlinky = setTimeout(function () {
             ghostsStart(parentThis.blinky, parentThis.blinkyPos);
+            parentThis.moving(parentThis.blinky, parentThis.blinkyPos, parentThis.game.wallArray, parentThis.game.intersection);
         }, 4000);
         var startClyde = setTimeout(function () {
             ghostsStart(parentThis.clyde, parentThis.clydePos);
+            parentThis.moving(parentThis.clyde, parentThis.clydePos, parentThis.game.wallArray, parentThis.game.intersection);
         }, 6000);
         
         function ghostsStart(ghost, pos) {
@@ -342,17 +366,110 @@ class GhostElem {
             ghost.style.top = pos[0] * parentThis.game.step + 'px';
             ghost.style.left = pos[1] * parentThis.game.step + 'px';
         }
-        
-        this.moving();
-        
+    
     }
-    moving() {
-        var move = setInterval(function() {
-            console.log('blabla');
-        }, 1000)
+    
+    addPacman(pacman) {
+        this.pacman = pacman;
     }
     
     
+    ghostEat() {
+        var array = Array.from(arguments);
+        var parentThis = this;
+        console.log(this.pacman.position);
+        array.forEach(function(element) {
+            if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
+                console.log('GAME OVER');
+                clearInterval(parentThis.movingInterval); // doesnt work
+            }
+        })
+    }
+    
+                        //direction = (Math.floor(Math.random() * 4 / 2) * 2) + 1; // odd numbers
+    moving(ghost, pos, wall, inter) {
+        var parentThis = this;
+        var direction = Math.floor(Math.random() * 4);
+        var movingInterval = setInterval(function() {
+            if (inter[pos[0]].indexOf(pos[1]) >= 0) {
+                console.log('SKRZYŻOWANIE');
+            }
+            switch (direction) {
+                case 0: // LEFT
+                    if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) {
+                        pos[1]--;
+                    }
+                    if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) {
+                        direction = 0;
+                    } else {
+                        if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0 && pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) { // Up
+                            direction = (Math.floor(Math.random() * 4 / 2) * 2) + 1; // odd numbers
+                        } else if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) {
+                            direction = 1;
+                        } else {
+                            direction = 3;
+                        }
+                    }
+                    break;
+                case 1: // UP
+                    if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) {
+                        pos[0]--;
+                    }
+                    if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) {
+                        direction = 1;
+                    } else {
+                        if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0 && pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) { // Left
+                            direction = Math.floor(Math.random() * 4 / 2) * 2; // even numbers
+                        } else if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) {   
+                            direction = 0;
+                        } else {
+                            direction = 2;
+                        }
+                    }
+                    break;
+                case 2: // RIGHT
+                    if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) {
+                        pos[1]++;
+                    }
+                    if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) { 
+                        direction = 2;
+                    } else {
+                        if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0 && pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) { // Down
+                            direction = (Math.floor(Math.random() * 4 / 2) * 2) + 1; // odd numbers
+                        } else if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) {
+                            direction = 3;
+                        } else {
+                            direction = 1;
+                        }
+                    }
+                    break;
+                case 3: // DOWN
+                    if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) {
+                        pos[0]++;
+                    }
+                    if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) {
+                        direction = 3;
+                    } else {
+                        if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0 && pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) { // Right
+                            direction = Math.floor(Math.random() * 4 / 2) * 2; // even numbers
+                        } else if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) {
+                            direction = 2;
+                        } else {
+                            direction = 0;
+                        }
+                    }
+                    break;
+            }
+            ghost.style.top = parentThis.game.step * pos[0] + 'px';
+            ghost.style.left = parentThis.game.step * pos[1] + 'px';
+            
+            parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
+            
+        }, 500);
+    }
+    
+    
+   
 }
 
 
@@ -364,10 +481,11 @@ document.addEventListener('DOMContentLoaded', function () {
     newGame.createMap();
    
     
-    var pacman = new PacmanElem(newGame);
-    pacman.addToMap();
-    
     var ghost = new GhostElem(newGame);
+    var pacman = new PacmanElem(newGame, ghost);
+    pacman.addToMap();
+    ghost.addPacman(pacman);
+    
     ghost.addToMap();
     
     
@@ -434,6 +552,46 @@ var bonusArray = [
     [], // Row 11
     [0, 16], // Row 12
     [], // Row 13
+    [], // Row 14
+    [], // Row 15
+    [] // Row 16
+]
+
+var intersection = [
+    [3, 13], // Row 0
+    [], // Row 1
+    [0, 3, 5, 7, 9, 11, 13, 16], // Row 2
+    [], // Row 3
+    [3, 13], // Row 4
+    [], // Row 5
+    [], // Row 6
+    [3, 5, 11, 13], // Row 7
+    [], // Row 8
+    [5, 11], // Row 9
+    [], // Row 10 
+    [3, 5, 11, 13], // Row 11
+    [], // Row 12
+    [3, 5, 11, 13], // Row 13
+    [1, 15], // Row 14
+    [], // Row 15
+    [5, 11] // Row 16
+]
+
+var intersection1 = [
+    [], // Row 0
+    [], // Row 1
+    [], // Row 2
+    [], // Row 3
+    [], // Row 4
+    [], // Row 5
+    [7, 9], // Row 6
+    [], // Row 7
+    [], // Row 8
+    [], // Row 9
+    [], // Row 10 
+    [], // Row 11
+    [], // Row 12
+    [7, 9], // Row 13
     [], // Row 14
     [], // Row 15
     [] // Row 16

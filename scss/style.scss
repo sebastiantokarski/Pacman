@@ -64,7 +64,6 @@
         height: 100%;
         width: 100%;
     }
-    
     // Ghost Eyes
     [class|=eye] {
         position: absolute;
@@ -99,9 +98,7 @@
         top: $ghostSize;
         height: calc( #{$ghostWidth} * 0.26 );
         width: #{$ghostWidth};
-        background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%,
-                      linear-gradient(55deg, transparent 75%, green 75%) 0 50%;
-        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );
+        @include gradient(green, calc( #{$ghostSize} * 0.26 ), 75% );
         background-origin: 0 50%;
         animation: ghost-tail-moving 0.5s linear infinite; 
     }
@@ -116,15 +113,11 @@
         left: calc( #{$ghostMouthSize} / 2 );
         width: $ghostMouthSize;
         height: $ghostMouthHeight;
-        background: linear-gradient(-45deg, transparent 75%, white 90%, transparent 85%) 0 50%,
-                    linear-gradient( 45deg, transparent 75%, white 90%, transparent 85%) 0 50%;
-        background-size: $ghostMouthHeight $ghostMouthHeight, $ghostMouthHeight $ghostMouthHeight;
+        @include gradient(white, $ghostMouthHeight, 85% );
         animation: ghost-mouth-moving 1s linear infinite; 
     }
     &::after {
-        background: linear-gradient(-55deg, transparent 75%, $ghostCatchedColor 75%) 0 50%,
-                    linear-gradient( 55deg, transparent 75%, $ghostCatchedColor 75%) 0 50%;
-        background-size: calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 ), calc( #{$ghostSize} * 0.26 ) calc( #{$ghostSize} * 0.26 );
+        @include gradient($ghostCatchedColor, calc( #{$ghostSize} * 0.26 ), 75% );
         background-position: 0 50%;
         animation: ghost-tail-moving 1s linear infinite; 
     }
@@ -140,18 +133,30 @@
 
 .pinky {
     background-color: $ghostColorPinky;
+    &::after {
+        @include gradient($ghostColorPinky, calc( #{$ghostSize} * 0.26 ), 75% );
+    }
 }
 
 .inky {
     background-color: $ghostColorInky;
+    &::after {
+        @include gradient($ghostColorInky, calc( #{$ghostSize} * 0.26 ), 75% );
+    }
 }
 
 .blinky {
     background-color: $ghostColorBlinky;
+    &::after {
+        @include gradient($ghostColorBlinky, calc( #{$ghostSize} * 0.26 ), 75% );
+    }
 }
 
 .clyde {
     background-color: $ghostColorClyde;
+    &::after {
+        @include gradient($ghostColorClyde, calc( #{$ghostSize} * 0.26 ), 75% );
+    }
 }
 
 .ghost-moving {

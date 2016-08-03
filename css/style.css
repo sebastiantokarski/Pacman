@@ -207,7 +207,7 @@ td {
     top: 30px;
     height: calc( calc( 30px - 30px * 0.3) * 0.26);
     width: calc( 30px - 30px * 0.3);
-    background: linear-gradient(-55deg, transparent 75%, green 75%) 0 50%, linear-gradient(55deg, transparent 75%, green 75%) 0 50%;
+    background: linear-gradient(-45deg, transparent 75%, green 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, green 90%, transparent 75%) 0 50%;
     background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26);
     background-origin: 0 50%;
     animation: ghost-tail-moving 0.5s linear infinite; }
@@ -225,7 +225,7 @@ td {
     background-size: calc( calc( calc( 30px - 30px * 0.3) / 2) / 3) calc( calc( calc( 30px - 30px * 0.3) / 2) / 3), calc( calc( calc( 30px - 30px * 0.3) / 2) / 3) calc( calc( calc( 30px - 30px * 0.3) / 2) / 3);
     animation: ghost-mouth-moving 1s linear infinite; }
   .ghost-catched::after {
-    background: linear-gradient(-55deg, transparent 75%, blue 75%) 0 50%, linear-gradient(55deg, transparent 75%, blue 75%) 0 50%;
+    background: linear-gradient(-45deg, transparent 75%, blue 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, blue 90%, transparent 75%) 0 50%;
     background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26);
     background-position: 0 50%;
     animation: ghost-tail-moving 1s linear infinite; }
@@ -238,15 +238,27 @@ td {
 
 .pinky {
   background-color: pink; }
+  .pinky::after {
+    background: linear-gradient(-45deg, transparent 75%, pink 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, pink 90%, transparent 75%) 0 50%;
+    background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26); }
 
 .inky {
   background-color: blue; }
+  .inky::after {
+    background: linear-gradient(-45deg, transparent 75%, blue 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, blue 90%, transparent 75%) 0 50%;
+    background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26); }
 
 .blinky {
   background-color: red; }
+  .blinky::after {
+    background: linear-gradient(-45deg, transparent 75%, red 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, red 90%, transparent 75%) 0 50%;
+    background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26); }
 
 .clyde {
   background-color: orange; }
+  .clyde::after {
+    background: linear-gradient(-45deg, transparent 75%, orange 90%, transparent 75%) 0 50%, linear-gradient(45deg, transparent 75%, orange 90%, transparent 75%) 0 50%;
+    background-size: calc( 30px * 0.26) calc( 30px * 0.26), calc( 30px * 0.26) calc( 30px * 0.26); }
 
 .ghost-moving {
   animation: ghost-up-down-moving 0.5s infinite; }
