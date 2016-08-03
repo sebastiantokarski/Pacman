@@ -57,6 +57,7 @@
     height: $ghostSize;
     border-radius: 100em 100em 0 0;
     margin: 0.2% 0 0 1.2%;
+    transition: top 600ms, left 600ms;
     &::before {
         position: absolute;
         content: ' ';

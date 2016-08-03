@@ -465,7 +465,7 @@ class GhostElem {
             
             parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
             
-        }, 500);
+        }, 300);
     }
     
     
