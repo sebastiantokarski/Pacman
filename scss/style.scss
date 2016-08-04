@@ -17,7 +17,7 @@
     width: $pacmanSize;
     height: $pacmanSize;
     margin: 0.5% 0 0 0.5%;
-    transition: top 100ms, left 100ms;
+    transition: top 250ms, left 250ms;
     .pacman-top, .pacman-bottom {
         position: absolute; //
         width: 100%;

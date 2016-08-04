@@ -88,6 +88,7 @@ class PacmanElem {
         this.pTop = [];
         this.pBottom = [];
         this.isKeyAvailable = true;
+        this.direction = 37 // Default direction - go left
     }
     
     addToMap() {
@@ -114,68 +115,43 @@ class PacmanElem {
         newPacman.style.top = (parentThis.position[0] * parentThis.game.step) + 'px';
         newPacman.style.left = (parentThis.position[1] * parentThis.game.step) + 'px';
         
-        // Default pacman turn
-        this.pTop.style.animation = 'right-eating-top 0.5s infinite';
-        this.pBottom.style.animation = 'right-eating-bottom 0.5s infinite';
         
         
         this.top = this.pacman.style.top;
-        var direction = [38, 0]; // [OLD DIRECTION, CURRENT DIRECTION]
-        // If the key is pressed, check which arrow
-        document.addEventListener('keydown', function (event) {
-            direction[1] = event.keyCode;
-            if(parentThis.isKeyAvailable) {
-                switch (event.keyCode) {
-                    case 37: 
-                        // TURN LEFT
-                        parentThis.turn(event.keyCode);
-                        // GO LEFT
-                        newPacman.style.left = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
-                        // EAT FOOD AND BONUSES
-                        parentThis.eat();
-                        break;
-                    case 38: 
-                        // TURN TOP
-                        parentThis.turn(event.keyCode);
-                        // GO TOP
-                        newPacman.style.top = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
-                        // EAT FOOD AND BONUSES
-                        parentThis.eat();
-                        break;
-                    case 39: 
-                        // TURN RIGHT
-                        parentThis.turn(event.keyCode);
-                        // GO RIGHT
-                        newPacman.style.left = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
-                        // EAT FOOD AND BONUSES
-                        parentThis.eat();
-                        break;
-                    case 40: 
-                        // TURN DOWN 
-                        parentThis.turn(event.keyCode);
-                        // GO DOWN
-                        newPacman.style.top = parentThis.go(event.keyCode, parentThis.position[0], parentThis.position[1]);
-                        // EAT FOOD AND BONUSES
-                        parentThis.eat();
-                        break;
-                }  
-            }
-            
-            parentThis.isKeyAvailable = false;
-            parentThis.checkKey(direction);
-            direction[0] = event.keyCode;
-        });
         
+        // Pacman moving 250ms by tile
+        var pacmanMoving = setInterval(function() {
+            parentThis.checkKeydown(); // If the key is pressed, check which arrow
+            parentThis.turn(parentThis.direction); // Turn pacman if direction has changed
+            switch(parentThis.direction) {
+                case 37: newPacman.style.left = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
+                case 38: newPacman.style.top = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
+                case 39: newPacman.style.left = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
+                case 40: newPacman.style.top = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
+            }
+            parentThis.eat();
+        }, 250);
+        
+        
+      
+        
+    } // End of class
+    
+    
+    checkKeydown() {
+        var parentThis = this;
+        document.addEventListener('keydown', function (event) {
+            switch(event.keyCode) {
+                case 37: parentThis.direction = event.keyCode; break;
+                case 38: parentThis.direction = event.keyCode; break;
+                case 39: parentThis.direction = event.keyCode; break;
+                case 40: parentThis.direction = event.keyCode; break;
+            }
+            event.target.removeEventListener(event.type, arguments.calle);
+        });
     }
     
-    checkKey(direction) {
-        if(direction[0] === direction[1]) {
-        } 
-        this.isKeyAvailable = true;
-    }
-    
-    
-    
+    // Eat food and bonuses and increase game points
     eat() {
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'food' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('food');
@@ -184,17 +160,19 @@ class PacmanElem {
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'bonus' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
             
+            // eatBonus call
             this.eatBonus(this.ghost.pinky, this.ghost.inky, this.ghost.blinky, this.ghost.clyde);
         }
     }
     
+    // 5 sec Frightened mode after pacman ate bonus
     eatBonus() {
+        var parentThis = this;
         var array = Array.from(arguments);
         array.forEach(function (element) {
             element.classList.add('ghost-catched');
             element.classList.remove('pinky', 'inky', 'blinky', 'clyde');
         });
-        var parentThis = this;
         setTimeout(function () {
                 array.forEach(function (element) {
                     element.classList.remove('ghost-catched');
@@ -209,20 +187,20 @@ class PacmanElem {
     turn(direction) {
         switch (direction) {
             case 37:
-                this.pTop.style.animation = 'left-eating-top 0.5s infinite';
-                this.pBottom.style.animation = 'left-eating-bottom 0.5s infinite';
+                this.pTop.style.animation = 'left-eating-top 0.3s infinite';
+                this.pBottom.style.animation = 'left-eating-bottom 0.3s infinite';
                 break;
             case 38:
-                this.pTop.style.animation = 'top-eating-top 0.5s infinite';
-                this.pBottom.style.animation = 'top-eating-bottom 0.5s infinite';
+                this.pTop.style.animation = 'top-eating-top 0.3s infinite';
+                this.pBottom.style.animation = 'top-eating-bottom 0.3s infinite';
                 break;
             case 39:
-                this.pTop.style.animation = 'right-eating-top 0.5s infinite';
-                this.pBottom.style.animation = 'right-eating-bottom 0.5s infinite';
+                this.pTop.style.animation = 'right-eating-top 0.3s infinite';
+                this.pBottom.style.animation = 'right-eating-bottom 0.3s infinite';
                 break;
             case 40:
-                this.pTop.style.animation = 'down-eating-top 0.5s infinite';
-                this.pBottom.style.animation = 'down-eating-bottom 0.5s infinite';
+                this.pTop.style.animation = 'down-eating-top 0.3s infinite';
+                this.pBottom.style.animation = 'down-eating-bottom 0.3s infinite';
                 break;
         }
     }
@@ -377,10 +355,9 @@ class GhostElem {
     ghostEat() {
         var array = Array.from(arguments);
         var parentThis = this;
-        console.log(this.pacman.position);
         array.forEach(function(element) {
             if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
-                console.log('GAME OVER');
+                //console.log('GAME OVER');
                 clearInterval(parentThis.movingInterval); // doesnt work
             }
         })
@@ -392,7 +369,7 @@ class GhostElem {
         var direction = Math.floor(Math.random() * 4);
         var movingInterval = setInterval(function() {
             if (inter[pos[0]].indexOf(pos[1]) >= 0) {
-                console.log('SKRZYŻOWANIE');
+                //console.log('SKRZYŻOWANIE');
             }
             switch (direction) {
                 case 0: // LEFT
