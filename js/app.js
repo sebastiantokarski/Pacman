@@ -89,6 +89,7 @@ class PacmanElem {
         this.pBottom = [];
         this.isKeyAvailable = true;
         this.direction = 37 // Default direction - go left
+        this.speed = 250;
     }
     
     addToMap() {
@@ -121,7 +122,8 @@ class PacmanElem {
         
         // Pacman moving 250ms by tile
         var pacmanMoving = setInterval(function() {
-            parentThis.checkKeydown(); // If the key is pressed, check which arrow
+            /*parentThis.checkKeydown();*/ // If the key is pressed, check which arrow
+            parentThis.addEventListenerOnce(document, 'keydown');
             parentThis.turn(parentThis.direction); // Turn pacman if direction has changed
             switch(parentThis.direction) {
                 case 37: newPacman.style.left = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
@@ -130,25 +132,26 @@ class PacmanElem {
                 case 40: newPacman.style.top = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
             }
             parentThis.eat();
-        }, 250);
+        }, this.speed);
         
         
       
         
     } // End of class
     
-    
-    checkKeydown() {
+    // One time keydown event
+    addEventListenerOnce(element, event) {
         var parentThis = this;
-        document.addEventListener('keydown', function (event) {
-            switch(event.keyCode) {
-                case 37: parentThis.direction = event.keyCode; break;
-                case 38: parentThis.direction = event.keyCode; break;
-                case 39: parentThis.direction = event.keyCode; break;
-                case 40: parentThis.direction = event.keyCode; break;
+        var func = function (e) {
+            element.removeEventListener(event, func);
+            switch(e.keyCode) {
+                case 37: parentThis.direction = e.keyCode; break;
+                case 38: parentThis.direction = e.keyCode; break;
+                case 39: parentThis.direction = e.keyCode; break;
+                case 40: parentThis.direction = e.keyCode; break;
             }
-            event.target.removeEventListener(event.type, arguments.calle);
-        });
+        };
+        element.addEventListener(event, func);
     }
     
     // Eat food and bonuses and increase game points
@@ -165,6 +168,20 @@ class PacmanElem {
         }
     }
     
+    eatGhost() {
+        console.log(this.position);
+        console.log('Pinky ' + this.ghost.pinkyPos);
+        console.log('Inky ' + this.ghost.inkyPos);
+        console.log('blinky ' + this.ghost.blinkyPos);
+        if (this.position == this.ghost.pinkyPos) {
+            this.ghost.pinky.classList.add('ghost-eaten');
+        } else if (this.position == this.ghost.inkyPos) {
+            this.ghost.pinky.classList.add('ghost-eaten');
+        } else if (this.position == this.ghost.blinkyPos) {
+            this.ghost.pinky.classList.add('ghost-eaten');
+        }
+    }
+    
     // 5 sec Frightened mode after pacman ate bonus
     eatBonus() {
         var parentThis = this;
@@ -173,6 +190,8 @@ class PacmanElem {
             element.classList.add('ghost-catched');
             element.classList.remove('pinky', 'inky', 'blinky', 'clyde');
         });
+        
+        this.eatGhost();
         setTimeout(function () {
                 array.forEach(function (element) {
                     element.classList.remove('ghost-catched');
