@@ -28,7 +28,7 @@ table {
 td {
     width: 35px;
     height: 35px;
-    border: 1px dotted red
+    border: 1px dotted red;
 }
 
 .food {
@@ -56,4 +56,8 @@ td {
         border-radius: 50%;
         background-color: $bonusColor;
     }
+}
+
+.intersection {
+    background-color: limegreen;
 }

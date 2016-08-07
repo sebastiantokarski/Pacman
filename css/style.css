@@ -139,6 +139,9 @@ td {
   border-radius: 50%;
   background-color: red; }
 
+.intersection {
+  background-color: limegreen; }
+
 * {
   margin: 0;
   padding: 0;
