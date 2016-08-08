@@ -130,6 +130,7 @@ class PacmanElem {
         
         // Pacman moving 250ms by tile
         var pacmanMoving = setInterval(function() {
+            newPacman.style.transition = 'top 400ms, left 400ms';
             /*parentThis.checkKeydown();*/ // If the key is pressed, check which arrow
             parentThis.addEventListenerOnce(document, 'keydown');
             parentThis.turn(parentThis.direction); // Turn pacman if direction has changed
@@ -139,11 +140,13 @@ class PacmanElem {
                 case 39: newPacman.style.left = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
                 case 40: newPacman.style.top = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
             }
+            
             parentThis.eat();
             //console.log(parentThis.game.frightenedMode);
             if (parentThis.game.frightenedMode) {
                 parentThis.eatGhost();
             }
+            
         }, this.speed);
         
         
@@ -244,6 +247,8 @@ class PacmanElem {
         case 37:
             // Sprawdź czy pacman jest w tunelu i chce przejść na drugą stonę
             if (rowPos === 7 && columnPos === 0) {
+                this.pacman.style.transition = 'top 0ms, left 0ms';
+                console.log(this.pacman.style.transition);
                 this.position[1] = 16;
                 return this.position[1] * this.game.step + 'px';
             }
@@ -259,6 +264,7 @@ class PacmanElem {
         case 39:
             // Sprawdź czy pacman jest w tunelu i chce przejść na drugą stonę
             if (rowPos === 7 && columnPos === 16) {
+                this.pacman.style.transition = 'top 0ms, left 0ms';
                 this.position[1] = 0;
                 return this.position[1] * this.game.step + 'px';
             }
@@ -395,6 +401,7 @@ class GhostElem {
         var parentThis = this;
         var speed = 250;
         setInterval(function() {
+            ghost.style.transition = 'top 600ms, left 600ms';
             if(parentThis.frightenedMode) speed = 800;
             switch(true) {
                 case parentThis.game.chaseMode: 
@@ -462,10 +469,10 @@ class GhostElem {
     nextTile(direction, pos, wall, ghost) {
         // If there is a wall or board is ending, break and return false
         switch (direction[1]) {
-            case 37: if (pos[0] === 7 && pos[1] === 0) pos[1] = 16;
+            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 16; ghost.style.transition = 'top 0ms, left 0ms';}
                      if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) return true; break; // Left
             case 38: if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) return true; break; // Up
-            case 39: if (pos[0] === 7 && pos[1] === 16) pos[1] = 0;
+            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = 0; ghost.style.transition = 'top 0ms, left 0ms';}
                      if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) return true; break; // Right
             case 40: if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) return true; break; // Down
         }

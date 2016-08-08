@@ -94,7 +94,8 @@
 }*/
 body {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  align-items: center; }
 
 .pom {
   list-style: none;
@@ -114,7 +115,8 @@ aside {
   position: relative;
   margin: 0 auto;
   border: 13px double black;
-  max-width: 623px; }
+  max-width: 623px;
+  max-height: 623px; }
 
 table {
   position: relative;

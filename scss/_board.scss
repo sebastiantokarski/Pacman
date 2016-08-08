@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .pom {
@@ -25,6 +26,7 @@ aside {
     margin: 0 auto;
     border: 13px double $tableBorderColor;
     max-width: 623px;
+    max-height: 623px;
 }
 
 table {
