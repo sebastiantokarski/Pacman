@@ -1,7 +1,7 @@
 /* jshint browser: true */
 // Game Pacman class
 class PacmanGame {
-    
+
     // Objects variables
     constructor(wallArray, foodArray, bonusArray) {
         this.wallArray = wallArray;
@@ -19,37 +19,37 @@ class PacmanGame {
         this.chaseMode = false;
         this.scatterMode = true;
     }
-    
+
     // Create map with all stuff
     createMap() {
         var container = document.createElement('div');
         var aside = document.createElement('aside');
         var table = document.createElement('table');
         container.classList.add('container');
-        
-        
+
+
         this.addTiles(table); // In function this.table = table
-        
+
         this.rows = this.table.getElementsByTagName('tr');
         this.tiles = this.table.getElementsByTagName('td');
-        
-       
-        // Add elements to the table such as walls, food, bonuses 
+
+
+        // Add elements to the table such as walls, food, bonuses
         this.addElemsToMap();
-       
+
         // Add table to container, container to DOM
         document.querySelector('body').appendChild(aside);
         container.appendChild(this.table);
         document.querySelector('body').appendChild(container);
         this.container = container;
-        
+
         // Check one step length
         this.step = this.rows[0].children[0].clientWidth + 1; // !!!!!!!! STEP = CELL.WIDTH + 1 Obramowanie
-        
+
         // Return map
         return this.table;
     }
-    
+
     // Add rows and cells to the table with data x and y (row index, column index)
     addTiles(table) {
         for (var i = 0; i < 17; i++) {
@@ -60,9 +60,9 @@ class PacmanGame {
                 row.children[j].dataset.y = i;
             }
         }
-        this.table = table; 
+        this.table = table;
     }
-    
+
     addElems(rows, array, clas) {
         for (var i = 0; i < array.length; i++) {
             for (var j = 0; j < array[i].length; j++) {
@@ -70,16 +70,16 @@ class PacmanGame {
             }
         }
     }
-    
+
     addElemsToMap() {
         this.addElems(this.rows, this.wallArray, 'wall');
         this.addElems(this.rows, this.foodArray, 'food');
         this.addElems(this.rows, this.bonusArray, 'bonus');
         this.addElems(this.rows, this.intersectionArray, 'intersection');
     }
-    
-    
-    
+
+
+
     turnRight(positionX, positionY) {}
 }
 
@@ -87,7 +87,7 @@ class PacmanGame {
 
 
 class PacmanElem {
-    
+
     constructor(game, ghost) {
         this.game = game;
         this.ghost = ghost;
@@ -99,9 +99,9 @@ class PacmanElem {
         this.direction = 37; // Default direction - go left
         this.speed = 250;
     }
-    
+
     addToMap() {
-            
+
         // Create div with pacman and add it to main container
         var newPacman = document.createElement('div');
         var pTop = document.createElement('div');
@@ -115,19 +115,19 @@ class PacmanElem {
         this.pTop = pTop;
         this.pBottom = pBottom;
         this.pacman = newPacman;
-        
+
         console.log(this.ghost);
-        
+
         var parentThis = this;
-        
+
         // Default start pacman position
         newPacman.style.top = (parentThis.position[0] * parentThis.game.step) + 'px';
         newPacman.style.left = (parentThis.position[1] * parentThis.game.step) + 'px';
-        
-        
-        
+
+
+
         this.top = this.pacman.style.top;
-        
+
         // Pacman moving 250ms by tile
         var pacmanMoving = setInterval(function() {
             newPacman.style.transition = 'top 400ms, left 400ms';
@@ -140,20 +140,20 @@ class PacmanElem {
                 case 39: newPacman.style.left = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
                 case 40: newPacman.style.top = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
             }
-            
+
             parentThis.eat();
             //console.log(parentThis.game.frightenedMode);
             if (parentThis.game.frightenedMode) {
                 parentThis.eatGhost();
             }
-            
+
         }, this.speed);
-        
-        
-      
-        
+
+
+
+
     } // End of class
-    
+
     // One time keydown event
     addEventListenerOnce(element, event) {
         var parentThis = this;
@@ -168,7 +168,7 @@ class PacmanElem {
         };
         element.addEventListener(event, func);
     }
-    
+
     // Eat food and bonuses and increase game points
     eat() {
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'food' + ' ' ) > - 1) {
@@ -177,25 +177,25 @@ class PacmanElem {
         }
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'bonus' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
-            
+
             // eatBonus call
             this.eatBonus(this.ghost.pinky, this.ghost.inky, this.ghost.blinky, this.ghost.clyde);
         }
     }
-    
+
     // When pacman ate ghost, show only his eyes
     eatGhost() {
-        if (this.position[0] == this.ghost.pinkyPos[0] && this.position[1] == this.ghost.pinkyPos[1]) {
+        if (this.position[0] === this.ghost.pinkyPos[0] && this.position[1] === this.ghost.pinkyPos[1]) {
             this.ghost.pinky.classList.add('ghost-eaten');
-        } else if (this.position[0] == this.ghost.inkyPos[0] && this.position[1] == this.ghost.inkyPos[1]) {
+        } else if (this.position[0] === this.ghost.inkyPos[0] && this.position[1] === this.ghost.inkyPos[1]) {
             this.ghost.inky.classList.add('ghost-eaten');
-        } else if (this.position[0] == this.ghost.blinkyPos[0] && this.position[1] == this.ghost.blinkyPos[1]) {
+        } else if (this.position[0] === this.ghost.blinkyPos[0] && this.position[1] === this.ghost.blinkyPos[1]) {
             this.ghost.blinky.classList.add('ghost-eaten');
-        } else if (this.position[0] == this.ghost.clydePos[0] && this.position[1] == this.ghost.clydePos[1]) {
+        } else if (this.position[0] === this.ghost.clydePos[0] && this.position[1] === this.ghost.clydePos[1]) {
             this.ghost.clyde.classList.add('ghost-eaten');
         }
     }
-    
+
     // 5 sec Frightened mode after pacman ate bonus
     eatBonus() {
         this.game.frightenedMode = true;
@@ -206,7 +206,7 @@ class PacmanElem {
             element.classList.add('ghost-catched');
             element.classList.remove('pinky', 'inky', 'blinky', 'clyde');
         });
-        
+
         this.eatGhost();
         setTimeout(function () {
                 array.forEach(function (element) {
@@ -220,7 +220,7 @@ class PacmanElem {
                 parentThis.game.frightenedMode = false;
         }, 5000);
     }
-    
+
     turn(direction) {
         switch (direction) {
             case 37:
@@ -241,7 +241,7 @@ class PacmanElem {
                 break;
         }
     }
-    
+
     go(direction, rowPos, columnPos) {
         switch (direction) {
         case 37:
@@ -279,8 +279,8 @@ class PacmanElem {
             return this.position[0] * this.game.step + 'px';
         }
     }
-    
-   
+
+
 }
 
 
@@ -289,7 +289,7 @@ class PacmanElem {
 
 // GHOST //
 class GhostElem {
-    
+
     constructor(game) {
         this.game = game;
         this.pinky = []; // Pink ghost
@@ -307,7 +307,7 @@ class GhostElem {
         this.pacman = [];
         this.speed = 250;
     }
-    
+
     addToMap() {
         /*var wrapper = document.createElement('div');*/
         var newGhost = document.createElement('div');
@@ -316,7 +316,7 @@ class GhostElem {
         var mouth = document.createElement('div');
         var iris = document.createElement('div');
         var iris1 = document.createElement('div');
-        
+
         /*wrapper.classList.add('ghost-wrapper');
         wrapper.appendChild(newGhost);*/
         newGhost.classList.add('ghost');
@@ -331,92 +331,125 @@ class GhostElem {
         iris1.classList.add('iris');
         eye1.appendChild(iris1);
         this.game.container.appendChild(newGhost); // wrapper
-        
+
         this.pinky = newGhost.cloneNode(true);
         this.pinky.style.top = '263px';
         this.pinky.style.left = '228px';
         this.pinky.classList.add('pinky');
         this.game.container.appendChild(this.pinky);
-        
+
         this.inky = newGhost.cloneNode(true);
         this.inky.style.top = '263px';
         this.inky.style.left = '263px';
         this.inky.classList.add('inky');
         this.game.container.appendChild(this.inky);
-        
+
         this.blinky = newGhost.cloneNode(true);
         this.blinky.style.top = '263px';
         this.blinky.style.left = '298px';
         this.blinky.classList.add('blinky');
         this.game.container.appendChild(this.blinky);
-        
+
         newGhost.classList.add('clyde');
         this.clyde = newGhost;
         this.clyde.style.top = '263px';
         this.clyde.style.left = '333px';
-        
+
         // MOVING UP AND DOWN AT THE BEGINNING OF THE GAME
         this.clyde.classList.add('ghost-moving');
         this.pinky.classList.add('ghost-moving');
         this.blinky.classList.add('ghost-moving');
         this.inky.classList.add('ghost-moving');
-        
+
         var parentThis = this;
-        
-        
-        
+
+
+
         var startPinky = setTimeout(function () {
             ghostsStart(parentThis.pinky, parentThis.pinkyPos);
             parentThis.moving(parentThis.pinky, parentThis.pinkyPos, parentThis.pinkyDirection);
         }, 10);
-        
+
         var startInky = setTimeout(function () {
             ghostsStart(parentThis.inky, parentThis.inkyPos);
-            parentThis.moving(parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection); 
+            parentThis.moving(parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection);
         }, 1000);
-        
+
         var startBlinky = setTimeout(function () {
             ghostsStart(parentThis.blinky, parentThis.blinkyPos);
             parentThis.moving(parentThis.blinky, parentThis.blinkyPos, parentThis.blinkyDirection);
         }, 2500);
-        
+
         var startClyde = setTimeout(function () {
             ghostsStart(parentThis.clyde, parentThis.clydePos);
             parentThis.moving(parentThis.clyde, parentThis.clydePos, parentThis.clydeDirection);
         }, 4000);
-        
+
         function ghostsStart(ghost, pos) {
             ghost.classList.remove('ghost-moving');
             ghost.style.top = pos[0] * parentThis.game.step + 'px';
             ghost.style.left = pos[1] * parentThis.game.step + 'px';
         }
-    
+
     }
-    
+
     addPacman(pacman) {
         this.pacman = pacman;
     }
-    
+
     moving(ghost, pos, direction) {
         var parentThis = this;
-        var speed = 250;
+        var speed = 800;
         setInterval(function() {
             ghost.style.transition = 'top 600ms, left 600ms';
             if(parentThis.frightenedMode) speed = 800;
+
+            // If ghost has been eaten, go to home to respawn
+            if(ghost.classList.contains('ghost-eaten')) {
+                parentThis.goToHome(ghost, pos, direction);
+            }
             switch(true) {
-                case parentThis.game.chaseMode: 
-                    console.log('chaseMode'); 
+                case parentThis.game.chaseMode:
+                    console.log('chaseMode');
                     break;
-                case parentThis.game.frightenedMode: 
-                    parentThis.frightenedMoving(ghost, pos, direction); 
+                case parentThis.game.frightenedMode:
+                    parentThis.frightenedMoving(ghost, pos, direction);
                     break;
                 case parentThis.game.scatterMode:
-                    parentThis.scatterMoving(ghost, pos, direction); 
+                    parentThis.scatterMoving(ghost, pos, direction);
                     break;
             }
+
         }, speed);
     }
-    
+
+    goToHome(ghost, pos, direction) {
+        if(this.nextIntersection(direction, pos, this.game.intersectionArray)) {
+            var fakePos = [0, 0];
+            for (var i = 37; i < 41; i++) {
+                var j = [0, i];
+
+                switch(direction[1]) {
+                    case 37: fakePos[1] = pos[1] - 1; break;
+                    case 38: fakePos[0] = pos[0] - 1; break;
+                    case 39: fakePos[1] = pos[1] + 1; break;
+                    case 40: fakePos[0] = pos[0] + 1; break;
+                }
+
+                if(this.nextTile(j, fakePos, this.game.wallArray, ghost)) {
+                    console.log(fakePos);
+                    switch(j[1]) {
+                        case 37: console.log('WOLNE LEWO'); break;
+                        case 38: console.log('WOLNA GORA'); break;
+                        case 39: console.log('WOLNE PRAWO'); break;
+                        case 40: console.log('WOLNY DOL'); break;
+                    }
+                }
+            }
+
+        }
+    }
+
     // Ghost movement when they are in scatter Mode
     scatterMoving(ghost, pos, direction) {
         // While on the next tile is wall or board is ending, change direction
@@ -431,6 +464,8 @@ class GhostElem {
         if (this.nextIntersection(direction, pos, this.game.intersectionArray)) {
             // Go to the next tile
             this.go(ghost, pos, this.game.wallArray, direction);
+            // Save old direction
+            direction[0] = direction[1];
             // Change direction
             direction[1] = (Math.floor(Math.random() * 4) + 37);
             // While on the next tile is wall or board is ending, change direction
@@ -441,7 +476,7 @@ class GhostElem {
             while (Math.abs(direction[0] - direction[1]) === 2) {
                 direction[1] = (Math.floor(Math.random() * 4) + 37);
             }
-        }
+      }
         else {
             // Go to appointed direction
             this.go(ghost, pos, this.game.wallArray, direction);
@@ -449,11 +484,11 @@ class GhostElem {
         // Save old direction
         direction[0] = direction[1];
     }
-    
+
     frightenedMoving(ghost, pos, direction) {
         this.scatterMoving(ghost, pos, direction);
     }
-    
+
     // Check next tile, if there is intersection RETURN TRUE
     nextIntersection(direction, pos, inter) {
         switch (direction[1]) {
@@ -464,7 +499,7 @@ class GhostElem {
         }
         return false;
     }
-    
+
     // Check next tile, if there is no wall and tile is on board RETURN TRUE
     nextTile(direction, pos, wall, ghost) {
         // If there is a wall or board is ending, break and return false
@@ -478,7 +513,7 @@ class GhostElem {
         }
         return false;
     }
-    
+
     go(ghost, pos, wall, direction) {
         switch (direction[1]) {
             case 37: pos[1]--; ghost.style.left = this.game.step * pos[1] + 'px'; break; // Left
@@ -487,13 +522,13 @@ class GhostElem {
             case 40: pos[0]++; ghost.style.top = this.game.step * pos[0] + 'px'; break; // Down
         }
     }
-    
+
     doNotReverse() {
         while (Math.abs(this.direction[0] - this.direction[1]) === 2) {
             this.direction[1] = (Math.floor(Math.random() * 4) + 37);
         }
     }
-    
+
     ghostEat() {
         var array = Array.from(arguments);
         var parentThis = this;
@@ -504,27 +539,27 @@ class GhostElem {
             }
         });
     }
-    
-   
+
+
 }
 
 
 /*====================== DOMContentLoaded ======================*/
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     var newGame = new PacmanGame(wallArray, foodArray, bonusArray);
-   
+
     newGame.createMap();
-   
-    
+
+
     var ghost = new GhostElem(newGame);
     var pacman = new PacmanElem(newGame, ghost);
     pacman.addToMap();
     ghost.addPacman(pacman);
-    
+
     ghost.addToMap();
-    
-    
+
+
 });
 
 
@@ -564,7 +599,7 @@ var foodArray = [
     [3, 13], // Row 7
     [3, 13], // Row 8
     [3, 13], // Row 9
-    [0, 1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 16], // Row 10 
+    [0, 1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 16], // Row 10
     [0, 3, 4, 5, 6, 7, 9,10 ,11 ,12, 13, 16], // Row 11
     [0, 1, 3, 7, 9, 13, 15, 16], // Row 12
     [1, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 15], // Row 13
@@ -584,7 +619,7 @@ var bonusArray = [
     [], // Row 7
     [], // Row 8
     [], // Row 9
-    [], // Row 10 
+    [], // Row 10
     [], // Row 11
     [0, 16], // Row 12
     [], // Row 13
@@ -604,7 +639,7 @@ var intersection = [
     [3, 5, 11, 13], // Row 7
     [], // Row 8
     [5, 11], // Row 9
-    [], // Row 10 
+    [], // Row 10
     [3, 5, 11, 13], // Row 11
     [], // Row 12
     [3, 5, 11, 13], // Row 13
@@ -624,7 +659,7 @@ var intersection1 = [
     [], // Row 7
     [], // Row 8
     [], // Row 9
-    [], // Row 10 
+    [], // Row 10
     [], // Row 11
     [], // Row 12
     [7, 9], // Row 13
