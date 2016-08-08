@@ -403,40 +403,38 @@ class GhostElem {
     // Ghost movement when they are in scatter Mode
     scatterMoving(ghost, pos) {
         var parentThis = this;
-        var movingInterval = setInterval(function() {
-                console.log(parentThis.direction[0] + ' ' + parentThis.direction[1]);
+        var movingInterval = setInterval(function () {
+            
+            // While on the next tile is wall or board is ending, change direction
+            while (!parentThis.nextTile(parentThis.direction, pos, parentThis.game.wallArray)) {
+                parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+                // While you want reverse, change direction
+                while (Math.abs(parentThis.direction[0] - parentThis.direction[1]) === 2) {
+                    parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+                }
+            }
+            
+            // If the next tile is intersection
+            if (parentThis.nextIntersection(parentThis.direction, pos, parentThis.game.intersectionArray)) {
+                // Go to the next tile
+                parentThis.go(ghost, pos, parentThis.game.wallArray, parentThis.direction);
+                // Change direction
+                parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
                 // While on the next tile is wall or board is ending, change direction
                 while (!parentThis.nextTile(parentThis.direction, pos, parentThis.game.wallArray)) {
                     parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
-                    while (Math.abs(parentThis.direction[0] - parentThis.direction[1]) === 2) {
-                        parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
-                    }
                 }
-            // Save old direction
-                parentThis.direction[0] = parentThis.direction[1];
-                if (parentThis.nextIntersection(parentThis.direction, pos, parentThis.game.intersectionArray)) {
-                    parentThis.go(ghost, pos, parentThis.game.wallArray, parentThis.direction);
-                    
+                console.log(parentThis.direction[0] + ' ' + parentThis.direction[1]);
+                // While you want reverse, change direction
+                while (Math.abs(parentThis.direction[0] - parentThis.direction[1]) === 2) {
                     parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
-                    while (!parentThis.nextTile(parentThis.direction, pos, parentThis.game.wallArray)) {
-                        parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
-                        console.log('Zwolnienie blokady losującej');
-                        while (Math.abs(parentThis.direction[0] - parentThis.direction[1]) === 2) {
-                            parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
-                            console.log('Nie zawraca gurwa mac');
-                        }
-                    }
-                    
-                } else {
-                    console.log('POLE');
-                    // Go to appointed direction
-                    parentThis.go(ghost, pos, parentThis.game.wallArray, parentThis.direction);
                 }
-                
-                
-                
-                
-            /*}*/
+            } else {
+                // Go to appointed direction
+                parentThis.go(ghost, pos, parentThis.game.wallArray, parentThis.direction);
+            }
+            // Save old direction
+            parentThis.direction[0] = parentThis.direction[1];
         }, 250);
     }
     // Check next tile, if there is intersection RETURN TRUE
@@ -470,6 +468,12 @@ class GhostElem {
             case 38: pos[0]--; ghost.style.top = this.game.step * pos[0] + 'px'; break; // Up
             case 39: pos[1]++; ghost.style.left = this.game.step * pos[1] + 'px'; break; // Right
             case 40: pos[0]++; ghost.style.top = this.game.step * pos[0] + 'px'; break; // Down
+        }
+    }
+    
+    doNotReverse() {
+        while (Math.abs(this.direction[0] - this.direction[1]) === 2) {
+            this.direction[1] = (Math.floor(Math.random() * 4) + 37);
         }
     }
     
