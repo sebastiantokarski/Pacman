@@ -283,14 +283,18 @@ class GhostElem {
         this.game = game;
         this.pinky = []; // Pink ghost
         this.pinkyPos = [6, 8];
+        this.pinkyDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.inky = []; // Blue ghost
         this.inkyPos = [6, 8];
+        this.inkyDirection = [39, 39]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.blinky = []; // Red ghost
         this.blinkyPos = [6, 8];
+        this.blinkyDirection = [38, 38]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.clyde = []; // Orange ghost
         this.clydePos = [6, 8];
+        this.clydeDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.pacman = [];
-        this.direction = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
+        
     }
     
     addToMap() {
@@ -355,24 +359,37 @@ class GhostElem {
             switch(true) {
                 case parentThis.game.chaseMode: console.log('chaseMode'); break;
                 case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
-                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.pinky, parentThis.pinkyPos); break;
+                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.pinky, parentThis.pinkyPos, parentThis.pinkyDirection);
+                break;
             }
-            /*parentThis.moving(parentThis.pinky, parentThis.pinkyPos, parentThis.game.wallArray, parentThis.game.intersection);*/
         }, 1000);
         
         var startInky = setTimeout(function () {
             ghostsStart(parentThis.inky, parentThis.inkyPos);
-            /*parentThis.moving(parentThis.inky, parentThis.inkyPos, parentThis.game.wallArray, parentThis.game.intersection);*/
+            switch(true) {
+                case parentThis.game.chaseMode: console.log('chaseMode'); break;
+                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
+                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection); 
+                break;
+            }
         }, 2000);
         
         var startBlinky = setTimeout(function () {
             ghostsStart(parentThis.blinky, parentThis.blinkyPos);
-            /*parentThis.moving(parentThis.blinky, parentThis.blinkyPos, parentThis.game.wallArray, parentThis.game.intersection);*/
+            switch(true) {
+                case parentThis.game.chaseMode: console.log('chaseMode'); break;
+                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
+                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.blinky, parentThis.blinkyPos, parentThis.blinkyDirection); break;
+            }
         }, 4000);
         
         var startClyde = setTimeout(function () {
             ghostsStart(parentThis.clyde, parentThis.clydePos);
-            /*parentThis.moving(parentThis.clyde, parentThis.clydePos, parentThis.game.wallArray, parentThis.game.intersection);*/
+            switch(true) {
+                case parentThis.game.chaseMode: console.log('chaseMode'); break;
+                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
+                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.clyde, parentThis.clydePos, parentThis.clydeDirection); break;
+            }
         }, 6000);
         
         function ghostsStart(ghost, pos) {
@@ -401,41 +418,41 @@ class GhostElem {
     // && Math.abs(parentThis.direction[0] - parentThis.direction[1]) !== 2 
     
     // Ghost movement when they are in scatter Mode
-    scatterMoving(ghost, pos) {
+    scatterMoving(ghost, pos, direction) {
         var parentThis = this;
         var movingInterval = setInterval(function () {
             
             // While on the next tile is wall or board is ending, change direction
-            while (!parentThis.nextTile(parentThis.direction, pos, parentThis.game.wallArray)) {
-                parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+            while (!parentThis.nextTile(direction, pos, parentThis.game.wallArray)) {
+                direction[1] = (Math.floor(Math.random() * 4) + 37);
                 // While you want reverse, change direction
-                while (Math.abs(parentThis.direction[0] - parentThis.direction[1]) === 2) {
-                    parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+                while (Math.abs(direction[0] - direction[1]) === 2) {
+                    direction[1] = (Math.floor(Math.random() * 4) + 37);
                 }
             }
             
             // If the next tile is intersection
-            if (parentThis.nextIntersection(parentThis.direction, pos, parentThis.game.intersectionArray)) {
+            if (parentThis.nextIntersection(direction, pos, parentThis.game.intersectionArray)) {
                 // Go to the next tile
-                parentThis.go(ghost, pos, parentThis.game.wallArray, parentThis.direction);
+                parentThis.go(ghost, pos, parentThis.game.wallArray, direction);
                 // Change direction
-                parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+                direction[1] = (Math.floor(Math.random() * 4) + 37);
                 // While on the next tile is wall or board is ending, change direction
-                while (!parentThis.nextTile(parentThis.direction, pos, parentThis.game.wallArray)) {
-                    parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+                while (!parentThis.nextTile(direction, pos, parentThis.game.wallArray)) {
+                    direction[1] = (Math.floor(Math.random() * 4) + 37);
                 }
-                console.log(parentThis.direction[0] + ' ' + parentThis.direction[1]);
+                console.log(direction[0] + ' ' + direction[1]);
                 // While you want reverse, change direction
-                while (Math.abs(parentThis.direction[0] - parentThis.direction[1]) === 2) {
-                    parentThis.direction[1] = (Math.floor(Math.random() * 4) + 37);
+                while (Math.abs(direction[0] - direction[1]) === 2) {
+                    direction[1] = (Math.floor(Math.random() * 4) + 37);
                 }
             } else {
                 // Go to appointed direction
-                parentThis.go(ghost, pos, parentThis.game.wallArray, parentThis.direction);
+                parentThis.go(ghost, pos, parentThis.game.wallArray, direction);
             }
             // Save old direction
-            parentThis.direction[0] = parentThis.direction[1];
-        }, 250);
+            direction[0] = direction[1];
+        }, 1250);
     }
     // Check next tile, if there is intersection RETURN TRUE
     nextIntersection(direction, pos, inter) {

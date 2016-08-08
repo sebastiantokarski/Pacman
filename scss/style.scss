@@ -42,8 +42,8 @@
 
 /*================================== GHOST ==================================*/
 @mixin gradient($color1, $size1, $transparent1) {
-    background: linear-gradient(-45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%,
-                linear-gradient( 45deg, transparent 75%, $color1 90%, transparent $transparent1) 0 50%;
+    background: linear-gradient(-50deg, transparent 75%, $color1 $transparent1/*, transparent $transparent1*/) 0 50%,
+                linear-gradient( 50deg, transparent 75%, $color1 $transparent1/*, transparent $transparent1*/) 0 50%;
     background-size: $size1 $size1, $size1 $size1;
 }
 
@@ -69,7 +69,7 @@
     [class|=eye] {
         position: absolute;
         top: 25%;
-        left: 10%;
+        left: 15%;
         width: calc( #{$ghostSize} / 4);
         height: calc( #{$ghostSize} / 4);
         background-color: white;
@@ -110,12 +110,14 @@
     .mouth {
         display: block;
         position: absolute;
-        top: $ghostWidth;
+        top: calc( #{$ghostWidth}  );
         left: calc( #{$ghostMouthSize} / 2 );
         width: $ghostMouthSize;
         height: $ghostMouthHeight;
-        @include gradient(white, $ghostMouthHeight, 85% );
-        animation: ghost-mouth-moving 1s linear infinite; 
+        background: linear-gradient(-40deg, transparent 75%, white 75%, transparent 85%) 0 50%,
+                    linear-gradient( 40deg, transparent 75%, white 75%, transparent 85%) 0 50%;
+        background-size: $ghostMouthHeight $ghostMouthHeight, $ghostMouthHeight $ghostMouthHeight;
+        animation: ghost-mouth-moving 0.5s linear infinite; 
     }
     &::after {
         @include gradient($ghostCatchedColor, calc( #{$ghostSize} * 0.26 ), 75% );
