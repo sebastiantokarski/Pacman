@@ -92,6 +92,10 @@
         background-color: green;
     }
 }*/
+body {
+  display: flex;
+  flex-wrap: wrap; }
+
 .pom {
   list-style: none;
   margin-left: 8px; }
@@ -101,11 +105,15 @@
     color: red;
     font-weight: 700; }
 
+aside {
+  width: 10vw;
+  height: 100vh;
+  background-color: green; }
+
 .container {
   position: relative;
   margin: 0 auto;
   border: 13px double black;
-  width: 100%;
   max-width: 623px; }
 
 table {
@@ -153,7 +161,7 @@ td {
   width: 30px;
   height: 30px;
   margin: 0.5% 0 0 0.5%;
-  transition: top 250ms, left 250ms; }
+  transition: top 400ms, left 400ms; }
   .pacman .pacman-top, .pacman .pacman-bottom {
     position: absolute;
     width: 100%;

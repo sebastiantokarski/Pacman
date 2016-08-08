@@ -1,3 +1,8 @@
+body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .pom {
     list-style: none;
     margin-left: 8px;
@@ -9,12 +14,16 @@
     }
 }
 
+aside {
+    width: 10vw;
+    height: 100vh;
+    background-color: green;
+}
 
 .container {
     position: relative;
     margin: 0 auto;
     border: 13px double $tableBorderColor;
-    width: 100%;
     max-width: 623px;
 }
 

@@ -23,8 +23,10 @@ class PacmanGame {
     // Create map with all stuff
     createMap() {
         var container = document.createElement('div');
+        var aside = document.createElement('aside');
         var table = document.createElement('table');
         container.classList.add('container');
+        
         
         this.addTiles(table); // In function this.table = table
         
@@ -36,6 +38,7 @@ class PacmanGame {
         this.addElemsToMap();
        
         // Add table to container, container to DOM
+        document.querySelector('body').appendChild(aside);
         container.appendChild(this.table);
         document.querySelector('body').appendChild(container);
         this.container = container;
@@ -193,6 +196,7 @@ class PacmanElem {
     // 5 sec Frightened mode after pacman ate bonus
     eatBonus() {
         this.game.frightenedMode = true;
+        this.game.scatterMode = false;
         var parentThis = this;
         var array = Array.from(arguments);
         array.forEach(function (element) {
@@ -209,6 +213,7 @@ class PacmanElem {
                 array[1].classList.add('inky');
                 array[2].classList.add('blinky');
                 array[3].classList.add('clyde');
+                parentThis.game.scatterMode = true;
                 parentThis.game.frightenedMode = false;
         }, 5000);
     }
@@ -294,7 +299,7 @@ class GhostElem {
         this.clydePos = [6, 8];
         this.clydeDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.pacman = [];
-        
+        this.speed = 250;
     }
     
     addToMap() {
@@ -356,41 +361,23 @@ class GhostElem {
         
         var startPinky = setTimeout(function () {
             ghostsStart(parentThis.pinky, parentThis.pinkyPos);
-            switch(true) {
-                case parentThis.game.chaseMode: console.log('chaseMode'); break;
-                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
-                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.pinky, parentThis.pinkyPos, parentThis.pinkyDirection);
-                break;
-            }
-        }, 1000);
+            parentThis.moving(parentThis.pinky, parentThis.pinkyPos, parentThis.pinkyDirection);
+        }, 10);
         
         var startInky = setTimeout(function () {
             ghostsStart(parentThis.inky, parentThis.inkyPos);
-            switch(true) {
-                case parentThis.game.chaseMode: console.log('chaseMode'); break;
-                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
-                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection); 
-                break;
-            }
-        }, 2000);
+            parentThis.moving(parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection); 
+        }, 1000);
         
         var startBlinky = setTimeout(function () {
             ghostsStart(parentThis.blinky, parentThis.blinkyPos);
-            switch(true) {
-                case parentThis.game.chaseMode: console.log('chaseMode'); break;
-                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
-                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.blinky, parentThis.blinkyPos, parentThis.blinkyDirection); break;
-            }
-        }, 4000);
+            parentThis.moving(parentThis.blinky, parentThis.blinkyPos, parentThis.blinkyDirection);
+        }, 2500);
         
         var startClyde = setTimeout(function () {
             ghostsStart(parentThis.clyde, parentThis.clydePos);
-            switch(true) {
-                case parentThis.game.chaseMode: console.log('chaseMode'); break;
-                case parentThis.game.frightenedMode: console.log('frightenedMode'); break;
-                case parentThis.game.scatterMode: parentThis.scatterMoving(parentThis.clyde, parentThis.clydePos, parentThis.clydeDirection); break;
-            }
-        }, 6000);
+            parentThis.moving(parentThis.clyde, parentThis.clydePos, parentThis.clydeDirection);
+        }, 4000);
         
         function ghostsStart(ghost, pos) {
             ghost.classList.remove('ghost-moving');
@@ -404,56 +391,62 @@ class GhostElem {
         this.pacman = pacman;
     }
     
-    
-    ghostEat() {
-        var array = Array.from(arguments);
+    moving(ghost, pos, direction) {
         var parentThis = this;
-        array.forEach(function(element) {
-            if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
-                //console.log('GAME OVER');
-                clearInterval(parentThis.movingInterval); // doesnt work
+        var speed = 250;
+        setInterval(function() {
+            if(parentThis.frightenedMode) speed = 800;
+            switch(true) {
+                case parentThis.game.chaseMode: 
+                    console.log('chaseMode'); 
+                    break;
+                case parentThis.game.frightenedMode: 
+                    parentThis.frightenedMoving(ghost, pos, direction); 
+                    break;
+                case parentThis.game.scatterMode:
+                    parentThis.scatterMoving(ghost, pos, direction); 
+                    break;
             }
-        });
+        }, speed);
     }
-    // && Math.abs(parentThis.direction[0] - parentThis.direction[1]) !== 2 
     
     // Ghost movement when they are in scatter Mode
     scatterMoving(ghost, pos, direction) {
-        var parentThis = this;
-        var movingInterval = setInterval(function () {
-            
+        // While on the next tile is wall or board is ending, change direction
+        while (!this.nextTile(direction, pos, this.game.wallArray, ghost)) {
+            direction[1] = (Math.floor(Math.random() * 4) + 37);
+            // While you want reverse, change direction
+            while (Math.abs(direction[0] - direction[1]) === 2) {
+                direction[1] = (Math.floor(Math.random() * 4) + 37);
+            }
+        }
+        // If the next tile is intersection
+        if (this.nextIntersection(direction, pos, this.game.intersectionArray)) {
+            // Go to the next tile
+            this.go(ghost, pos, this.game.wallArray, direction);
+            // Change direction
+            direction[1] = (Math.floor(Math.random() * 4) + 37);
             // While on the next tile is wall or board is ending, change direction
-            while (!parentThis.nextTile(direction, pos, parentThis.game.wallArray)) {
+            while (!this.nextTile(direction, pos, this.game.wallArray, ghost)) {
                 direction[1] = (Math.floor(Math.random() * 4) + 37);
-                // While you want reverse, change direction
-                while (Math.abs(direction[0] - direction[1]) === 2) {
-                    direction[1] = (Math.floor(Math.random() * 4) + 37);
-                }
             }
-            
-            // If the next tile is intersection
-            if (parentThis.nextIntersection(direction, pos, parentThis.game.intersectionArray)) {
-                // Go to the next tile
-                parentThis.go(ghost, pos, parentThis.game.wallArray, direction);
-                // Change direction
+            // While you want reverse, change direction
+            while (Math.abs(direction[0] - direction[1]) === 2) {
                 direction[1] = (Math.floor(Math.random() * 4) + 37);
-                // While on the next tile is wall or board is ending, change direction
-                while (!parentThis.nextTile(direction, pos, parentThis.game.wallArray)) {
-                    direction[1] = (Math.floor(Math.random() * 4) + 37);
-                }
-                console.log(direction[0] + ' ' + direction[1]);
-                // While you want reverse, change direction
-                while (Math.abs(direction[0] - direction[1]) === 2) {
-                    direction[1] = (Math.floor(Math.random() * 4) + 37);
-                }
-            } else {
-                // Go to appointed direction
-                parentThis.go(ghost, pos, parentThis.game.wallArray, direction);
             }
-            // Save old direction
-            direction[0] = direction[1];
-        }, 1250);
+        }
+        else {
+            // Go to appointed direction
+            this.go(ghost, pos, this.game.wallArray, direction);
+        }
+        // Save old direction
+        direction[0] = direction[1];
     }
+    
+    frightenedMoving(ghost, pos, direction) {
+        this.scatterMoving(ghost, pos, direction);
+    }
+    
     // Check next tile, if there is intersection RETURN TRUE
     nextIntersection(direction, pos, inter) {
         switch (direction[1]) {
@@ -466,13 +459,13 @@ class GhostElem {
     }
     
     // Check next tile, if there is no wall and tile is on board RETURN TRUE
-    nextTile(direction, pos, wall) {
+    nextTile(direction, pos, wall, ghost) {
         // If there is a wall or board is ending, break and return false
         switch (direction[1]) {
             case 37: if (pos[0] === 7 && pos[1] === 0) pos[1] = 16;
                      if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) return true; break; // Left
             case 38: if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) return true; break; // Up
-            case 39: if (pos[0] === 7 && pos[1] === 16) pos[1] = 0; 
+            case 39: if (pos[0] === 7 && pos[1] === 16) pos[1] = 0;
                      if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) return true; break; // Right
             case 40: if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) return true; break; // Down
         }
@@ -494,92 +487,16 @@ class GhostElem {
         }
     }
     
-    /*moving(ghost, pos, wall, inter) {
+    ghostEat() {
+        var array = Array.from(arguments);
         var parentThis = this;
-        var direction = Math.floor(Math.random() * 4);
-        var movingInterval = setInterval(function() {
-            
-            if (parentThis.game.frightenedMode) {
-                console.log('blabla');
+        array.forEach(function(element) {
+            if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
+                //console.log('GAME OVER');
+                clearInterval(parentThis.movingInterval); // doesnt work
             }
-            if (ghost === parentThis.pinky) {
-                console.log(direction);
-            }
-            
-            switch (direction) {
-                case 0: // LEFT
-                    if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) {
-                        pos[1]--;
-                    }
-                    if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) {
-                        direction = 0;
-                    } else {
-                        if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0 && pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) { // Up
-                            direction = (Math.floor(Math.random() * 4 / 2) * 2) + 1; // odd numbers
-                        } else if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) {
-                            direction = 1;
-                        } else {
-                            direction = 3;
-                        }
-                    }
-                    break;
-                case 1: // UP
-                    if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) {
-                        pos[0]--;
-                    }
-                    if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) {
-                        direction = 1;
-                    } else {
-                        if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0 && pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) { // Left
-                            direction = Math.floor(Math.random() * 4 / 2) * 2; // even numbers
-                        } else if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) {   
-                            direction = 0;
-                        } else {
-                            direction = 2;
-                        }
-                    }
-                    break;
-                case 2: // RIGHT
-                    if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) {
-                        pos[1]++;
-                    }
-                    if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) { 
-                        direction = 2;
-                    } else {
-                        if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0 && pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) { // Down
-                            direction = (Math.floor(Math.random() * 4 / 2) * 2) + 1; // odd numbers
-                        } else if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) {
-                            direction = 3;
-                        } else {
-                            direction = 1;
-                        }
-                    }
-                    break;
-                case 3: // DOWN
-                    if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) {
-                        pos[0]++;
-                    }
-                    if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) {
-                        direction = 3;
-                    } else {
-                        if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0 && pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) { // Right
-                            direction = Math.floor(Math.random() * 4 / 2) * 2; // even numbers
-                        } else if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) {
-                            direction = 2;
-                        } else {
-                            direction = 0;
-                        }
-                    }
-                    break;
-            }
-            ghost.style.top = parentThis.game.step * pos[0] + 'px';
-            ghost.style.left = parentThis.game.step * pos[1] + 'px';
-            
-            parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
-            
-        }, 300);
-    }*/
-    
+        });
+    }
     
    
 }
