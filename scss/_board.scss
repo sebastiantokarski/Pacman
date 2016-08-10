@@ -61,3 +61,20 @@ td {
 .intersection {
     background-color: limegreen;
 }
+
+.game-over {
+    position: absolute;
+    height: 100vh;
+    widows: 100vw;
+    opacity: 0%;
+    &::before {
+        position: absolute;
+        top: 25vh;
+        left: 35vw;
+        font-size: 12em;
+        content: 'GAME OVER';
+        display: block;
+        color: red;
+        margin: 0 auto;
+    }
+}

@@ -99,6 +99,7 @@ class PacmanElem {
         this.direction = 37; // Default direction - go left
         this.speed = 250;
         this.pacmanSize = game.tileSize;
+        this.pacmanMoving = [];
     }
 
     addToMap() {
@@ -130,7 +131,7 @@ class PacmanElem {
         this.top = this.pacman.style.top;
 
         // Pacman moving 250ms by tile
-        var pacmanMoving = setInterval(function() {
+        this.pacmanMoving = setInterval(function() {
             newPacman.style.transition = 'top 400ms, left 400ms';
             /*parentThis.checkKeydown();*/ // If the key is pressed, check which arrow
             parentThis.addEventListenerOnce(document, 'keydown');
@@ -147,7 +148,7 @@ class PacmanElem {
             if (parentThis.game.frightenedMode) {
                 parentThis.eatGhost();
             }
-
+            //console.log(parentThis.speed);
         }, this.speed);
 
 
@@ -307,6 +308,7 @@ class GhostElem {
         this.clydeDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.pacman = [];
         this.speed = 250;
+        this.ghostsMoving = [];
     }
 
     addToMap() {
@@ -397,10 +399,10 @@ class GhostElem {
     moving(ghost, pos, direction) {
         var parentThis = this;
         var speed = 1200;
-        setInterval(function() {
+        this.ghostsMoving = setInterval(function() {
             ghost.style.transition = 'top 600ms, left 600ms';
             if (parentThis.frightenedMode) speed = 800;
-
+            parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
 
             switch(true) {
                 // If ghost has been eaten, go to home to respawn
@@ -418,7 +420,6 @@ class GhostElem {
                     break;
 
             }
-
         }, speed);
     }
 
@@ -569,10 +570,19 @@ class GhostElem {
     ghostEat() {
         var array = Array.from(arguments);
         var parentThis = this;
+        //console.log('dziala');
         array.forEach(function(element) {
-            if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
-                //console.log('GAME OVER');
-                clearInterval(parentThis.movingInterval); // doesnt work
+            if (!parentThis.game.frightenedMode) {
+                if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
+                    var gameOverCaption = document.createElement('div');
+                    gameOverCaption.classList.add('game-over');
+                    document.querySelector('body').appendChild(gameOverCaption);
+                    parentThis.pacman.pTop.setAttribute('style', '');
+                    parentThis.pacman.pBottom.setAttribute('style', '');
+                    clearInterval(parentThis.pacman.pacmanMoving);
+                    clearInterval(parentThis.ghostsMoving); // Doesn't work
+                    return false;
+                }
             }
         });
     }
