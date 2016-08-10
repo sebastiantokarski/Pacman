@@ -1,44 +1,33 @@
 body {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: flex-start;
     align-items: center;
 }
 
-.pom {
-    list-style: none;
-    margin-left: 8px;
-    li {
-        display: inline;
-        padding: 0 1.3%;
-        color: red;
-        font-weight: 700;
-    }
-}
+
 
 aside {
-    width: 10vw;
+    width: 20vw;
     height: 100vh;
     background-color: green;
 }
 
 .container {
+    height: 100%;
     position: relative;
     margin: 0 auto;
-    border: 13px double $tableBorderColor;
-    max-width: 623px;
-    max-height: 623px;
+    border: 1.5vh double $tableBorderColor;
 }
 
 table {
     position: relative;
     background-color: $tableColor;
     border-collapse: collapse;
-    margin: 0;
 }
 
 td {
-    width: 35px;
-    height: 35px;
+    width: $tileSize; // 35px
+    height: $tileSize; // 35px
     border: 1px dotted red;
 }
 

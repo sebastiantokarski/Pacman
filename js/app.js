@@ -33,7 +33,6 @@ class PacmanGame {
         this.rows = this.table.getElementsByTagName('tr');
         this.tiles = this.table.getElementsByTagName('td');
 
-
         // Add elements to the table such as walls, food, bonuses
         this.addElemsToMap();
 
@@ -43,9 +42,10 @@ class PacmanGame {
         document.querySelector('body').appendChild(container);
         this.container = container;
 
-        // Check one step length
-        this.step = this.rows[0].children[0].clientWidth + 1; // !!!!!!!! STEP = CELL.WIDTH + 1 Obramowanie
 
+
+        // Check one step length
+        this.step = this.rows[0].children[0].clientWidth + 1; // !!!!!!!! STEP = CELL.WIDTH + 1 Border
         // Return map
         return this.table;
     }
@@ -98,6 +98,7 @@ class PacmanElem {
         this.isKeyAvailable = true;
         this.direction = 37; // Default direction - go left
         this.speed = 250;
+        this.pacmanSize = game.tileSize;
     }
 
     addToMap() {
@@ -333,27 +334,23 @@ class GhostElem {
         this.game.container.appendChild(newGhost); // wrapper
 
         this.pinky = newGhost.cloneNode(true);
-        this.pinky.style.top = '263px';
-        this.pinky.style.left = '228px';
+        this.pinky.style.left = '38%';
         this.pinky.classList.add('pinky');
         this.game.container.appendChild(this.pinky);
 
         this.inky = newGhost.cloneNode(true);
-        this.inky.style.top = '263px';
-        this.inky.style.left = '263px';
+        this.inky.style.left = '44%';
         this.inky.classList.add('inky');
         this.game.container.appendChild(this.inky);
 
         this.blinky = newGhost.cloneNode(true);
-        this.blinky.style.top = '263px';
-        this.blinky.style.left = '298px';
+        this.blinky.style.left = '50%';
         this.blinky.classList.add('blinky');
         this.game.container.appendChild(this.blinky);
 
         newGhost.classList.add('clyde');
         this.clyde = newGhost;
-        this.clyde.style.top = '263px';
-        this.clyde.style.left = '333px';
+        this.clyde.style.left = '56%';
 
         // MOVING UP AND DOWN AT THE BEGINNING OF THE GAME
         this.clyde.classList.add('ghost-moving');
@@ -453,38 +450,38 @@ class GhostElem {
                             fakePos1[0] = homePos[0] - fakePos1[0];
                             fakePos1[1] = homePos[1] - fakePos1[1];
                             dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            console.log('Dlugosc wektorowa LEWO ' + dlugosc);
+                            //console.log('Dlugosc wektorowa LEWO ' + dlugosc);
                             break;
                         case 38:
                             fakePos1[0]--;
                             fakePos1[0] = homePos[0] - fakePos1[0];
                             fakePos1[1] = homePos[1] - fakePos1[1];
                             dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            console.log('Dlugosc wektorowa GORA ' + dlugosc);
+                            //console.log('Dlugosc wektorowa GORA ' + dlugosc);
                             break;
                         case 39:
                             fakePos1[1]++;
                             fakePos1[0] = homePos[0] - fakePos1[0];
                             fakePos1[1] = homePos[1] - fakePos1[1];
                             dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            console.log('Dlugosc wektorowa PRAWO ' + dlugosc);
+                            //console.log('Dlugosc wektorowa PRAWO ' + dlugosc);
                             break;
                         case 40:
                             fakePos[1]++;
                             fakePos1[0] = homePos[0] - fakePos1[0];
                             fakePos1[1] = homePos[1] - fakePos1[1];
                             dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            console.log('Dlugosc wektorowa DOL ' + dlugosc);
+                            //console.log('Dlugosc wektorowa DOL ' + dlugosc);
                             break;
                     }
                     if (najkrotszadlugosc > dlugosc) {
                         najkrotszadlugosc = dlugosc;
-                        console.log('Kierunek ' + j[1]);
+                        //console.log('Kierunek ' + j[1]);
                     }
                 }
             }
             this.go(ghost, pos, this.game.wallArray, j);
-            console.log(najkrotszadlugosc);
+            //console.log(najkrotszadlugosc);
         } else {
             this.scatterMoving(ghost, pos, direction);
         }
@@ -598,7 +595,6 @@ document.addEventListener('DOMContentLoaded', function () {
     ghost.addPacman(pacman);
 
     ghost.addToMap();
-
 
 });
 

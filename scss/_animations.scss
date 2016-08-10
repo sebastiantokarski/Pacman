@@ -47,11 +47,13 @@
 }
 
 @keyframes ghost-up-down-moving {
-    0% { top: 263px; }
-    25% { top: 273px; }
-    75% { top: 253px; }
-    100% { top: 263px; }
+    0% { top: 44%; }
+    25% { top: 46%; }
+    75% { top: 42%; }
+    100% { top: 44%; }
 }
+
+
 
 
 
@@ -69,6 +71,7 @@
    0% { background-position: 100% 50%; }
    100% { background-position: 0 50%; }
 }
+
 
 /*@keyframes ghost-warning {
     0% {
