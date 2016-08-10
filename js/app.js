@@ -577,6 +577,14 @@ class GhostElem {
                     var gameOverCaption = document.createElement('div');
                     gameOverCaption.classList.add('game-over');
                     document.querySelector('body').appendChild(gameOverCaption);
+
+                    setTimeout(function() {
+                        var againButton = document.createElement('a');
+                        againButton.classList.add('again-button');
+                        againButton.setAttribute('href', '#');
+                        document.querySelector('body').appendChild(againButton);
+                    }, 4000)
+
                     parentThis.pacman.pTop.setAttribute('style', '');
                     parentThis.pacman.pBottom.setAttribute('style', '');
                     clearInterval(parentThis.pacman.pacmanMoving);

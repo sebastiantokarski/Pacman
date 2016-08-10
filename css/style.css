@@ -92,6 +92,12 @@
         background-color: green;
     }
 }*/
+@keyframes gameOverScreen {
+  0% {
+    background-color: rgba(0, 0, 0, 0.1); }
+  100% {
+    background-color: black; } }
+
 body {
   display: flex;
   justify-content: flex-start;
@@ -143,18 +149,36 @@ td {
 
 .game-over {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
-  widows: 100vw;
-  opacity: 0%; }
+  width: 100vw;
+  background-color: black;
+  animation: gameOverScreen 4s linear 1; }
   .game-over::before {
-    position: absolute;
-    top: 25vh;
-    left: 35vw;
     font-size: 12em;
     content: 'GAME OVER';
     display: block;
-    color: red;
-    margin: 0 auto; }
+    color: red; }
+
+.again-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15vw;
+  height: 8vh;
+  top: 5vh;
+  left: 43vw;
+  border: 0.5vw solid red;
+  color: red;
+  background-color: black;
+  border-radius: 5vh;
+  text-decoration: none; }
+  .again-button::after {
+    content: 'Play Again';
+    font-size: 2em; }
 
 * {
   margin: 0;
