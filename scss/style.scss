@@ -101,7 +101,7 @@
         width: #{$ghostWidth};
         @include gradient(green, calc( #{$ghostSize} * 0.26 ), 75% );
         background-origin: 0 50%;
-        animation: ghost-tail-moving 0.5s linear infinite;
+        animation: ghost-tail-moving $ghostAnimationTail linear infinite;
     }
 }
 
@@ -110,19 +110,19 @@
     .mouth {
         display: block;
         position: absolute;
-        top: calc( #{$ghostWidth}  );
-        left: calc( #{$ghostMouthSize} / 2 );
+        top: calc( #{$ghostMouthSize} * 1.35 );
+        left: calc( #{$ghostMouthSize} / 3.4 );
         width: $ghostMouthSize;
         height: $ghostMouthHeight;
-        background: linear-gradient(-40deg, transparent 75%, white 75%, transparent 85%) 0 50%,
-                    linear-gradient( 40deg, transparent 75%, white 75%, transparent 85%) 0 50%;
+        background: linear-gradient(-40deg, transparent 75%, white 80%, transparent 85%) 0 50%,
+                    linear-gradient( 40deg, transparent 75%, white 80%, transparent 85%) 0 50%;
         background-size: $ghostMouthHeight $ghostMouthHeight, $ghostMouthHeight $ghostMouthHeight;
-        animation: ghost-mouth-moving 0.5s linear infinite;
+        animation: ghost-mouth-moving $ghostAnimationMouth linear infinite;
     }
     &::after {
         @include gradient($ghostCatchedColor, calc( #{$ghostSize} * 0.26 ), 75% );
         background-position: 0 50%;
-        animation: ghost-tail-moving 1s linear infinite;
+        animation: ghost-tail-moving $ghostAnimationTail linear infinite;
     }
 }
 

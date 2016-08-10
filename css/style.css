@@ -235,18 +235,18 @@ td {
   .ghost-catched .mouth {
     display: block;
     position: absolute;
-    top: calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2));
-    left: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2) / 2);
-    width: calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2);
-    height: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2) / 3);
-    background: linear-gradient(-40deg, transparent 75%, white 75%, transparent 85%) 0 50%, linear-gradient(40deg, transparent 75%, white 75%, transparent 85%) 0 50%;
-    background-size: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2) / 3) calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2) / 3), calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2) / 3) calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 2) / 3);
-    animation: ghost-mouth-moving 0.5s linear infinite; }
+    top: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) * 1.35);
+    left: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 3.4);
+    width: calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5);
+    height: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2);
+    background: linear-gradient(-40deg, transparent 75%, white 80%, transparent 85%) 0 50%, linear-gradient(40deg, transparent 75%, white 80%, transparent 85%) 0 50%;
+    background-size: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2) calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2), calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2) calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2);
+    animation: ghost-mouth-moving 0.2s linear infinite; }
   .ghost-catched::after {
     background: linear-gradient(-50deg, transparent 75%, blue 75%) 0 50%, linear-gradient(50deg, transparent 75%, blue 75%) 0 50%;
     background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26);
     background-position: 0 50%;
-    animation: ghost-tail-moving 1s linear infinite; }
+    animation: ghost-tail-moving 0.5s linear infinite; }
 
 .ghost-eaten {
   visibility: hidden; }
@@ -261,9 +261,9 @@ td {
     background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26); }
 
 .inky {
-  background-color: blue; }
+  background-color: cyan; }
   .inky::after {
-    background: linear-gradient(-50deg, transparent 75%, blue 75%) 0 50%, linear-gradient(50deg, transparent 75%, blue 75%) 0 50%;
+    background: linear-gradient(-50deg, transparent 75%, cyan 75%) 0 50%, linear-gradient(50deg, transparent 75%, cyan 75%) 0 50%;
     background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26); }
 
 .blinky {

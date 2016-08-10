@@ -11,12 +11,14 @@ $pacmanColor: #ffea00;
 $ghostSize: calc( #{$tileSize} - 0.5vh);
 $ghostWidth: calc( #{$ghostSize} - #{$ghostSize} * 0.2 );
 $ghostTailSize: calc( #{$ghostSize} / 5 );
-$ghostMouthSize: calc( #{$ghostWidth} / 2 );
-$ghostMouthHeight: calc( #{$ghostMouthSize} / 3 );
+$ghostMouthSize: calc( #{$ghostWidth} / 1.5 );
+$ghostMouthHeight: calc( #{$ghostMouthSize} / 2 );
+$ghostAnimationMouth: 0.2s;
+$ghostAnimationTail: 0.5s;
 $ghostCatchedColor: blue;
 
 $ghostColorPinky: pink;
-$ghostColorInky: blue;
+$ghostColorInky: cyan;
 $ghostColorBlinky: red;
 $ghostColorClyde: orange;
 
