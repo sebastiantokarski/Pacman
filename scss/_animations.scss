@@ -53,7 +53,10 @@
     100% { top: 44%; }
 }
 
-
+@keyframes bonus-rotate {
+  0% { background-position-x: 0px; }
+  100% { background-position-x: 210px; }
+}
 
 
 

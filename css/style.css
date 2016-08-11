@@ -72,6 +72,12 @@
   100% {
     top: 44%; } }
 
+@keyframes bonus-rotate {
+  0% {
+    background-position-x: 0px; }
+  100% {
+    background-position-x: 210px; } }
+
 @keyframes ghost-tail-moving {
   0% {
     background-position: 0 50%; }
@@ -143,22 +149,7 @@ td {
   height: 2vh;
   border-radius: 50%;
   background: radial-gradient(circle at calc( 2vh / 2) calc( 2vh / 2), red, #000);
-  animation: rotate 8s infinite linear; }
-
-#earth {
-  background: url(http://www.noirextreme.com/digital/Earth-Color4096.jpg);
-  background-size: 210px;
-  box-shadow: inset 16px 0 40px 6px black, inset -3px 0 6px 2px rgba(255, 255, 255, 0.2);
-  animation-name: rotate;
-  animation-duration: 4s;
-  animation-iteration-count: infinite;
-  animation-timing-function: linear; }
-
-@keyframes rotate {
-  from {
-    background-position-x: 0px; }
-  to {
-    background-position-x: 210px; } }
+  animation: bonus-rotate 8s infinite linear; }
 
 .intersection {
   background-color: limegreen; }
