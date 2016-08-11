@@ -104,9 +104,9 @@ body {
   align-items: center; }
 
 aside {
-  width: 20vw;
+  width: 7vw;
   height: 100vh;
-  background-color: green; }
+  background-color: #0000cc; }
 
 .container {
   height: 100%;
@@ -139,10 +139,26 @@ td {
   content: ' ';
   display: block;
   margin: 0 auto;
-  width: 0.9vh;
-  height: 0.9vh;
+  width: 2vh;
+  height: 2vh;
   border-radius: 50%;
-  background-color: red; }
+  background: radial-gradient(circle at calc( 2vh / 2) calc( 2vh / 2), red, #000);
+  animation: rotate 8s infinite linear; }
+
+#earth {
+  background: url(http://www.noirextreme.com/digital/Earth-Color4096.jpg);
+  background-size: 210px;
+  box-shadow: inset 16px 0 40px 6px black, inset -3px 0 6px 2px rgba(255, 255, 255, 0.2);
+  animation-name: rotate;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; }
+
+@keyframes rotate {
+  from {
+    background-position-x: 0px; }
+  to {
+    background-position-x: 210px; } }
 
 .intersection {
   background-color: limegreen; }
@@ -167,10 +183,10 @@ td {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15vw;
+  width: 20vw;
   height: 8vh;
   top: 5vh;
-  left: 43vw;
+  left: 40vw;
   border: 0.5vw solid red;
   color: red;
   background-color: black;
@@ -179,6 +195,36 @@ td {
   .again-button::after {
     content: 'Play Again';
     font-size: 2em; }
+
+i {
+  top: 1%;
+  left: 0.5%;
+  position: absolute;
+  border-radius: 20%;
+  background-color: rgba(255, 255, 255, 0.15); }
+  i:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.3); }
+  i:first-child {
+    left: 1%;
+    background-color: rgba(0, 0, 0, 0.15); }
+    i:first-child:hover {
+      background-color: rgba(0, 0, 0, 0.3); }
+
+.hide {
+  display: none; }
+
+.dark-theme {
+  background-color: #414244; }
+  .dark-theme table {
+    background-color: #414244; }
+    .dark-theme table .food::after {
+      background-color: #75767a; }
+    .dark-theme table .wall {
+      background-color: #5b5c5f;
+      border: 1px dotted red; }
+    .dark-theme table .bonus::after {
+      background-color: red; }
 
 * {
   margin: 0;

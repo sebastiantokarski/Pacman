@@ -402,7 +402,6 @@ class GhostElem {
         this.ghostsMoving = setInterval(function() {
             ghost.style.transition = 'top 600ms, left 600ms';
             if (parentThis.frightenedMode) speed = 800;
-            parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
 
             switch(true) {
                 // If ghost has been eaten, go to home to respawn
@@ -411,12 +410,14 @@ class GhostElem {
                     break;
                 case parentThis.game.chaseMode:
                     console.log('chaseMode');
+                    parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
                     break;
                 case parentThis.game.frightenedMode:
                     parentThis.frightenedMoving(ghost, pos, direction);
                     break;
                 case parentThis.game.scatterMode:
                     parentThis.scatterMoving(ghost, pos, direction);
+                    parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
                     break;
 
             }
@@ -427,6 +428,7 @@ class GhostElem {
         var homePos = [6, 8] // Start position
         // Check if next tile is intersection
         if(this.nextIntersection(direction, pos, this.game.intersectionArray)) {
+            console.log('skrzyżowanie');
             var fakePos = [0, 0];
             var j = [0, 0];
             var dlugosc;
@@ -481,11 +483,14 @@ class GhostElem {
                     }
                 }
             }
+
             this.go(ghost, pos, this.game.wallArray, j);
             //console.log(najkrotszadlugosc);
         } else {
             this.scatterMoving(ghost, pos, direction);
+
         }
+
     }
 
     // Ghost movement when they are in scatter Mode
@@ -568,16 +573,20 @@ class GhostElem {
     }
 
     ghostEat() {
-        var array = Array.from(arguments);
+        /*var array = Array.from(arguments);
         var parentThis = this;
         //console.log('dziala');
         array.forEach(function(element) {
+            // If ghost isn't in frightened Mode then enter
             if (!parentThis.game.frightenedMode) {
+                // If ghost is on the same tile sa pacman then enter
                 if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
+                    // Create game over div and add it to DOM with class game-over
                     var gameOverCaption = document.createElement('div');
                     gameOverCaption.classList.add('game-over');
                     document.querySelector('body').appendChild(gameOverCaption);
 
+                    // Show button after 4 seconds
                     setTimeout(function() {
                         var againButton = document.createElement('a');
                         againButton.classList.add('again-button');
@@ -592,7 +601,7 @@ class GhostElem {
                     return false;
                 }
             }
-        });
+        });*/
     }
 
 
@@ -602,6 +611,21 @@ class GhostElem {
 /*====================== DOMContentLoaded ======================*/
 document.addEventListener('DOMContentLoaded', function () {
 
+    /* CHANGE GAME THEME */
+    var lightTheme = document.querySelector('.fa-sun-o');
+    var darkTheme = document.querySelector('.fa-moon-o');
+    var body = document.querySelector('body');
+
+    darkTheme.addEventListener('click', function(event) {
+        darkTheme.classList.add('hide');
+        lightTheme.classList.remove('hide');
+        body.classList.add('dark-theme');
+    })
+    lightTheme.addEventListener('click', function(event) {
+        lightTheme.classList.add('hide');
+        darkTheme.classList.remove('hide');
+        body.classList.remove('dark-theme');
+    })
     var newGame = new PacmanGame(wallArray, foodArray, bonusArray);
 
     newGame.createMap();
