@@ -148,7 +148,7 @@ class PacmanElem {
             if (parentThis.game.frightenedMode) {
                 parentThis.eatGhost();
             }
-            console.log(parentThis.speed);
+            console.log(parentThis.game.points);
         }, this.speed);
 
 
@@ -175,11 +175,11 @@ class PacmanElem {
     eat() {
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'food' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('food');
-            this.game.points++;
+            this.game.points += 10;
         }
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'bonus' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
-
+            this.game.points += 50;
             // eatBonus call
             this.eatBonus(this.ghost.pinky, this.ghost.inky, this.ghost.blinky, this.ghost.clyde);
         }
@@ -559,10 +559,10 @@ class GhostElem {
     nextTile(direction, pos, wall, ghost) {
         // If there is a wall or board is ending, break and return false
         switch (direction[1]) {
-            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 16; ghost.style.transition = 'top 0ms, left 0ms';}
+            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 17; ghost.style.transition = 'top 0ms, left 0ms';}
                      if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) return true; break; // Left
             case 38: if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) return true; break; // Up
-            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = 0; ghost.style.transition = 'top 0ms, left 0ms';}
+            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = -1; ghost.style.transition = 'top 0ms, left 0ms';}
                      if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) return true; break; // Right
             case 40: if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) return true; break; // Down
         }

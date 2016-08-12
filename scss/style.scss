@@ -55,7 +55,7 @@
     position: absolute;
     width: $ghostWidth;
     height: $ghostSize;
-    margin: 0.3% 0 0 1%;
+    margin: 0.5% 0 0 1%;
     border-radius: 100em 100em 0 0;
     transition: top 600ms, left 600ms;
     &::before {

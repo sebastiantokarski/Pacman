@@ -28,27 +28,21 @@ aside {
     margin: 0 auto;
     z-index: 1;
     div {
+        width: calc(#{$tileSize} * 3 + 1.8%);
+        height: calc(#{$tileSize} * 2 + 1.5%);
         background-color: $lightBodyColor;
         border: 13px double black;
     }
     div:nth-of-type(1) {
-        width: calc(#{$tileSize} * 3 + 1.8%);
-        height: calc(#{$tileSize} * 2 + 1.5%);
         border-left: 0;
     }
     div:nth-of-type(2) {
-        width: calc(#{$tileSize} * 3 + 1.8%);
-        height: calc(#{$tileSize} * 2 + 1.5%);
         border-left: 0;
     }
     div:nth-of-type(3) {
-        width: calc(#{$tileSize} * 3 + 1.8%);
-        height: calc(#{$tileSize} * 2 + 1.5%);
         border-right: 0;
     }
     div:nth-of-type(4) {
-        width: calc(#{$tileSize} * 3 + 1.8%);
-        height: calc(#{$tileSize} * 2 + 1.5%);
         border-right: 0;
     }
     div:nth-of-type(5) {
