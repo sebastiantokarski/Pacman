@@ -147,8 +147,8 @@ aside {
     top: calc(5.5vh * 2 + 0.5%);
     left: calc(5.5vh * 6 + 1.5%);
     width: calc(5.5vh * 5 + 0.3%);
-    height: calc(5.5vh * 2 + 0.2%);
-    background-color: rgba(0, 0, 0, 0.7);
+    height: calc(5.5vh * 2 + 0.9%);
+    background-color: rgba(3, 3, 93, 0.75);
     border: 7px solid black; }
   .overlay div:nth-of-type(6) {
     position: absolute;
@@ -193,6 +193,10 @@ td {
   background-color: #1a1aff;
   border: 2px solid black;
   background: radial-gradient(circle at calc( 5.5vh / 2) calc( 5.5vh / 2), #1a1aff, #000); }
+
+.base {
+  background: white;
+  border: 0; }
 
 .bonus::after {
   content: ' ';
@@ -272,6 +276,8 @@ i {
       background-color: #75767a; }
     .dark-theme table .wall {
       background: radial-gradient(circle at calc( 5.5vh / 2) calc( 5.5vh / 2), #0000b3, #000); }
+    .dark-theme table .base {
+      background: #00004d; }
     .dark-theme table .bonus::after {
       background-color: red; }
 

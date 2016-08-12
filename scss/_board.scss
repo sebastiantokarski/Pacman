@@ -50,8 +50,8 @@ aside {
         top: calc(#{$tileSize} * 2 + 0.5%);
         left: calc(#{$tileSize} * 6 + 1.5%);
         width: calc(#{$tileSize} * 5 + 0.3%);
-        height: calc(#{$tileSize} * 2 + 0.2%);
-        background-color: rgba(0, 0, 0, 0.7);
+        height: calc(#{$tileSize} * 2 + 0.9%);
+        background-color: rgba(3, 3, 93, 0.75);// rgba(0, 0, 0, 0.7);
         border: 7px solid black;
     }
      div:nth-of-type(6) {
@@ -106,6 +106,12 @@ td {
     background-color: $wallColor;
     border: 2px solid $wallBorderColor;
     background: radial-gradient(circle at calc( #{$tileSize} / 2 ) calc( #{$tileSize} / 2 ), $wallColor, #000);
+}
+
+.base {
+    background: white;
+    border: 0;
+
 }
 
 .bonus {
@@ -215,6 +221,9 @@ i {
             background: radial-gradient(circle at calc( #{$tileSize} / 2 ) calc( #{$tileSize} / 2 ), #0000b3, #000);
             //border: 1px dotted red;
         }
+        .base {
+            background: $darkTableColor;
+        }
         .bonus {
             &::after {
                 background-color: $bonusColor;
@@ -222,3 +231,5 @@ i {
         }
     }
 }
+
+

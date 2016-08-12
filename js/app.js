@@ -3,11 +3,12 @@
 class PacmanGame {
 
     // Objects variables
-    constructor(wallArray, foodArray, bonusArray) {
+    constructor(wallArray, foodArray, bonusArray, baseArray) {
         this.wallArray = wallArray;
         this.foodArray = foodArray;
         this.bonusArray = bonusArray;
         this.intersectionArray = intersection;
+        this.baseArray = baseArray;
         this.container = [];
         this.table = [];
         this.rows = [];
@@ -76,6 +77,7 @@ class PacmanGame {
         this.addElems(this.rows, this.foodArray, 'food');
         this.addElems(this.rows, this.bonusArray, 'bonus');
         this.addElems(this.rows, this.intersectionArray, 'intersection');
+        this.addElems(this.rows, this.baseArray, 'base');
     }
 
     clearGame() {
@@ -638,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function () {
         darkTheme.classList.remove('hide');
         body.classList.remove('dark-theme');
     })
-    var newGame = new PacmanGame(wallArray, foodArray, bonusArray);
+    var newGame = new PacmanGame(wallArray, foodArray, bonusArray, baseArray);
 
     newGame.createMap();
 
@@ -753,6 +755,26 @@ var intersection1 = [
     [], // Row 11
     [], // Row 12
     [7, 9], // Row 13
+    [], // Row 14
+    [], // Row 15
+    [] // Row 16
+];
+
+var baseArray = [
+    [], // Row 0
+    [], // Row 1
+    [], // Row 2
+    [], // Row 3
+    [], // Row 4
+    [], // Row 5
+    [], // Row 6
+    [6, 7, 8, 9, 10], // Row 7
+    [6, 7, 8, 9, 10], // Row 8
+    [], // Row 9
+    [], // Row 10
+    [], // Row 11
+    [], // Row 12
+    [], // Row 13
     [], // Row 14
     [], // Row 15
     [] // Row 16
