@@ -45,7 +45,7 @@ class PacmanGame {
 
 
         // Check one step length
-        this.step = this.rows[0].children[0].clientWidth + 1; // !!!!!!!! STEP = CELL.WIDTH + 1 Border
+        this.step = this.rows[0].children[0].clientWidth;
         // Return map
         return this.table;
     }
@@ -78,9 +78,9 @@ class PacmanGame {
         this.addElems(this.rows, this.intersectionArray, 'intersection');
     }
 
+    clearGame() {
 
-
-    turnRight(positionX, positionY) {}
+    }
 }
 
 
@@ -148,7 +148,7 @@ class PacmanElem {
             if (parentThis.game.frightenedMode) {
                 parentThis.eatGhost();
             }
-            //console.log(parentThis.speed);
+            console.log(parentThis.speed);
         }, this.speed);
 
 
@@ -295,20 +295,25 @@ class GhostElem {
     constructor(game) {
         this.game = game;
         this.pinky = []; // Pink ghost
-        this.pinkyPos = [6, 8];
+        this.pinkyPos = [7, 8];
         this.pinkyDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.inky = []; // Blue ghost
-        this.inkyPos = [6, 8];
+        this.inkyPos = [7, 8];
         this.inkyDirection = [39, 39]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.blinky = []; // Red ghost
-        this.blinkyPos = [6, 8];
+        this.blinkyPos = [7, 8];
         this.blinkyDirection = [38, 38]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.clyde = []; // Orange ghost
-        this.clydePos = [6, 8];
+        this.clydePos = [7, 8];
         this.clydeDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.pacman = [];
-        this.speed = 250;
+        this.speed = 400;
         this.ghostsMoving = [];
+        this.choose = false;
+        this.futurePos = [0, 0];
+        this.futureDir = [0, 0];
+        this.length = 0;
+        this.homePos = [6, 8];
     }
 
     addToMap() {
@@ -398,11 +403,9 @@ class GhostElem {
 
     moving(ghost, pos, direction) {
         var parentThis = this;
-        var speed = 1200;
         this.ghostsMoving = setInterval(function() {
             ghost.style.transition = 'top 600ms, left 600ms';
-            if (parentThis.frightenedMode) speed = 800;
-
+            if (parentThis.frightenedMode) parentThis.speed = 1800;
             switch(true) {
                 // If ghost has been eaten, go to home to respawn
                 case ghost.classList.contains('ghost-eaten'):
@@ -419,82 +422,91 @@ class GhostElem {
                     parentThis.scatterMoving(ghost, pos, direction);
                     parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
                     break;
-
             }
-        }, speed);
+        }, parentThis.speed);
+    }
+
+    lengthFunc(homePos, futurePos) {
+        return Math.sqrt((futurePos[1] - homePos[1]) * (futurePos[1] - homePos[1]) + (futurePos[0] - homePos[0]) * (futurePos[0] - homePos[0]));
+
     }
 
     goToHome(ghost, pos, direction) {
-        var homePos = [6, 8] // Start position
-        // Check if next tile is intersection
-        if(this.nextIntersection(direction, pos, this.game.intersectionArray)) {
-            console.log('skrzyżowanie');
-            var fakePos = [0, 0];
-            var j = [0, 0];
-            var dlugosc;
-            var najkrotszadlugosc = 100;
-
-            // Fake go to the next tile after intersection
-            switch(direction[1]) {
-                case 37: fakePos[1] = pos[1] - 1; fakePos[0] = pos[0]; break;
-                case 38: fakePos[0] = pos[0] - 1; fakePos[1] = pos[1]; break;
-                case 39: fakePos[1] = pos[1] + 1; fakePos[0] = pos[0]; break;
-                case 40: fakePos[0] = pos[0] + 1; fakePos[1] = pos[1]; break;
+        var naj = 100;
+        if (this.choose) {
+            this.futureDir[1] = this.futureDir[0];
+            switch (this.futureDir[1]) {
+                case 37:
+                    console.log('IDE W LEWO');
+                    break;
+                case 38:
+                    console.log('IDE W GORE');
+                    break;
+                case 39:
+                    console.log('IDE W PRAWO');
+                    break;
+                case 40:
+                    console.log('IDE W DOL');
+                    break;
             }
-            for (var i = 37; i < 41; i++) {
-                j[1] = i;
-                var fakePos1 = [0, 0];
-                fakePos1[0] = fakePos[0];
-                fakePos1[1] = fakePos[1];
-                if(this.nextTile(j, fakePos, this.game.wallArray, ghost)) {
-                    switch(j[1]) {
-                        case 37:
-                            fakePos1[1]--;
-                            fakePos1[0] = homePos[0] - fakePos1[0];
-                            fakePos1[1] = homePos[1] - fakePos1[1];
-                            dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            //console.log('Dlugosc wektorowa LEWO ' + dlugosc);
-                            break;
-                        case 38:
-                            fakePos1[0]--;
-                            fakePos1[0] = homePos[0] - fakePos1[0];
-                            fakePos1[1] = homePos[1] - fakePos1[1];
-                            dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            //console.log('Dlugosc wektorowa GORA ' + dlugosc);
-                            break;
-                        case 39:
-                            fakePos1[1]++;
-                            fakePos1[0] = homePos[0] - fakePos1[0];
-                            fakePos1[1] = homePos[1] - fakePos1[1];
-                            dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            //console.log('Dlugosc wektorowa PRAWO ' + dlugosc);
-                            break;
-                        case 40:
-                            fakePos[1]++;
-                            fakePos1[0] = homePos[0] - fakePos1[0];
-                            fakePos1[1] = homePos[1] - fakePos1[1];
-                            dlugosc = Math.sqrt(fakePos1[0] * fakePos1[0] + fakePos1[1] * fakePos1[1]);
-                            //console.log('Dlugosc wektorowa DOL ' + dlugosc);
-                            break;
+            this.go(ghost, pos, this.game.wallArray, this.futureDir);
+            direction = this.futureDir[1];
+            this.choose = false;
+        } else {
+            if (this.nextIntersection(direction, pos, this.game.intersectionArray)) {
+                this.scatterMoving(ghost, pos, direction);
+                for (var i = 37; i < 41; i++) {
+                    this.futureDir[1] = i;
+                    switch (this.futureDir[1]) {
+                    case 37:
+                        if (this.nextTile(this.futureDir, pos, this.game.wallArray, ghost)) {
+                            this.futurePos[1] = pos[1] - 1;
+                            this.futurePos[0] = pos[0];
+                            this.length = this.lengthFunc(this.homePos, this.futurePos);
+                        }
+                        break;
+                    case 38:
+                        if (this.nextTile(this.futureDir, pos, this.game.wallArray, ghost)) {
+                            this.futurePos[0] = pos[0] - 1;
+                            this.futurePos[1] = pos[1];
+                            this.length = this.lengthFunc(this.homePos, this.futurePos);
+                        }
+                        break;
+                    case 39:
+                        if (this.nextTile(this.futureDir, pos, this.game.wallArray, ghost)) {
+                            this.futurePos[1] = pos[1] + 1;
+                            this.futurePos[0] = pos[0];
+                            this.length = this.lengthFunc(this.homePos, this.futurePos);
+                        }
+                        break;
+                    case 40:
+                        if (this.nextTile(this.futureDir, pos, this.game.wallArray, ghost)) {
+                            this.futurePos[0] = pos[0] + 1;
+                            this.futurePos[1] = pos[1];
+                            this.length = this.lengthFunc(this.homePos, this.futurePos);
+                        }
+                        break;
                     }
-                    if (najkrotszadlugosc > dlugosc) {
-                        najkrotszadlugosc = dlugosc;
-                        //console.log('Kierunek ' + j[1]);
+                    if (naj > this.length && Math.abs(this.futureDir[0] - this.futureDir[1] !== 2)) {
+                        naj = this.length;
+                        this.futureDir[0] = this.futureDir[1];
+                        this.choose = true;
                     }
                 }
+                this.game.rows[this.futurePos[0]].children[this.futurePos[1]].classList.add('bonus');
             }
-
-            this.go(ghost, pos, this.game.wallArray, j);
-            //console.log(najkrotszadlugosc);
-        } else {
-            this.scatterMoving(ghost, pos, direction);
-
+            else {
+                if (pos[0] === 6 && pos[1] === 8) {
+                    ghost.classList.remove('ghost-eaten');
+                }
+                this.scatterMoving(ghost, pos, this.futureDir);
+            }
         }
-
     }
 
     // Ghost movement when they are in scatter Mode
     scatterMoving(ghost, pos, direction) {
+
         // While on the next tile is wall or board is ending, change direction
         while (!this.nextTile(direction, pos, this.game.wallArray, ghost)) {
             direction[1] = (Math.floor(Math.random() * 4) + 37);
@@ -503,6 +515,7 @@ class GhostElem {
                 direction[1] = (Math.floor(Math.random() * 4) + 37);
             }
         }
+
         // If the next tile is intersection
         if (this.nextIntersection(direction, pos, this.game.intersectionArray)) {
             // Go to the next tile
@@ -519,8 +532,7 @@ class GhostElem {
             while (Math.abs(direction[0] - direction[1]) === 2) {
                 direction[1] = (Math.floor(Math.random() * 4) + 37);
             }
-      }
-        else {
+        } else {
             // Go to appointed direction
             this.go(ghost, pos, this.game.wallArray, direction);
         }
@@ -573,7 +585,7 @@ class GhostElem {
     }
 
     ghostEat() {
-        /*var array = Array.from(arguments);
+        var array = Array.from(arguments);
         var parentThis = this;
         //console.log('dziala');
         array.forEach(function(element) {
@@ -582,26 +594,26 @@ class GhostElem {
                 // If ghost is on the same tile sa pacman then enter
                 if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
                     // Create game over div and add it to DOM with class game-over
-                    var gameOverCaption = document.createElement('div');
+                    /*var gameOverCaption = document.createElement('div');
                     gameOverCaption.classList.add('game-over');
-                    document.querySelector('body').appendChild(gameOverCaption);
+                    document.querySelector('body').appendChild(gameOverCaption);*/
 
                     // Show button after 4 seconds
-                    setTimeout(function() {
+                    /*setTimeout(function() {
                         var againButton = document.createElement('a');
                         againButton.classList.add('again-button');
                         againButton.setAttribute('href', '#');
                         document.querySelector('body').appendChild(againButton);
-                    }, 4000)
+                    }, 4000)*/
 
                     parentThis.pacman.pTop.setAttribute('style', '');
                     parentThis.pacman.pBottom.setAttribute('style', '');
                     clearInterval(parentThis.pacman.pacmanMoving);
-                    clearInterval(parentThis.ghostsMoving); // Doesn't work
+                    //clearInterval(parentThis.ghostsMoving); // Doesn't work
                     return false;
                 }
             }
-        });*/
+        });
     }
 
 

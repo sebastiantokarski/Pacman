@@ -16,7 +16,7 @@
     position: absolute;
     width: $pacmanSize;
     height: $pacmanSize;
-    margin: 0.3% 0 0 0.3%;
+    margin: 0.6% 0 0 0.6%;
     transition: top 400ms, left 400ms;
     .pacman-top, .pacman-bottom {
         position: absolute; //
@@ -55,7 +55,7 @@
     position: absolute;
     width: $ghostWidth;
     height: $ghostSize;
-    margin-left: 0.8%;
+    margin: 0.3% 0 0 1%;
     border-radius: 100em 100em 0 0;
     transition: top 600ms, left 600ms;
     &::before {

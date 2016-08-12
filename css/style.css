@@ -106,13 +106,71 @@
 
 body {
   display: flex;
-  justify-content: flex-start;
-  align-items: center; }
+  align-items: center;
+  justify-content: center; }
 
 aside {
   width: 7vw;
   height: 100vh;
   background-color: #0000cc; }
+
+.overlay {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: column;
+  align-content: space-between;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: calc((5.5vh * 17 / 2) - (5.5vh * 3) + 0.3%);
+  left: calc((5.5vh * 17 / 2) - (5.5vh * 3.82));
+  width: calc(5.5vh * 17 + 2.4%);
+  height: calc(5.5vh * 5 + 0.5%);
+  margin: 0 auto;
+  z-index: 1; }
+  .overlay div {
+    background-color: white;
+    border: 13px double black; }
+  .overlay div:nth-of-type(1) {
+    width: calc(5.5vh * 3 + 1.8%);
+    height: calc(5.5vh * 2 + 1.5%);
+    border-left: 0; }
+  .overlay div:nth-of-type(2) {
+    width: calc(5.5vh * 3 + 1.8%);
+    height: calc(5.5vh * 2 + 1.5%);
+    border-left: 0; }
+  .overlay div:nth-of-type(3) {
+    width: calc(5.5vh * 3 + 1.8%);
+    height: calc(5.5vh * 2 + 1.5%);
+    border-right: 0; }
+  .overlay div:nth-of-type(4) {
+    width: calc(5.5vh * 3 + 1.8%);
+    height: calc(5.5vh * 2 + 1.5%);
+    border-right: 0; }
+  .overlay div:nth-of-type(5) {
+    position: absolute;
+    top: calc(5.5vh * 2 + 0.5%);
+    left: calc(5.5vh * 6 + 1.5%);
+    width: calc(5.5vh * 5 + 0.3%);
+    height: calc(5.5vh * 2 + 0.2%);
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 7px solid black; }
+  .overlay div:nth-of-type(6) {
+    position: absolute;
+    top: calc(5.5vh * 2 + 1.2%);
+    width: calc(5.5vh - 4.2%);
+    height: calc(5.5vh * 1 - 0.8%);
+    border: 0;
+    background-color: white; }
+  .overlay div:nth-of-type(7) {
+    position: absolute;
+    top: calc(5.5vh * 2 + 1.2%);
+    right: 0;
+    width: calc(5.5vh - 4.2%);
+    border: 0;
+    height: calc(5.5vh * 1 - 0.8%);
+    background-color: white; }
 
 .container {
   height: 100%;
@@ -127,8 +185,7 @@ table {
 
 td {
   width: 5.5vh;
-  height: 5.5vh;
-  border: 1px dotted red; }
+  height: 5.5vh; }
 
 .food::after {
   content: ' ';
@@ -139,7 +196,9 @@ td {
   background-color: grey; }
 
 .wall {
-  background-color: grey; }
+  background-color: #1a1aff;
+  border: 2px solid black;
+  background: radial-gradient(circle at calc( 5.5vh / 2) calc( 5.5vh / 2), #1a1aff, #000); }
 
 .bonus::after {
   content: ' ';
@@ -150,9 +209,6 @@ td {
   border-radius: 50%;
   background: radial-gradient(circle at calc( 2vh / 2) calc( 2vh / 2), red, #000);
   animation: bonus-rotate 8s infinite linear; }
-
-.intersection {
-  background-color: limegreen; }
 
 .game-over {
   position: absolute;
@@ -190,6 +246,7 @@ td {
 i {
   top: 1%;
   left: 0.5%;
+  z-index: 2;
   position: absolute;
   border-radius: 20%;
   background-color: rgba(255, 255, 255, 0.15); }
@@ -206,14 +263,21 @@ i {
   display: none; }
 
 .dark-theme {
-  background-color: #414244; }
+  background-color: #000033; }
+  .dark-theme .overlay div {
+    background-color: #000033; }
+  .dark-theme .overlay div:nth-of-type(5) {
+    background-color: rgba(0, 0, 0, 0.7); }
+  .dark-theme .overlay div:nth-of-type(6), .dark-theme .overlay div:nth-of-type(7) {
+    background-color: #00004d; }
+  .dark-theme aside {
+    background-color: #000080; }
   .dark-theme table {
-    background-color: #414244; }
+    background-color: #00004d; }
     .dark-theme table .food::after {
       background-color: #75767a; }
     .dark-theme table .wall {
-      background-color: #5b5c5f;
-      border: 1px dotted red; }
+      background: radial-gradient(circle at calc( 5.5vh / 2) calc( 5.5vh / 2), #0000b3, #000); }
     .dark-theme table .bonus::after {
       background-color: red; }
 
@@ -225,9 +289,9 @@ i {
 /*================================== PAC-MAN ==================================*/
 .pacman {
   position: absolute;
-  width: calc( 5.5vh - 0.5vh);
-  height: calc( 5.5vh - 0.5vh);
-  margin: 0.3% 0 0 0.3%;
+  width: calc( 5.5vh - 1vh);
+  height: calc( 5.5vh - 1vh);
+  margin: 0.6% 0 0 0.6%;
   transition: top 400ms, left 400ms; }
   .pacman .pacman-top, .pacman .pacman-bottom {
     position: absolute;
@@ -248,9 +312,9 @@ i {
 }*/
 .ghost {
   position: absolute;
-  width: calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2);
-  height: calc( 5.5vh - 0.5vh);
-  margin-left: 0.8%;
+  width: calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2);
+  height: calc( 5.5vh - 1vh);
+  margin: 0.3% 0 0 1%;
   border-radius: 100em 100em 0 0;
   transition: top 600ms, left 600ms; }
   .ghost::before {
@@ -263,8 +327,8 @@ i {
     position: absolute;
     top: 25%;
     left: 15%;
-    width: calc( calc( 5.5vh - 0.5vh) / 4);
-    height: calc( calc( 5.5vh - 0.5vh) / 4);
+    width: calc( calc( 5.5vh - 1vh) / 4);
+    height: calc( calc( 5.5vh - 1vh) / 4);
     background-color: white;
     border-radius: 50%; }
   .ghost .eye-right {
@@ -273,8 +337,8 @@ i {
     position: absolute;
     top: 25%;
     left: 25%;
-    width: calc( calc( 5.5vh - 0.5vh) / 8);
-    height: calc( calc( 5.5vh - 0.5vh) / 8);
+    width: calc( calc( 5.5vh - 1vh) / 8);
+    height: calc( calc( 5.5vh - 1vh) / 8);
     border-radius: 50%;
     background-color: blue; }
   .ghost .mouth {
@@ -283,11 +347,11 @@ i {
     display: block;
     content: ' ';
     position: absolute;
-    top: calc( 5.5vh - 0.5vh);
-    height: calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) * 0.26);
-    width: calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2);
+    top: calc( 5.5vh - 1vh);
+    height: calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) * 0.26);
+    width: calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2);
     background: linear-gradient(-50deg, transparent 75%, green 75%) 0 50%, linear-gradient(50deg, transparent 75%, green 75%) 0 50%;
-    background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26);
+    background-size: calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26), calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26);
     background-origin: 0 50%;
     animation: ghost-tail-moving 0.5s linear infinite; }
 
@@ -296,16 +360,16 @@ i {
   .ghost-catched .mouth {
     display: block;
     position: absolute;
-    top: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) * 1.35);
-    left: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 3.4);
-    width: calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5);
-    height: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2);
+    top: calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) * 1.35);
+    left: calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) / 3.4);
+    width: calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5);
+    height: calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) / 2);
     background: linear-gradient(-40deg, transparent 75%, white 80%, transparent 85%) 0 50%, linear-gradient(40deg, transparent 75%, white 80%, transparent 85%) 0 50%;
-    background-size: calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2) calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2), calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2) calc( calc( calc( calc( 5.5vh - 0.5vh) - calc( 5.5vh - 0.5vh) * 0.2) / 1.5) / 2);
+    background-size: calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) / 2) calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) / 2), calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) / 2) calc( calc( calc( calc( 5.5vh - 1vh) - calc( 5.5vh - 1vh) * 0.2) / 1.5) / 2);
     animation: ghost-mouth-moving 0.2s linear infinite; }
   .ghost-catched::after {
     background: linear-gradient(-50deg, transparent 75%, blue 75%) 0 50%, linear-gradient(50deg, transparent 75%, blue 75%) 0 50%;
-    background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26);
+    background-size: calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26), calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26);
     background-position: 0 50%;
     animation: ghost-tail-moving 0.5s linear infinite; }
 
@@ -319,25 +383,25 @@ i {
   background-color: pink; }
   .pinky::after {
     background: linear-gradient(-50deg, transparent 75%, pink 75%) 0 50%, linear-gradient(50deg, transparent 75%, pink 75%) 0 50%;
-    background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26); }
+    background-size: calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26), calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26); }
 
 .inky {
   background-color: cyan; }
   .inky::after {
     background: linear-gradient(-50deg, transparent 75%, cyan 75%) 0 50%, linear-gradient(50deg, transparent 75%, cyan 75%) 0 50%;
-    background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26); }
+    background-size: calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26), calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26); }
 
 .blinky {
   background-color: red; }
   .blinky::after {
     background: linear-gradient(-50deg, transparent 75%, red 75%) 0 50%, linear-gradient(50deg, transparent 75%, red 75%) 0 50%;
-    background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26); }
+    background-size: calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26), calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26); }
 
 .clyde {
   background-color: orange; }
   .clyde::after {
     background: linear-gradient(-50deg, transparent 75%, orange 75%) 0 50%, linear-gradient(50deg, transparent 75%, orange 75%) 0 50%;
-    background-size: calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26), calc( calc( 5.5vh - 0.5vh) * 0.26) calc( calc( 5.5vh - 0.5vh) * 0.26); }
+    background-size: calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26), calc( calc( 5.5vh - 1vh) * 0.26) calc( calc( 5.5vh - 1vh) * 0.26); }
 
 .ghost-moving {
   animation: ghost-up-down-moving 0.5s infinite; }

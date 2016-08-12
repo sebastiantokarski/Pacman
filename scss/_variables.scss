@@ -4,11 +4,11 @@ $tableBorderColor: black;
 $tileSize: 5.5vh;
 
 // PACMAN SETTINGS
-$pacmanSize: calc( #{$tileSize} - 0.5vh);
+$pacmanSize: calc( #{$tileSize} - 1vh);
 $pacmanColor: #ffea00;
 
 // GHOST SETTINGS
-$ghostSize: calc( #{$tileSize} - 0.5vh);
+$ghostSize: calc( #{$tileSize} - 1vh);
 $ghostWidth: calc( #{$ghostSize} - #{$ghostSize} * 0.2 );
 $ghostTailSize: calc( #{$ghostSize} / 5 );
 $ghostMouthSize: calc( #{$ghostWidth} / 1.5 );
@@ -27,10 +27,22 @@ $foodColor: grey;
 $foodSize: 0.5vh;
 
 // WALL SETTINGS
-$wallColor: grey;
+$wallColor: #1a1aff;
+$wallBorderColor: black;//#0000e6;
 
 // BONUS SETTINGS
 $bonusSize: 2vh;
 $bonusColor: red;
+
+// ASIDE SETTINGS
+$asideWidth: 7vw;
+
+// DARK THEME
+$darkBodyColor: #000033;
+$darkTableColor: #00004d;
+
+// LIGHT THEME
+$lightBodyColor: white;
+$lightTableColor: white;
 
 

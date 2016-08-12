@@ -1,15 +1,82 @@
 body {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: center;
 }
 
-
-
 aside {
-    width: 7vw;
+    //position: absolute;
+    width: $asideWidth;
     height: 100vh;
     background-color: #0000cc;
+}
+
+.overlay {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
+    align-content: space-between;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: calc((#{$tileSize} * 17 / 2) - (#{$tileSize} * 3) + 0.3%);
+    left: calc((#{$tileSize} * 17 / 2) - (#{$tileSize} * 3.82));
+    width: calc(#{$tileSize} * 17 + 2.4%);
+    height: calc(#{$tileSize} * 5 + 0.5%);
+    //background-color: rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    z-index: 1;
+    div {
+        background-color: $lightBodyColor;
+        border: 13px double black;
+    }
+    div:nth-of-type(1) {
+        width: calc(#{$tileSize} * 3 + 1.8%);
+        height: calc(#{$tileSize} * 2 + 1.5%);
+        border-left: 0;
+    }
+    div:nth-of-type(2) {
+        width: calc(#{$tileSize} * 3 + 1.8%);
+        height: calc(#{$tileSize} * 2 + 1.5%);
+        border-left: 0;
+    }
+    div:nth-of-type(3) {
+        width: calc(#{$tileSize} * 3 + 1.8%);
+        height: calc(#{$tileSize} * 2 + 1.5%);
+        border-right: 0;
+    }
+    div:nth-of-type(4) {
+        width: calc(#{$tileSize} * 3 + 1.8%);
+        height: calc(#{$tileSize} * 2 + 1.5%);
+        border-right: 0;
+    }
+    div:nth-of-type(5) {
+        position: absolute;
+        top: calc(#{$tileSize} * 2 + 0.5%);
+        left: calc(#{$tileSize} * 6 + 1.5%);
+        width: calc(#{$tileSize} * 5 + 0.3%);
+        height: calc(#{$tileSize} * 2 + 0.2%);
+        background-color: rgba(0, 0, 0, 0.7);
+        border: 7px solid black;
+    }
+     div:nth-of-type(6) {
+        position: absolute;
+        top: calc(#{$tileSize} * 2 + 1.2%);
+        width: calc(#{$tileSize} - 4.2%);
+        height: calc(#{$tileSize} * 1 - 0.8%);
+        border: 0;
+        background-color: $lightTableColor;
+    }
+     div:nth-of-type(7) {
+        position: absolute;
+        top: calc(#{$tileSize} * 2 + 1.2%);
+        right: 0;
+        width: calc(#{$tileSize} - 4.2%);
+        border: 0;
+        height: calc(#{$tileSize} * 1 - 0.8%);
+        background-color: $lightTableColor;
+    }
 }
 
 .container {
@@ -26,9 +93,8 @@ table {
 }
 
 td {
-    width: $tileSize; // 35px
-    height: $tileSize; // 35px
-    border: 1px dotted red;
+    width: $tileSize;
+    height: $tileSize;
 }
 
 .food {
@@ -44,6 +110,8 @@ td {
 
 .wall {
     background-color: $wallColor;
+    border: 2px solid $wallBorderColor;
+    background: radial-gradient(circle at calc( #{$tileSize} / 2 ) calc( #{$tileSize} / 2 ), $wallColor, #000);
 }
 
 .bonus {
@@ -54,13 +122,13 @@ td {
         width: $bonusSize;
         height: $bonusSize;
         border-radius: 50%;
-        background: radial-gradient(circle at calc( #{$bonusSize} / 2 ) calc( #{$bonusSize} / 2 ), red, #000); //background-color: $bonusColor;
+        background: radial-gradient(circle at calc( #{$bonusSize} / 2 ) calc( #{$bonusSize} / 2 ), red, #000);
         animation: bonus-rotate 8s infinite linear;
     }
 }
 
 .intersection {
-    background-color: limegreen;
+    //background-color: limegreen;
 }
 
 .game-over {
@@ -104,6 +172,7 @@ td {
 i {
     top: 1%;
     left: 0.5%;
+    z-index: 2;
     position: absolute;
     border-radius: 20%;
     background-color: rgba(255, 255, 255, 0.15);
@@ -125,17 +194,32 @@ i {
 }
 
 .dark-theme {
-    background-color: #414244;
+    background-color: $darkBodyColor;
+    .overlay {
+        div {
+            background-color: $darkBodyColor;
+        }
+        div:nth-of-type(5) {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        div:nth-of-type(6), div:nth-of-type(7) {
+            background-color: $darkTableColor;
+        }
+    }
+    aside {
+        background-color: #000080;
+    }
     table {
-        background-color: #414244;
+        background-color: $darkTableColor;
+
         .food {
             &::after {
                 background-color: #75767a;
             }
         }
         .wall {
-            background-color: #5b5c5f;
-            border: 1px dotted red;
+            background: radial-gradient(circle at calc( #{$tileSize} / 2 ) calc( #{$tileSize} / 2 ), #0000b3, #000);
+            //border: 1px dotted red;
         }
         .bonus {
             &::after {
