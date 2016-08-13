@@ -5,14 +5,33 @@ body {
 }
 
 aside {
-    //position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: $asideWidth;
     height: 100vh;
     background-color: $asideColor;
     .points-aside {
-        background-color: red;
-        width: 100px;
-        height: 100px;
+        font-size: 2em;
+        color: white;
+        @keyframes show-bigger-points {
+            0% {font-size: 4em;}
+            100% {font-size: 2em;}
+        }
+    }
+    i {
+        border-radius: 20%;
+        background-color: rgba(255, 255, 255, 0.15);
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        &:first-child {
+            background-color: rgba(0, 0, 0, 0.15);
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.3);
+            }
+        }
     }
 }
 
@@ -153,11 +172,48 @@ td {
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 1);
+    z-index: 2;
     &::before {
         font-size: 12em;
         content: 'GAME OVER';
         display: block;
         color: red;
+    }
+    animation: gameOverScreen 4s linear 1;
+}
+
+.game-over {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 1);
+    z-index: 2;
+    &::before {
+        font-size: 12em;
+        content: 'GAME OVER';
+        display: block;
+        color: red;
+    }
+    animation: gameOverScreen 4s linear 1;
+}
+
+.you-win {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 1);
+    z-index: 2;
+    &::before {
+        font-size: 12em;
+        content: 'YOU WIN';
+        display: block;
+        color: deepskyblue;
     }
     animation: gameOverScreen 4s linear 1;
 }
@@ -176,32 +232,18 @@ td {
     background-color: black;
     border-radius: 5vh;
     text-decoration: none;
-
+    z-index: 2;
     &::after {
         content: 'Play Again';
         font-size: 2em;
     }
 }
 
-i {
-    top: 1%;
-    left: 0.5%;
-    z-index: 2;
-    position: absolute;
-    border-radius: 20%;
-    background-color: rgba(255, 255, 255, 0.15);
-    &:hover {
-        cursor: pointer;
-        background-color: rgba(255, 255, 255, 0.3);
-    }
-    &:first-child {
-        left: 1%;
-        background-color: rgba(0, 0, 0, 0.15);
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-    }
+.win {
+    color: deepskyblue;
+    border: 0.5vw solid deepskyblue;
 }
+
 
 .hide {
     display: none;
@@ -231,7 +273,7 @@ i {
 
         .food {
             &::after {
-                background-color: #75767a;
+                background-color: $darkFoodColor;
             }
         }
         .wall {

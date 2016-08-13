@@ -2,58 +2,57 @@
 // Game Pacman class
 class PacmanGame {
 
-    // Objects variables
-    constructor(wallArray, foodArray, bonusArray, baseArray) {
+    constructor(wallArray, foodArray, bonusArray, intersectionArray, baseArray) {
         this.wallArray = wallArray;
         this.foodArray = foodArray;
         this.bonusArray = bonusArray;
-        this.intersectionArray = intersection;
+        this.intersectionArray = intersectionArray;
         this.baseArray = baseArray;
+        this.pointsAside = [];
         this.container = [];
         this.table = [];
         this.rows = [];
         this.tiles = [];
-        this.tilesposition =[];
         this.step = 0;
         this.points = 0;
         this.frightenedMode = false;
         this.chaseMode = false;
         this.scatterMode = true;
-        this.pointsAside = [];
     }
 
     // Create map with all stuff
     createMap() {
-        var container = document.createElement('div');
-        var aside = document.createElement('aside');
-        var pointsAside = document.createElement('span');
-        var table = document.createElement('table');
-        var overlay = document.createElement('div');
+        // Create elements
+        var container = document.createElement('div'),
+            table = document.createElement('table'),
+            overlay = document.createElement('div');
+
+        // Find aside span
+        this.pointsAside = document.querySelector('.points-aside');
+
+        // Add classes
+        container.classList.add('container');
         overlay.classList.add('overlay');
+
+        // Add 7 divs to overlay
         for (var i = 0; i < 7; i++) {
             overlay.appendChild(document.createElement('div'));
         }
-        container.classList.add('container');
-        pointsAside.classList.add('points-aside');
-        this.pointsAside = pointsAside;
-        aside.appendChild(pointsAside);
-        container.appendChild(overlay);
 
-        this.addTiles(table); // In function this.table = table
 
+        this.addTiles(table);
+        this.container = container;
+        this.table = table;
         this.rows = this.table.getElementsByTagName('tr');
         this.tiles = this.table.getElementsByTagName('td');
 
         // Add elements to the table such as walls, food, bonuses
         this.addElemsToMap();
 
-        // Add table to container, container to DOM
-        document.querySelector('body').appendChild(aside);
+        // Add elements to DOM
+        container.appendChild(overlay);
         container.appendChild(this.table);
         document.querySelector('body').appendChild(container);
-        this.container = container;
-
-
 
         // Check one step length
         this.step = this.rows[0].children[0].clientWidth;
@@ -67,11 +66,10 @@ class PacmanGame {
             var row = table.insertRow();
             for (var j = 0; j < 17; j++) {
                 row.insertCell();
-                row.children[j].dataset.x = j;
-                row.children[j].dataset.y = i;
+                /*row.children[j].dataset.x = j;
+                row.children[j].dataset.y = i;*/
             }
         }
-        this.table = table;
     }
 
     addElems(rows, array, clas) {
@@ -90,9 +88,6 @@ class PacmanGame {
         this.addElems(this.rows, this.baseArray, 'base');
     }
 
-    clearGame() {
-
-    }
 }
 
 
@@ -112,6 +107,7 @@ class PacmanElem {
         this.speed = 250;
         this.pacmanSize = game.tileSize;
         this.pacmanMoving = [];
+        this.counter = 0;
     }
 
     addToMap() {
@@ -130,7 +126,6 @@ class PacmanElem {
         this.pBottom = pBottom;
         this.pacman = newPacman;
 
-        console.log(this.ghost);
 
         var parentThis = this;
 
@@ -154,13 +149,11 @@ class PacmanElem {
                 case 39: newPacman.style.left = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
                 case 40: newPacman.style.top = parentThis.go(parentThis.direction, parentThis.position[0], parentThis.position[1]); break;
             }
-
             parentThis.eat();
             //console.log(parentThis.game.frightenedMode);
             if (parentThis.game.frightenedMode) {
                 parentThis.eatGhost();
             }
-            console.log(parentThis.game.points);
         }, this.speed);
 
 
@@ -187,28 +180,50 @@ class PacmanElem {
     eat() {
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'food' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('food');
-            console.log(this.pointsAside);
-            this.game.points += 10;
-            this.pointsAside.textContent = this.game.points;
+            this.game.pointsAside.textContent = this.game.points += 10;
+            this.counter++;
         }
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'bonus' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
-            this.pointsAside.innerHTML = this.game.points += 50;
+            this.game.pointsAside.innerHTML = this.game.points += 50;
             // eatBonus call
             this.eatBonus(this.ghost.pinky, this.ghost.inky, this.ghost.blinky, this.ghost.clyde);
+            this.counter++;
         }
+        if (this.counter > 154 ) {
+            // Create game over div and add it to DOM with class game-over
+            var youWinCaption = document.createElement('div');
+            youWinCaption.classList.add('you-win');
+            document.querySelector('body').appendChild(youWinCaption);
+            // Show button after 4 seconds
+            setTimeout(function () {
+                var againButton = document.createElement('a');
+                againButton.classList.add('again-button');
+                againButton.classList.add('win');
+                againButton.setAttribute('href', '#');
+                document.querySelector('body').appendChild(againButton);
+                againButton.addEventListener('click', function (event) {
+                    location.reload();
+                });
+            }, 4000)
+        }
+
     }
 
     // When pacman ate ghost, show only his eyes
     eatGhost() {
         if (this.position[0] === this.ghost.pinkyPos[0] && this.position[1] === this.ghost.pinkyPos[1]) {
             this.ghost.pinky.classList.add('ghost-eaten');
+            this.game.pointsAside.innerHTML = this.game.points += 200;
         } else if (this.position[0] === this.ghost.inkyPos[0] && this.position[1] === this.ghost.inkyPos[1]) {
             this.ghost.inky.classList.add('ghost-eaten');
+            this.game.pointsAside.innerHTML = this.game.points += 200;
         } else if (this.position[0] === this.ghost.blinkyPos[0] && this.position[1] === this.ghost.blinkyPos[1]) {
             this.ghost.blinky.classList.add('ghost-eaten');
+            this.game.pointsAside.innerHTML = this.game.points += 200;
         } else if (this.position[0] === this.ghost.clydePos[0] && this.position[1] === this.ghost.clydePos[1]) {
             this.ghost.clyde.classList.add('ghost-eaten');
+            this.game.pointsAside.innerHTML = this.game.points += 200;
         }
     }
 
@@ -321,13 +336,14 @@ class GhostElem {
         this.clydePos = [7, 8];
         this.clydeDirection = [37, 37]; // [OLD DIRECTION, CURRENT DIRECTION]
         this.pacman = [];
-        this.speed = 400;
+        this.speed = 300;
         this.ghostsMoving = [];
         this.choose = false;
         this.futurePos = [0, 0];
         this.futureDir = [0, 0];
         this.length = 0;
         this.homePos = [6, 8];
+        this.gameover = false;
     }
 
     addToMap() {
@@ -385,22 +401,22 @@ class GhostElem {
 
         var startPinky = setTimeout(function () {
             ghostsStart(parentThis.pinky, parentThis.pinkyPos);
-            parentThis.moving(parentThis.pinky, parentThis.pinkyPos, parentThis.pinkyDirection);
+            parentThis.ghostsMoving = setInterval(parentThis.moving.bind(null, parentThis, parentThis.pinky, parentThis.pinkyPos, parentThis.pinkyDirection), 300);
         }, 10);
 
         var startInky = setTimeout(function () {
             ghostsStart(parentThis.inky, parentThis.inkyPos);
-            parentThis.moving(parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection);
+            parentThis.ghostsMoving = setInterval(parentThis.moving.bind(null, parentThis, parentThis.inky, parentThis.inkyPos, parentThis.inkyDirection), 300);
         }, 1000);
 
         var startBlinky = setTimeout(function () {
             ghostsStart(parentThis.blinky, parentThis.blinkyPos);
-            parentThis.moving(parentThis.blinky, parentThis.blinkyPos, parentThis.blinkyDirection);
+            parentThis.ghostsMoving = setInterval(parentThis.moving.bind(null, parentThis, parentThis.blinky, parentThis.blinkyPos, parentThis.blinkyDirection), 300);
         }, 2500);
 
         var startClyde = setTimeout(function () {
             ghostsStart(parentThis.clyde, parentThis.clydePos);
-            parentThis.moving(parentThis.clyde, parentThis.clydePos, parentThis.clydeDirection);
+            parentThis.ghostsMoving = setInterval(parentThis.moving.bind(null, parentThis, parentThis.clyde, parentThis.clydePos, parentThis.clydeDirection), 300);
         }, 4000);
 
         function ghostsStart(ghost, pos) {
@@ -410,34 +426,32 @@ class GhostElem {
         }
 
     }
-
     addPacman(pacman) {
         this.pacman = pacman;
     }
 
-    moving(ghost, pos, direction) {
-        var parentThis = this;
-        this.ghostsMoving = setInterval(function() {
-            ghost.style.transition = 'top 600ms, left 600ms';
-            if (parentThis.frightenedMode) parentThis.speed = 1800;
-            switch(true) {
-                // If ghost has been eaten, go to home to respawn
-                case ghost.classList.contains('ghost-eaten'):
-                    parentThis.goToHome(ghost, pos, direction);
-                    break;
-                case parentThis.game.chaseMode:
-                    console.log('chaseMode');
-                    parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
-                    break;
-                case parentThis.game.frightenedMode:
-                    parentThis.frightenedMoving(ghost, pos, direction);
-                    break;
-                case parentThis.game.scatterMode:
-                    parentThis.scatterMoving(ghost, pos, direction);
-                    parentThis.ghostEat(parentThis.pinkyPos, parentThis.inkyPos, parentThis.blinkyPos, parentThis.clydePos);
-                    break;
-            }
-        }, parentThis.speed);
+    moving(thiz, ghost, pos, direction) {
+        switch (true) {
+            // If ghost has been eaten, go to home to respawn
+        case ghost.classList.contains('ghost-eaten'):
+            thiz.goToHome(ghost, pos, direction);
+            break;
+        case thiz.game.chaseMode:
+            console.log('chaseMode');
+            thiz.ghostEat(ghost, pos);
+            break;
+        case thiz.game.frightenedMode:
+            thiz.frightenedMoving(ghost, pos, direction);
+            break;
+        case thiz.game.scatterMode:
+            thiz.scatterMoving(ghost, pos, direction);
+            thiz.ghostEat(ghost, pos);
+            break;
+        }
+        console.log(thiz);
+        if (thiz.gameover) { // 614
+            clearInterval(thiz.ghostsMoving);
+        }
     }
 
     lengthFunc(homePos, futurePos) {
@@ -449,22 +463,8 @@ class GhostElem {
         var naj = 100;
         if (this.choose) {
             this.futureDir[1] = this.futureDir[0];
-            switch (this.futureDir[1]) {
-                case 37:
-                    console.log('IDE W LEWO');
-                    break;
-                case 38:
-                    console.log('IDE W GORE');
-                    break;
-                case 39:
-                    console.log('IDE W PRAWO');
-                    break;
-                case 40:
-                    console.log('IDE W DOL');
-                    break;
-            }
             this.go(ghost, pos, this.game.wallArray, this.futureDir);
-            direction = this.futureDir[1];
+            //direction = this.futureDir[1];
             this.choose = false;
         } else {
             if (this.nextIntersection(direction, pos, this.game.intersectionArray)) {
@@ -507,7 +507,6 @@ class GhostElem {
                         this.choose = true;
                     }
                 }
-                this.game.rows[this.futurePos[0]].children[this.futurePos[1]].classList.add('bonus');
             }
             else {
                 if (pos[0] === 6 && pos[1] === 8) {
@@ -573,10 +572,10 @@ class GhostElem {
     nextTile(direction, pos, wall, ghost) {
         // If there is a wall or board is ending, break and return false
         switch (direction[1]) {
-            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 17; ghost.style.transition = 'top 0ms, left 0ms';}
+            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 17; }
                      if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) return true; break; // Left
             case 38: if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) return true; break; // Up
-            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = -1; ghost.style.transition = 'top 0ms, left 0ms';}
+            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = -1;}
                      if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) return true; break; // Right
             case 40: if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) return true; break; // Down
         }
@@ -598,36 +597,32 @@ class GhostElem {
         }
     }
 
-    ghostEat() {
-        var array = Array.from(arguments);
-        var parentThis = this;
-        //console.log('dziala');
-        array.forEach(function(element) {
-            // If ghost isn't in frightened Mode then enter
-            if (!parentThis.game.frightenedMode) {
-                // If ghost is on the same tile sa pacman then enter
-                if (parentThis.pacman.position[0] === element[0] && parentThis.pacman.position[1] === element[1]) {
-                    // Create game over div and add it to DOM with class game-over
-                    /*var gameOverCaption = document.createElement('div');
-                    gameOverCaption.classList.add('game-over');
-                    document.querySelector('body').appendChild(gameOverCaption);*/
-
-                    // Show button after 4 seconds
-                    /*setTimeout(function() {
-                        var againButton = document.createElement('a');
-                        againButton.classList.add('again-button');
-                        againButton.setAttribute('href', '#');
-                        document.querySelector('body').appendChild(againButton);
-                    }, 4000)*/
-
-                    parentThis.pacman.pTop.setAttribute('style', '');
-                    parentThis.pacman.pBottom.setAttribute('style', '');
-                    clearInterval(parentThis.pacman.pacmanMoving);
-                    //clearInterval(parentThis.ghostsMoving); // Doesn't work
-                    return false;
-                }
+    ghostEat(ghost, pos) {
+        // If ghost isn't in frightened Mode then enter
+        if (!this.game.frightenedMode && this.pacman.pTop.getAttribute('style') !== '') {
+            // If ghost is on the same tile sa pacman then enter
+            if (this.pacman.position[0] === pos[0] && this.pacman.position[1] === pos[1] && !ghost.classList.contains('ghost-eaten')) {
+                // Create game over div and add it to DOM with class game-over
+                var gameOverCaption = document.createElement('div');
+                gameOverCaption.classList.add('game-over');
+                document.querySelector('body').appendChild(gameOverCaption);
+                // Show button after 4 seconds
+                setTimeout(function () {
+                    var againButton = document.createElement('a');
+                    againButton.classList.add('again-button');
+                    againButton.setAttribute('href', '#');
+                    document.querySelector('body').appendChild(againButton);
+                    againButton.addEventListener('click', function (event) {
+                        location.reload();
+                    });
+                }, 4000)
+                // Stop moving pacman
+                this.pacman.pTop.setAttribute('style', '');
+                this.pacman.pBottom.setAttribute('style', '');
+                clearInterval(this.pacman.pacmanMoving);
+                this.gameover = true; // 456
             }
-        });
+        }
     }
 
 
@@ -652,10 +647,11 @@ document.addEventListener('DOMContentLoaded', function () {
         darkTheme.classList.remove('hide');
         body.classList.remove('dark-theme');
     })
-    var newGame = new PacmanGame(wallArray, foodArray, bonusArray, baseArray);
+
+
+    var newGame = new PacmanGame(wallArray, foodArray, bonusArray, intersectionArray, baseArray);
 
     newGame.createMap();
-
 
     var ghost = new GhostElem(newGame);
     var pacman = new PacmanElem(newGame, ghost);
@@ -704,7 +700,7 @@ var foodArray = [
     [3, 13], // Row 8
     [3, 13], // Row 9
     [0, 1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 16], // Row 10
-    [0, 3, 4, 5, 6, 7, 9,10 ,11 ,12, 13, 16], // Row 11
+    [0, 3, 4, 5, 6, 7, 9, 10 ,11 ,12, 13, 16], // Row 11
     [0, 1, 3, 7, 9, 13, 15, 16], // Row 12
     [1, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 15], // Row 13
     [0, 1, 2, 3, 5, 11, 13, 14, 15, 16], // Row 14
@@ -732,44 +728,24 @@ var bonusArray = [
     [] // Row 16
 ];
 
-var intersection = [
+var intersectionArray = [
     [3, 13], // Row 0
     [], // Row 1
     [0, 3, 5, 7, 9, 11, 13, 16], // Row 2
     [], // Row 3
     [3, 13], // Row 4
     [], // Row 5
-    [], // Row 6
+    [7, 9], // Row 6
     [3, 5, 11, 13], // Row 7
     [], // Row 8
     [5, 11], // Row 9
     [], // Row 10
     [3, 5, 11, 13], // Row 11
     [], // Row 12
-    [3, 5, 11, 13], // Row 13
+    [3, 5, 7, 9, 11, 13], // Row 13
     [1, 15], // Row 14
     [], // Row 15
     [5, 11] // Row 16
-];
-
-var intersection1 = [
-    [], // Row 0
-    [], // Row 1
-    [], // Row 2
-    [], // Row 3
-    [], // Row 4
-    [], // Row 5
-    [7, 9], // Row 6
-    [], // Row 7
-    [], // Row 8
-    [], // Row 9
-    [], // Row 10
-    [], // Row 11
-    [], // Row 12
-    [7, 9], // Row 13
-    [], // Row 14
-    [], // Row 15
-    [] // Row 16
 ];
 
 var baseArray = [

@@ -16,8 +16,8 @@
     position: absolute;
     width: $pacmanSize;
     height: $pacmanSize;
-    margin: 0.6% 0 0 0.6%;
-    transition: top 400ms, left 400ms;
+    margin: 0.8% 0 0 0.6%;
+    transition: top 300ms, left 300ms;
     .pacman-top, .pacman-bottom {
         position: absolute; //
         width: 100%;
@@ -47,17 +47,13 @@
     background-size: $size1 $size1, $size1 $size1;
 }
 
-/*.ghost-wrapper {
-    position: absolute;
-}*/
-
 .ghost {
     position: absolute;
     width: $ghostWidth;
     height: $ghostSize;
     margin: 0.5% 0 0 1%;
     border-radius: 100em 100em 0 0;
-    transition: top 600ms, left 600ms;
+    transition: top 500ms, left 500ms;
     &::before {
         position: absolute;
         content: ' ';
@@ -170,6 +166,9 @@
     animation: ghost-warning 0.5 infinite;
 }*/
 
+@media (orientation: landscape) {
+    $tileSize: 5.5vw;
+}
 
 
 
