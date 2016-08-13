@@ -19,15 +19,25 @@ class PacmanGame {
         this.frightenedMode = false;
         this.chaseMode = false;
         this.scatterMode = true;
+        this.pointsAside = [];
     }
 
     // Create map with all stuff
     createMap() {
         var container = document.createElement('div');
         var aside = document.createElement('aside');
+        var pointsAside = document.createElement('span');
         var table = document.createElement('table');
+        var overlay = document.createElement('div');
+        overlay.classList.add('overlay');
+        for (var i = 0; i < 7; i++) {
+            overlay.appendChild(document.createElement('div'));
+        }
         container.classList.add('container');
-
+        pointsAside.classList.add('points-aside');
+        this.pointsAside = pointsAside;
+        aside.appendChild(pointsAside);
+        container.appendChild(overlay);
 
         this.addTiles(table); // In function this.table = table
 
@@ -177,11 +187,13 @@ class PacmanElem {
     eat() {
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'food' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('food');
+            console.log(this.pointsAside);
             this.game.points += 10;
+            this.pointsAside.textContent = this.game.points;
         }
         if ((' ' + this.game.rows[this.position[0]].children[this.position[1]].className + ' ' ).indexOf( ' ' + 'bonus' + ' ' ) > - 1) {
             this.game.rows[this.position[0]].children[this.position[1]].classList.remove('bonus');
-            this.game.points += 50;
+            this.pointsAside.innerHTML = this.game.points += 50;
             // eatBonus call
             this.eatBonus(this.ghost.pinky, this.ghost.inky, this.ghost.blinky, this.ghost.clyde);
         }
