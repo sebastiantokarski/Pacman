@@ -431,6 +431,7 @@ class GhostElem {
     }
 
     moving(thiz, ghost, pos, direction) {
+        ghost.style.transition = 'top 500ms, left 500ms';
         switch (true) {
             // If ghost has been eaten, go to home to respawn
         case ghost.classList.contains('ghost-eaten'):
@@ -572,10 +573,10 @@ class GhostElem {
     nextTile(direction, pos, wall, ghost) {
         // If there is a wall or board is ending, break and return false
         switch (direction[1]) {
-            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 17; }
+            case 37: if (pos[0] === 7 && pos[1] === 0) {pos[1] = 17; ghost.style.transition = 'top 0ms, left 0ms'; }
                      if (pos[1] > 0 && wall[pos[0]].indexOf(pos[1] - 1) < 0) return true; break; // Left
             case 38: if (pos[0] > 0 && wall[pos[0] - 1].indexOf(pos[1]) < 0) return true; break; // Up
-            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = -1;}
+            case 39: if (pos[0] === 7 && pos[1] === 16) {pos[1] = -1; ghost.style.transition = 'top 0ms, left 0ms'; }
                      if (pos[1] < 16 && wall[pos[0]].indexOf(pos[1] + 1) < 0) return true; break; // Right
             case 40: if (pos[0] < 16 && wall[pos[0] + 1].indexOf(pos[1]) < 0) return true; break; // Down
         }
@@ -629,7 +630,7 @@ class GhostElem {
 }
 
 
-/*====================== DOMContentLoaded ======================*/
+/*======================== DOMContentLoaded ========================*/
 document.addEventListener('DOMContentLoaded', function () {
 
     /* CHANGE GAME THEME */

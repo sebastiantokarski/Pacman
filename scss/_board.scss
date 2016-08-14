@@ -9,15 +9,11 @@ aside {
     flex-direction: column;
     align-items: center;
     width: $asideWidth;
-    height: 100vh;
+    height: $asideHeight;
     background-color: $asideColor;
     .points-aside {
         font-size: 2em;
         color: white;
-        @keyframes show-bigger-points {
-            0% {font-size: 4em;}
-            100% {font-size: 2em;}
-        }
     }
     i {
         border-radius: 20%;
@@ -52,7 +48,7 @@ aside {
         width: calc(#{$tileSize} * 3 + 1.8%);
         height: calc(#{$tileSize} * 2 + 1.1%);
         background-color: $lightBodyColor;
-        border: 13px double black;
+        border: 1.5vh double black;
     }
     div:nth-of-type(1) {
         border-left: 0;
@@ -73,7 +69,7 @@ aside {
         left: calc(#{$tileSize} * 6 + 1.7%);
         width: calc(#{$tileSize} * 5 + 0.3%);
         height: calc(#{$tileSize} * 2 + 0.9%);
-        background-color: rgba(0, 47, 168, 0.8);// rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 47, 168, 0.8);
         border: 7px solid black;
         // Door
         &::after {
@@ -160,28 +156,6 @@ td {
     }
 }
 
-.intersection {
-    //background-color: limegreen;
-}
-
-.game-over {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 1);
-    z-index: 2;
-    &::before {
-        font-size: 12em;
-        content: 'GAME OVER';
-        display: block;
-        color: red;
-    }
-    animation: gameOverScreen 4s linear 1;
-}
-
 .game-over {
     position: absolute;
     display: flex;
@@ -208,7 +182,7 @@ td {
     height: 100vh;
     width: 100vw;
     background-color: rgba(0, 0, 0, 1);
-    z-index: 2;
+    z-index: 5;
     &::before {
         font-size: 12em;
         content: 'YOU WIN';
@@ -240,6 +214,7 @@ td {
 }
 
 .win {
+    z-index: 5;
     color: deepskyblue;
     border: 0.5vw solid deepskyblue;
 }
@@ -278,7 +253,6 @@ td {
         }
         .wall {
             background: radial-gradient(circle at calc( #{$tileSize} / 2 ) calc( #{$tileSize} / 2 ), #0000b3, #000);
-            //border: 1px dotted red;
         }
         .base {
             background: $darkTableColor;

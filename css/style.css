@@ -90,14 +90,6 @@
   100% {
     background-position: 0 50%; } }
 
-/*@keyframes ghost-warning {
-    0% {
-        background-color: black;
-    }
-    100% {
-        background-color: green;
-    }
-}*/
 @keyframes gameOverScreen {
   0% {
     background-color: rgba(0, 0, 0, 0.1); }
@@ -105,19 +97,13 @@
     background-color: black; } }
 
 body {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-pack: center;
   justify-content: center; }
 
 aside {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -ms-flex-align: center;
   align-items: center;
   width: 10vw;
   height: 100vh;
@@ -125,12 +111,6 @@ aside {
   aside .points-aside {
     font-size: 2em;
     color: white; }
-
-@keyframes show-bigger-points {
-  0% {
-    font-size: 4em; }
-  100% {
-    font-size: 2em; } }
   aside i {
     border-radius: 20%;
     background-color: rgba(255, 255, 255, 0.15); }
@@ -144,15 +124,10 @@ aside {
 
 .overlay {
   position: absolute;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: justify;
   justify-content: space-between;
-  -ms-flex-line-pack: justify;
   align-content: space-between;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   top: calc(5.5vh * 5 + 0.3%);
   left: -1.5vh;
@@ -164,7 +139,7 @@ aside {
     width: calc(5.5vh * 3 + 1.8%);
     height: calc(5.5vh * 2 + 1.1%);
     background-color: white;
-    border: 13px double black; }
+    border: 1.5vh double black; }
   .overlay div:nth-of-type(1) {
     border-left: 0; }
   .overlay div:nth-of-type(2) {
@@ -250,30 +225,8 @@ td {
 
 .game-over {
   position: absolute;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: black;
-  z-index: 2;
-  animation: gameOverScreen 4s linear 1; }
-  .game-over::before {
-    font-size: 12em;
-    content: 'GAME OVER';
-    display: block;
-    color: red; }
-
-.game-over {
-  position: absolute;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: center;
   justify-content: center;
   height: 100vh;
   width: 100vw;
@@ -288,16 +241,13 @@ td {
 
 .you-win {
   position: absolute;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
   align-items: center;
-  -ms-flex-pack: center;
   justify-content: center;
   height: 100vh;
   width: 100vw;
   background-color: black;
-  z-index: 2;
+  z-index: 5;
   animation: gameOverScreen 4s linear 1; }
   .you-win::before {
     font-size: 12em;
@@ -307,11 +257,8 @@ td {
 
 .again-button {
   position: absolute;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: center;
   justify-content: center;
-  -ms-flex-align: center;
   align-items: center;
   width: 20vw;
   height: 8vh;
@@ -328,6 +275,7 @@ td {
     font-size: 2em; }
 
 .win {
+  z-index: 5;
   color: deepskyblue;
   border: 0.5vw solid deepskyblue; }
 
@@ -478,7 +426,3 @@ td {
 
 .ghost-moving {
   animation: ghost-up-down-moving 0.5s infinite; }
-
-/*.ghost-warning {
-    animation: ghost-warning 0.5 infinite;
-}*/

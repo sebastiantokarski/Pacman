@@ -39,7 +39,6 @@
 
 
 
-
 /*================================== GHOST ==================================*/
 @mixin gradient($color1, $size1, $transparent1) {
     background: linear-gradient(-50deg, transparent 75%, $color1 $transparent1) 0 50%,
@@ -162,13 +161,6 @@
     animation: ghost-up-down-moving 0.5s infinite;
 }
 
-/*.ghost-warning {
-    animation: ghost-warning 0.5 infinite;
-}*/
-
-@media (orientation: landscape) {
-    $tileSize: 5.5vw;
-}
 
 
 
